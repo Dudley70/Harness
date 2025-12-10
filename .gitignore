@@ -1,0 +1,11 @@
+# Local working files
+/scratch/
+/temp/
+
+# OS
+.DS_Store
+
+# Editor
+*.swp
+*.swo
+*~
