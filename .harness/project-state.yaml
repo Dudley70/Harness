@@ -88,6 +88,8 @@ parked_research:
   llm_compression:
     location: "/Users/dudley/projects/Compression/"
     key_file: "readme.md"
+    status: "Completed project from earlier - needs thorough testing before use"
+    note: "User's first Claude Code skill - may need updates for current environment"
     relevance: "77% compression with 100% sacred content preservation"
     key_insights:
       - "Pure LLM compression failed 5/5 times - architectural separation required"
