@@ -4,7 +4,9 @@
 Session Recovery Analysis for Harness Methodology.
 
 Scans ALL Harness-related project folders for new content since last check.
-Runs on SessionStart to detect undocumented insights from previous sessions.
+Runs on SessionStart to:
+1. Detect undocumented insights from previous sessions
+2. Auto-export new content to markdown transcript
 
 Usage: Called automatically via SessionStart hook, or manually
 """
@@ -89,6 +91,63 @@ def extract_new_messages(jsonl_path, last_line_count):
 
     return messages, current_line
 
+def export_new_content_to_transcript(all_new_messages, harness_folders):
+    """Export new content to an incremental transcript file."""
+    if not all_new_messages:
+        return None
+
+    from datetime import datetime
+
+    # Create transcript directory
+    transcript_dir = Path('.harness/transcripts')
+    transcript_dir.mkdir(parents=True, exist_ok=True)
+
+    # Generate filename with timestamp
+    timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
+    output_file = transcript_dir / f"auto-recovery-{timestamp}.md"
+
+    # Group messages by source
+    by_source = {}
+    for msg in all_new_messages:
+        source = msg['source']
+        if source not in by_source:
+            by_source[source] = []
+        by_source[source].append(msg)
+
+    # Generate markdown
+    lines = [
+        f"# Auto-Recovered Transcript",
+        f"",
+        f"- **Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        f"- **Sources:** {len(by_source)} session file(s)",
+        f"- **Total Messages:** {len(all_new_messages)}",
+        f"",
+        f"---",
+        f"",
+    ]
+
+    for source, messages in by_source.items():
+        source_name = Path(source).parent.name
+        lines.append(f"## Source: {source_name}")
+        lines.append(f"")
+
+        for msg in messages:
+            role_emoji = "👤" if msg['type'] == 'user' else "🤖"
+            role_name = "User" if msg['type'] == 'user' else "Assistant"
+            lines.append(f"### {role_emoji} {role_name}")
+            lines.append(f"")
+            lines.append(msg['content'])
+            lines.append(f"")
+            lines.append(f"---")
+            lines.append(f"")
+
+    # Write file
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write('\n'.join(lines))
+
+    return output_file
+
+
 def analyze_for_undocumented(messages):
     """Analyze messages for potentially undocumented insights."""
     findings = []
@@ -170,6 +229,11 @@ def main():
         return
 
     print(f"\n   Total: {total_new_entries} new entries across all sessions")
+
+    # Auto-export new content to transcript
+    export_file = export_new_content_to_transcript(all_new_messages, harness_folders)
+    if export_file:
+        print(f"\n   📝 Auto-exported to: {export_file}")
 
     # Analyze for undocumented content
     findings = analyze_for_undocumented(all_new_messages)
