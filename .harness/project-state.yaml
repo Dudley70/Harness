@@ -82,7 +82,24 @@ next_session_actions:
   - "P1: Create research plan document with methodology assignments"
   - "P2: Begin methodology research (sub-agents write directly to files)"
   - "P2: Consider PreCompact/SessionEnd hooks setup"
-  - "PARKED: LLM-optimized document format (user has research on this)"
+  - "PARKED: LLM-optimized document format - see /Users/dudley/projects/Compression/"
+
+parked_research:
+  llm_compression:
+    location: "/Users/dudley/projects/Compression/"
+    key_file: "readme.md"
+    relevance: "77% compression with 100% sacred content preservation"
+    key_insights:
+      - "Pure LLM compression failed 5/5 times - architectural separation required"
+      - "Sacred content (code, formulas, prompts) physically extracted before LLM processing"
+      - "Placeholder system: {{SACRED_TEST_PROMPT_0}} preserves references"
+      - "Hybrid pipeline: Extract → LLM compress → Restore → Validate"
+      - "Principle: Structure prevents loss, not prompts or discipline"
+    harness_application:
+      - "Context anchors = sacred content (NEVER compress)"
+      - "Progressive disclosure = hybrid pipeline layers"
+      - "Document structure could use placeholder/reference patterns"
+      - "V7 abbreviation rules for LLM-optimized format"
 
 files_created_session_3:
   - "00-governance/document-index.md"
