@@ -1,6 +1,6 @@
 # Harness Project State
 # This file is the FIRST thing loaded in any session
-# Last Updated: 2025-12-10 (end of session 1)
+# Last Updated: 2025-12-10 (session 2)
 
 project:
   name: Harness
@@ -11,58 +11,83 @@ project:
 current_phase: G0-Initiation
 
 current_focus:
-  task: "G0 Initiation - governance and infrastructure MOSTLY COMPLETE"
-  status: ready_for_next_session
-  details: "Working agreement created with validated learnings. Context management validated."
+  task: "G0 Initiation - governance COMPLETE, ready for research phase"
+  status: ready_for_research
+  details: "Capture protocol established. Transcript analysis completed. Ready for Pattern Extraction Schema."
 
-session_1_summary:
-  date: 2025-12-10
-  ended_at_context: "83% (166k/200k) - RED zone, session ended proactively"
-  started_with: "BMAD party mode - full team discussion on Harness vision"
+# Session History
+sessions:
+  session_1:
+    date: 2025-12-10
+    ended_at_context: "83% (166k/200k) - RED zone, session ended proactively"
+    key_accomplishments:
+      - "Project initialized with governance structure"
+      - "Working agreement with validated sub-agent learnings"
+      - "Vision document created (at 102% - emergency capture)"
+      - "Lean research: 23 patterns extracted"
+    lessons_learned:
+      - "L1: Sub-agent output MUST write to files"
+      - "L2: State docs capture WHAT not WHY"
+      - "L3: 'Documented everything' is dangerous assumption"
+      - "L4: Emergency captures indicate process failure"
 
-  key_decisions:
-    - "D1: Project named 'Harness' - horse/civilization analogy"
-    - "D2: Progressive disclosure for documents"
-    - "D3: Sub-agents write files directly; orchestrator stays lean"
-    - "D4: Graceful degradation for context management"
-    - "D5: Context warnings exist but not visible to Opus"
-    - "D6: /context command is primary visibility tool"
-
-  validated_learnings:
-    - "Sub-agents CAN write files directly"
-    - "Sub-agents follow explicit format instructions (23 patterns from Lean test)"
-    - "Sonnet 4.5 can self-report context; Opus 4.5 cannot"
-    - "/context shows full breakdown: messages, tools, overhead, buffer"
-    - "Autocompact buffer = 22.5% (45k tokens) - reserved"
-    - "MCP tools overhead varies (9-31k depending on config)"
-    - "Usable context after overhead ~53-77% depending on session"
-
-  critical_lessons_learned:
-    - "L1: Sub-agent output MUST write to files, not return to orchestrator (data loss risk)"
-    - "L2: State docs capture WHAT not WHY - need vision/context docs too"
-    - "L3: 'Documented everything' is dangerous assumption - use checklist"
-    - "L4: Emergency captures indicate process failure - design for prevention"
+  session_2:
+    date: 2025-12-10
+    focus: "Transcript analysis and capture protocol"
+    key_accomplishments:
+      - "Discovered sessions persist to ~/.claude/projects/ as JSONL"
+      - "Session 1 transcript (166KB) recovered and analyzed"
+      - "Gap analysis: identified undocumented insights from transcript"
+      - "Created Capture & Documentation Protocol"
+      - "Updated working-agreement with Claude Code vs Desktop comparison"
+      - "Embedded capture as CORE methodology requirement"
+    key_decisions:
+      - "D7: Transcripts are essential memory - must be captured"
+      - "D8: End-of-session checklist is MANDATORY"
+      - "D9: Capture protocol is foundation of Harness, not add-on"
+    new_learnings:
+      - "JSONL sessions contain ~7x more than readable markdown"
+      - "Human-readable content: ~128KB; Tool overhead: ~397KB"
+      - "Claude Desktop history survives CLI reset"
+      - "Transcript mining can recover undocumented insights"
 
 blockers: []
 
 next_session_actions:
   - "Define Pattern Extraction Schema for methodology research"
-  - "Optionally set up PreCompact hook"
-  - "Create research plan document"
-  - "Begin methodology research phase (sub-agents write to files)"
+  - "Create research plan document with methodology assignments"
+  - "Begin methodology research (sub-agents write directly to files)"
+  - "Consider PreCompact hook setup (optional safety net)"
 
-files_created_session_1:
-  - ".harness/project-state.yaml"
-  - ".harness/decision-log.md"
-  - ".harness/lessons-learned.md"
-  - ".harness/emergency-captures/session1-lean-research.md"
-  - "00-governance/working-agreement.md"
-  - "docs/INDEX.md (updated)"
+files_created_session_2:
+  - ".harness/transcripts/session1-transcript.md"
+  - ".harness/scripts/analyze-session.py"
+  - "00-governance/capture-protocol.md"
+  - "00-governance/working-agreement.md (updated with transcript insights)"
+
+key_documents:
+  always_load:
+    - ".harness/project-state.yaml"
+  governance:
+    - "00-governance/vision.md"
+    - "00-governance/working-agreement.md"
+    - "00-governance/capture-protocol.md"
+  reference:
+    - ".harness/decision-log.md"
+    - ".harness/lessons-learned.md"
+  transcripts:
+    - ".harness/transcripts/session1-transcript.md"
 
 recovery_instructions: |
   NEXT SESSION START:
-  1. Read this file first
-  2. Read 00-governance/working-agreement.md for full context
-  3. Review .harness/decision-log.md for decision rationale
-  4. Run /context to check starting point
+  1. Read this file first (you're doing it!)
+  2. Read 00-governance/working-agreement.md for process
+  3. Read 00-governance/capture-protocol.md for documentation rules
+  4. Run /context to check starting budget
   5. Continue with next_session_actions above
+
+  END OF SESSION:
+  1. Run End-of-Session Checklist (see capture-protocol.md)
+  2. Export transcript to .harness/transcripts/
+  3. Update this file with session summary
+  4. Commit all changes

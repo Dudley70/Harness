@@ -4,6 +4,58 @@
 
 ---
 
+## Decision #9 - 2025-12-10 (Session 2)
+**Topic:** Capture Protocol as Core Methodology
+**Decision:** Capture and documentation is the FOUNDATION of Harness, not an add-on
+**Rationale:**
+- "If documentation is the only memory, capture is ESSENTIAL"
+- Context is ephemeral - compaction, resets, new sessions lose everything
+- HOW we document determines WHAT survives
+- Session 1 proved: undocumented insights are LOST insights
+**Implementation:**
+- Created `00-governance/capture-protocol.md`
+- Three phases: Continuous Capture, Session Boundary, Post-Session Recovery
+- End-of-Session Checklist is MANDATORY
+- Transcript export is standard practice
+**Status:** Approved
+
+---
+
+## Decision #8 - 2025-12-10 (Session 2)
+**Topic:** End-of-Session Checklist
+**Decision:** Mandatory checklist before ending ANY session
+**Rationale:**
+- Session 1 nearly lost 23 Lean patterns due to no systematic capture check
+- "Documented everything" is dangerous assumption
+- Checklist forces verification, not assumption
+**Checklist Items:**
+- [ ] All sub-agent outputs written to files?
+- [ ] Decisions logged with rationale?
+- [ ] Lessons/failures captured?
+- [ ] Next session has explicit actions?
+- [ ] Transcript exported?
+- [ ] "Fresh AI Test" passed?
+**Status:** Approved
+
+---
+
+## Decision #7 - 2025-12-10 (Session 2)
+**Topic:** Transcript Capture as Essential Memory
+**Decision:** Session transcripts must be captured and stored for recovery
+**Rationale:**
+- Discovered Claude stores sessions to `~/.claude/projects/[project]/[session].jsonl`
+- Session 1 transcript: 166KB of discussion, only ~30% made it to docs
+- Transcripts enable gap analysis and recovery of undocumented insights
+- JSONL contains tool calls; exported MD contains readable conversation
+**Evidence:**
+- Session 1 JSONL: 1.19MB total, 128KB human-readable, 397KB tool data
+- Gap analysis identified 5+ major undocumented insights
+- Successfully recovered Claude Desktop vs Code comparison from transcript
+**Storage:** `.harness/transcripts/sessionN-transcript.md`
+**Status:** Approved
+
+---
+
 ## Decision #6 - 2025-12-10
 **Topic:** Context Monitoring Solution Found
 **Decision:** Use `/context` slash command for context visibility; Sonnet 4.5 for self-aware sub-agents

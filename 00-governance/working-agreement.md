@@ -70,13 +70,15 @@ summary: Defines how the Harness team works, validated through empirical testing
 You are a research sub-agent. Your task is to [SPECIFIC TASK].
 
 CRITICAL INSTRUCTIONS:
-1. DO NOT summarize or editorialize
-2. Return ONLY structured markdown [tables/lists]
-3. Extract at least [N] items minimum
-4. Write output directly to: [FILE PATH]
+1. DO NOT return data to orchestrator
+2. WRITE output directly to: [EXPLICIT FILE PATH]
+3. Return ONLY: confirmation of file written + brief summary (3-5 bullets)
 
-OUTPUT FORMAT:
-[Explicit structure specification]
+OUTPUT FORMAT in file:
+[Explicit structure specification - tables, lists, etc.]
+
+AFTER WRITING:
+Report back: "Written [N] items to [path]. Summary: [3-5 bullets]"
 ```
 
 **KEY PRINCIPLES:**
@@ -84,6 +86,32 @@ OUTPUT FORMAT:
 - Explicit output format prevents summarization
 - Minimum deliverable targets set expectations
 - Sub-agents write to files; orchestrator stays lean
+- Orchestrator NEVER holds research data - only references to where it's stored
+
+### Sub-Agent Architecture (Validated Session 1)
+
+**Why Sub-Agents Summarize by Default:**
+- Sub-agents are optimized to compress output for context return
+- Without explicit instructions, they synthesize rather than extract
+- "Return raw data" vs "return findings" produces different outputs
+
+**What Works (Empirically Tested):**
+| Instruction | Result |
+|-------------|--------|
+| "Extract 10-15 patterns" | Got 23 patterns (exceeded target) |
+| "TABLE FORMAT ONLY" | Clean structured output |
+| "DO NOT summarize" | Raw data, not synthesis |
+| "Write directly to file" | Data persists, orchestrator stays lean |
+
+**Claude Code vs Claude Desktop:**
+| Aspect | Claude Desktop | Claude Code |
+|--------|----------------|-------------|
+| Research tool | `launch_extended_search_task` | `Task` tool |
+| Artifact creation | Optional parameter | Orchestrator writes files |
+| File handling | Can create artifacts | Sub-agent writes OR returns |
+| Web search | Built into research task | Sub-agent uses WebSearch |
+
+**The pattern holds across both:** Explicit format instructions + focused scope = quality output
 
 ### Context Management
 
@@ -233,9 +261,19 @@ dependencies: [list of related documents]
 ## Open Questions (To Be Resolved)
 
 - [x] Context window warning mechanisms - RESOLVED: exists but not visible in output
+- [x] Capture Protocol - RESOLVED: see `00-governance/capture-protocol.md`
 - [ ] Pattern Extraction Schema - define before research phase
 - [ ] PreCompact hook configuration - specific implementation for Harness
 - [ ] Optimal session length - to be determined through practice
+
+---
+
+## Related Documents
+
+- **Capture Protocol:** `00-governance/capture-protocol.md` - How we capture and document
+- **Vision:** `00-governance/vision.md` - Why we're building Harness
+- **Decision Log:** `.harness/decision-log.md` - All decisions with rationale
+- **Lessons Learned:** `.harness/lessons-learned.md` - Failures and fixes
 
 ---
 
