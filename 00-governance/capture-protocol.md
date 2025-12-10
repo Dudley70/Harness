@@ -173,12 +173,31 @@ summary: [2-3 sentences for index/search]
 
 ### Token Budgets (Guidance)
 
-| Document Type | Target Size | Purpose |
-|---------------|-------------|---------|
-| Context anchors | 200-300 tokens | ALWAYS loaded |
-| Topic summaries | 500-800 tokens | Loaded when entering topic |
-| Detail documents | 2000-4000 tokens | Loaded only when needed |
-| Transcripts | Unlimited | Archive, not loaded |
+| Document Type | Target Size | Max Size | Purpose |
+|---------------|-------------|----------|---------|
+| Context anchors | 200-300 tokens | 500 | ALWAYS loaded |
+| Topic summaries | 500-800 tokens | 2,000 | Loaded when entering topic |
+| Detail documents | 2000-4000 tokens | 20,000 | Loaded only when needed |
+| Working docs | < 5,000 tokens | 20,000 | Frequently accessed |
+| Research outputs | < 10,000 tokens | 20,000 | May need full loading |
+| Transcripts | Unlimited | Unlimited | Archive only, NEVER fully loaded |
+
+**CRITICAL: Claude Code Read Limit = 25,000 tokens**
+
+Files over 25k tokens cannot be read in one operation. For working documents:
+- Stay well under 20k tokens (~80KB) as safety margin
+- If approaching limit, split into multiple files
+- Transcripts are exempt (use Grep to search, not Read to load)
+
+### File Size Monitoring
+
+Check document sizes periodically:
+```bash
+# Quick size check for working docs
+wc -c 00-governance/*.md .harness/*.md .harness/*.yaml | awk '{print $1/4 " tokens: " $2}'
+```
+
+If any working document exceeds 15k tokens, consider splitting.
 
 ---
 
@@ -251,6 +270,47 @@ If compaction occurs before capture:
 
 ---
 
+## Session Strategy
+
+### PREFER: End Session Cleanly, Start Fresh
+
+```
+RECOMMENDED WORKFLOW:
+1. Work until 60-70% context
+2. Run End-of-Session Checklist
+3. Commit all changes
+4. Close session
+5. Next session: Recovery script checks for gaps automatically
+```
+
+**Why fresh sessions are preferred:**
+- Recovery script catches any gaps (safety net)
+- Documents ARE the memory - that's our core principle
+- Fresh context = better quality output (no "context anxiety")
+- Predictable, bounded session files
+
+### AVOID: /compact
+
+Only use `/compact` when:
+- Absolutely necessary mid-task
+- Cannot stop and document
+- Understand that summaries may lose nuance
+
+**Why /compact is discouraged:**
+- Compaction summaries are lossy - can't control what's preserved
+- Creates "unknown" state in session history
+- May lose agent personas, decision context, nuanced discussion
+
+### Session Boundary Indicators
+
+In JSONL files, session boundaries are marked by:
+- `"type":"summary"` entries (compaction occurred)
+- Large timestamp gaps (new session started)
+
+The recovery script detects these and processes accordingly.
+
+---
+
 ## Integration with Harness Methodology
 
 This protocol is not separate from Harness - it IS Harness.
@@ -265,4 +325,5 @@ The methodology only works if:
 ---
 
 *Protocol established: 2025-12-10 (Session 2)*
-*Based on learnings from Session 1 data loss incident*
+*Updated: 2025-12-11 - Added session strategy, file size limits*
+*Based on learnings from Sessions 1-2*

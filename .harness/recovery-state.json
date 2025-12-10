@@ -1,5 +1,7 @@
 {
-  "last_export_timestamp": null,
-  "last_line_count": 577,
-  "last_check": "2025-12-11T00:17:22.547912"
+  "processed_files": {
+    "/Users/dudley/.claude/projects/-Users-dudley--claude-worktrees-Harness-lucid-nightingale/2f883f60-dd99-4595-9335-f6f590c9e215.jsonl": 4,
+    "/Users/dudley/.claude/projects/-Users-dudley-projects-Harness/1d16216c-18e2-4a0a-8fca-0fabe62e0c54.jsonl": 647
+  },
+  "last_check_timestamp": "2025-12-11T00:35:22.078225"
 }

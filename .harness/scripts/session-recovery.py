@@ -3,10 +3,10 @@
 """
 Session Recovery Analysis for Harness Methodology.
 
+Scans ALL Harness-related project folders for new content since last check.
 Runs on SessionStart to detect undocumented insights from previous sessions.
-Writes summary to CLAUDE_ENV_FILE for context injection.
 
-Usage: Called automatically via SessionStart hook
+Usage: Called automatically via SessionStart hook, or manually
 """
 
 import sys
@@ -18,31 +18,39 @@ from datetime import datetime
 def get_recovery_state_path():
     return Path('.harness/recovery-state.json')
 
-def get_project_sessions_dir():
-    cwd = os.getcwd()
-    claude_path = cwd.replace('/', '-').lstrip('-')
-    return Path.home() / '.claude' / 'projects' / f"-{claude_path}"
+def find_all_harness_folders():
+    """Find ALL project folders related to Harness."""
+    claude_projects = Path.home() / '.claude' / 'projects'
+    if not claude_projects.exists():
+        return []
+
+    harness_folders = []
+    for folder in claude_projects.iterdir():
+        if folder.is_dir() and 'harness' in folder.name.lower():
+            harness_folders.append(folder)
+
+    return harness_folders
+
+def find_session_files(folder):
+    """Find main session files (not agent files) in a folder."""
+    return [f for f in folder.glob('*.jsonl') if not f.name.startswith('agent-')]
 
 def load_recovery_state():
     state_path = get_recovery_state_path()
     if state_path.exists():
         with open(state_path, 'r') as f:
             return json.load(f)
-    return {'last_export_timestamp': None, 'last_line_count': 0}
+    return {
+        'last_check_timestamp': None,
+        'processed_files': {}  # {filepath: last_line_count}
+    }
 
 def save_recovery_state(state):
     state_path = get_recovery_state_path()
     state_path.parent.mkdir(parents=True, exist_ok=True)
+    state['last_check_timestamp'] = datetime.now().isoformat()
     with open(state_path, 'w') as f:
         json.dump(state, f, indent=2)
-
-def find_main_session_file(sessions_dir):
-    if not sessions_dir.exists():
-        return None
-    jsonl_files = [f for f in sessions_dir.glob('*.jsonl') if not f.name.startswith('agent-')]
-    if not jsonl_files:
-        return None
-    return max(jsonl_files, key=lambda f: f.stat().st_mtime)
 
 def extract_new_messages(jsonl_path, last_line_count):
     """Extract messages added since last check."""
@@ -58,6 +66,7 @@ def extract_new_messages(jsonl_path, last_line_count):
             try:
                 entry = json.loads(line)
                 msg_type = entry.get('type')
+                timestamp = entry.get('timestamp', '')
 
                 if msg_type in ['user', 'assistant']:
                     content = entry.get('message', {}).get('content', '')
@@ -70,8 +79,10 @@ def extract_new_messages(jsonl_path, last_line_count):
                     if content:
                         messages.append({
                             'type': msg_type,
-                            'content': content[:500],  # Truncate for analysis
-                            'line': current_line
+                            'content': content[:500],
+                            'line': current_line,
+                            'timestamp': timestamp,
+                            'source': str(jsonl_path)
                         })
             except:
                 continue
@@ -82,39 +93,31 @@ def analyze_for_undocumented(messages):
     """Analyze messages for potentially undocumented insights."""
     findings = []
 
-    # Keywords that suggest important content
-    decision_keywords = ['decided', 'decision', 'agreed', 'will use', 'chosen', 'selected']
-    learning_keywords = ['learned', 'discovered', 'found that', 'realized', 'insight']
-    research_keywords = ['patterns', 'extracted', 'research', 'analyzed', 'methodology']
+    decision_keywords = ['decided', 'decision', 'agreed', 'will use', 'chosen', 'selected', 'approved']
+    learning_keywords = ['learned', 'discovered', 'found that', 'realized', 'insight', 'key finding']
+    research_keywords = ['patterns', 'extracted', 'research', 'analyzed', 'methodology', 'extracted']
+    action_keywords = ['todo', 'next step', 'action item', 'should create', 'need to']
 
     for msg in messages:
         content_lower = msg['content'].lower()
 
-        # Check for decisions
-        if any(kw in content_lower for kw in decision_keywords):
-            findings.append({
-                'type': 'potential_decision',
-                'excerpt': msg['content'][:200],
-                'line': msg['line']
-            })
+        for kw_list, finding_type in [
+            (decision_keywords, 'potential_decision'),
+            (learning_keywords, 'potential_learning'),
+            (research_keywords, 'potential_research'),
+            (action_keywords, 'potential_action'),
+        ]:
+            if any(kw in content_lower for kw in kw_list):
+                findings.append({
+                    'type': finding_type,
+                    'excerpt': msg['content'][:200],
+                    'line': msg['line'],
+                    'source': msg['source'],
+                    'timestamp': msg['timestamp']
+                })
+                break  # Only one finding per message
 
-        # Check for learnings
-        if any(kw in content_lower for kw in learning_keywords):
-            findings.append({
-                'type': 'potential_learning',
-                'excerpt': msg['content'][:200],
-                'line': msg['line']
-            })
-
-        # Check for research data
-        if any(kw in content_lower for kw in research_keywords):
-            findings.append({
-                'type': 'potential_research',
-                'excerpt': msg['content'][:200],
-                'line': msg['line']
-            })
-
-    # Deduplicate and limit
+    # Deduplicate
     seen = set()
     unique_findings = []
     for f in findings:
@@ -123,71 +126,68 @@ def analyze_for_undocumented(messages):
             seen.add(key)
             unique_findings.append(f)
 
-    return unique_findings[:10]  # Limit to top 10
-
-def write_to_claude_env(summary):
-    """Write summary to CLAUDE_ENV_FILE for context injection."""
-    env_file = os.environ.get('CLAUDE_ENV_FILE')
-    if env_file:
-        with open(env_file, 'a') as f:
-            f.write(f"\nHARNESS_RECOVERY_SUMMARY={json.dumps(summary)}\n")
+    return unique_findings[:15]  # Limit to top 15
 
 def main():
     print("🔍 Harness Session Recovery Check...")
+    print(f"   Scanning for ALL Harness-related project folders...")
 
     # Load state
     state = load_recovery_state()
-    last_line_count = state.get('last_line_count', 0)
+    processed_files = state.get('processed_files', {})
+    last_check = state.get('last_check_timestamp', 'Never')
 
-    # Find session file
-    sessions_dir = get_project_sessions_dir()
-    jsonl_path = find_main_session_file(sessions_dir)
+    print(f"   Last check: {last_check}")
 
-    if not jsonl_path:
-        print("   No session file found - fresh project")
+    # Find all Harness folders
+    harness_folders = find_all_harness_folders()
+    print(f"   Found {len(harness_folders)} Harness-related folder(s)")
+
+    all_new_messages = []
+    total_new_entries = 0
+
+    for folder in harness_folders:
+        session_files = find_session_files(folder)
+        for jsonl_path in session_files:
+            filepath_key = str(jsonl_path)
+            last_line = processed_files.get(filepath_key, 0)
+
+            messages, current_line = extract_new_messages(jsonl_path, last_line)
+            new_count = current_line - last_line
+
+            if new_count > 0:
+                print(f"   📁 {folder.name}")
+                print(f"      └── {jsonl_path.name}: {new_count} new entries")
+                all_new_messages.extend(messages)
+                total_new_entries += new_count
+
+            # Update processed state
+            processed_files[filepath_key] = current_line
+
+    if total_new_entries == 0:
+        print("   ✅ No new content since last check")
+        save_recovery_state({'processed_files': processed_files})
         return
 
-    # Extract new messages
-    messages, current_line_count = extract_new_messages(jsonl_path, last_line_count)
-    new_message_count = current_line_count - last_line_count
-
-    if new_message_count == 0:
-        print("   No new messages since last check")
-        return
-
-    print(f"   Found {new_message_count} new entries since last session")
+    print(f"\n   Total: {total_new_entries} new entries across all sessions")
 
     # Analyze for undocumented content
-    findings = analyze_for_undocumented(messages)
+    findings = analyze_for_undocumented(all_new_messages)
 
     if findings:
         print(f"\n⚠️  POTENTIAL UNDOCUMENTED ITEMS ({len(findings)}):")
+        print("   Review these and document if important:\n")
         for i, f in enumerate(findings, 1):
-            print(f"   {i}. [{f['type']}] {f['excerpt'][:80]}...")
-
-        summary = {
-            'new_messages': new_message_count,
-            'findings_count': len(findings),
-            'findings': findings,
-            'action_needed': True
-        }
+            source_short = Path(f['source']).parent.name[:30]
+            print(f"   {i}. [{f['type'].replace('potential_', '').upper()}] ({source_short})")
+            print(f"      {f['excerpt'][:80]}...")
+            print()
     else:
         print("   ✅ No obvious undocumented items detected")
-        summary = {
-            'new_messages': new_message_count,
-            'findings_count': 0,
-            'action_needed': False
-        }
 
-    # Write to Claude env for context
-    write_to_claude_env(summary)
-
-    # Update state
-    state['last_line_count'] = current_line_count
-    state['last_check'] = datetime.now().isoformat()
-    save_recovery_state(state)
-
-    print(f"\n   State saved. Last line: {current_line_count}")
+    # Save updated state
+    save_recovery_state({'processed_files': processed_files})
+    print(f"   State saved.")
 
 if __name__ == '__main__':
     main()
