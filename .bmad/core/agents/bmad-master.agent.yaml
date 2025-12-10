@@ -46,5 +46,9 @@ agent:
       action: "Perform comprehensive LLM analysis of recovery transcript - read full transcript, generate semantic summary, identify themes and key decisions, present structured context restoration (higher token cost)"
       description: "Full context restoration (LLM analysis)"
 
+    - trigger: "run-recovery"
+      action: "Execute python3 {project-root}/.harness/scripts/session-recovery.py to scan for new content, export transcript, and flag undocumented items. Use this mid-session to capture current state."
+      description: "Run recovery scan now (manual trigger)"
+
   # Empty prompts section (no custom prompts for this agent)
   prompts: []
