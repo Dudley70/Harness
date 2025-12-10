@@ -1,0 +1,60 @@
+# Harness Project State
+# This file is the FIRST thing loaded in any session
+# Last Updated: 2025-12-10 (end of session 1)
+
+project:
+  name: Harness
+  description: "AI-Native Development Methodology - Channeling AI power through human-designed controls"
+  repository: https://github.com/Dudley70/Harness
+  created: 2025-12-10
+
+current_phase: G0-Initiation
+
+current_focus:
+  task: "G0 Initiation - governance and infrastructure MOSTLY COMPLETE"
+  status: ready_for_next_session
+  details: "Working agreement created with validated learnings. Context management validated."
+
+session_1_summary:
+  date: 2025-12-10
+  ended_at_context: "83% (166k/200k) - RED zone, session ended proactively"
+  started_with: "BMAD party mode - full team discussion on Harness vision"
+
+  key_decisions:
+    - "D1: Project named 'Harness' - horse/civilization analogy"
+    - "D2: Progressive disclosure for documents"
+    - "D3: Sub-agents write files directly; orchestrator stays lean"
+    - "D4: Graceful degradation for context management"
+    - "D5: Context warnings exist but not visible to Opus"
+    - "D6: /context command is primary visibility tool"
+
+  validated_learnings:
+    - "Sub-agents CAN write files directly"
+    - "Sub-agents follow explicit format instructions (23 patterns from Lean test)"
+    - "Sonnet 4.5 can self-report context; Opus 4.5 cannot"
+    - "/context shows full breakdown: messages, tools, overhead, buffer"
+    - "Autocompact buffer = 22.5% (45k tokens) - reserved"
+    - "MCP tools overhead varies (9-31k depending on config)"
+    - "Usable context after overhead ~53-77% depending on session"
+
+blockers: []
+
+next_session_actions:
+  - "Define Pattern Extraction Schema for methodology research"
+  - "Optionally set up PreCompact hook"
+  - "Create research plan document"
+  - "Begin methodology research phase (sub-agents write to files)"
+
+files_created_session_1:
+  - ".harness/project-state.yaml"
+  - ".harness/decision-log.md"
+  - "00-governance/working-agreement.md"
+  - "docs/INDEX.md (updated)"
+
+recovery_instructions: |
+  NEXT SESSION START:
+  1. Read this file first
+  2. Read 00-governance/working-agreement.md for full context
+  3. Review .harness/decision-log.md for decision rationale
+  4. Run /context to check starting point
+  5. Continue with next_session_actions above
