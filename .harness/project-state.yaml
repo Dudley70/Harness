@@ -80,9 +80,25 @@ next_session_actions:
   - "P0: Define standard document template with progressive disclosure structure"
   - "P1: Define Pattern Extraction Schema for methodology research"
   - "P1: Create research plan document with methodology assignments"
+  - "P1: Git/GitHub management UX - visual branch status, guided workflows, auto-push"
   - "P2: Begin methodology research (sub-agents write directly to files)"
   - "P2: Consider PreCompact/SessionEnd hooks setup"
   - "PARKED: LLM-optimized document format - see /Users/dudley/projects/Compression/"
+
+improvement_ideas:
+  git_github_ux:
+    problem: "Easy to forget push, hard to see branch state, no guided workflow"
+    needs:
+      - "Visual display of branches and their status (ahead/behind, uncommitted changes)"
+      - "Guided workflow: commit → push → PR (when appropriate)"
+      - "Human-readable status summary (not just git output)"
+      - "Auto-push option on session end (SessionEnd hook?)"
+      - "Branch management guidance (when to branch, when to merge)"
+    possible_approaches:
+      - "BMAD Master 'git-status' menu item with formatted output"
+      - "SessionEnd hook that shows status + prompts for push"
+      - "Custom script that renders visual branch tree"
+      - "Integration with gh CLI for PR status"
 
 parked_research:
   llm_compression:
