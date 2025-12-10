@@ -373,7 +373,7 @@ def analyze_for_undocumented(messages):
                 findings.append({
                     'type': finding_type,
                     'priority': priority,
-                    'excerpt': msg['content'][:200],
+                    'excerpt': msg['content'][:500],  # Increased for full context
                     'line': msg['line'],
                     'source': msg['source'],
                     'timestamp': msg['timestamp']
@@ -456,17 +456,29 @@ def main():
     if export_file:
         print(f"\n   📝 Auto-exported to: {export_file}")
 
-    # Print findings summary to console
+    # Print findings summary to console - FULL CONTENT for high priority
     if findings:
         high_priority = [f for f in findings if f['priority'] == 1]
+        medium_priority = [f for f in findings if f['priority'] == 2]
+
         print(f"\n⚠️  RECOVERY CHECKLIST ({len(findings)} items, {len(high_priority)} high priority):")
-        print("   Review in transcript or activate BMAD Master for full context.\n")
-        for i, f in enumerate(findings[:5], 1):  # Show top 5 in console
-            priority_mark = "🔴" if f['priority'] == 1 else "🟡"
-            print(f"   {priority_mark} [{f['type']}] {f['excerpt'][:60]}...")
-        if len(findings) > 5:
-            print(f"   ... and {len(findings) - 5} more in transcript")
-        print()
+
+        # HIGH PRIORITY: Print FULL content so Claude receives it
+        if high_priority:
+            print("\n🔴 HIGH PRIORITY ITEMS (full content for context):\n")
+            for i, f in enumerate(high_priority[:10], 1):  # Top 10 high priority with full content
+                print(f"   {i}. [{f['type']}]")
+                print(f"      {f['excerpt']}")  # FULL excerpt, not truncated
+                print()
+
+        # Medium priority: Just summaries
+        if medium_priority:
+            print(f"🟡 MEDIUM PRIORITY ({len(medium_priority)} items - summaries only):\n")
+            for i, f in enumerate(medium_priority[:5], 1):
+                print(f"   {i}. [{f['type']}] {f['excerpt'][:80]}...")
+            if len(medium_priority) > 5:
+                print(f"   ... and {len(medium_priority) - 5} more in transcript")
+            print()
     else:
         print("   ✅ No obvious undocumented items detected")
 
