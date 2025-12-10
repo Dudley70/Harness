@@ -78,13 +78,24 @@ Harness succeeds if:
 
 ## Core Principles (Emerging)
 
-From Session 1 learnings:
+### From Session 1:
 - **Prevention > Recovery** - Make data loss impossible, not recoverable
 - **Context is ephemeral** - Nothing valuable exists only in context
 - **Sub-agents write directly** - Don't return data to orchestrator
 - **Progressive disclosure** - Layer 0 → Layer 1 → Layer 2
 - **Validate before proceeding** - Checklists, not assumptions
 
+### From Session 2:
+- **Documentation IS memory** - If it's not documented, it doesn't exist
+- **Transcripts are essential** - Raw conversation is recoverable context
+- **Capture is MANDATORY** - End-of-session checklist, not optional
+
+### From Session 3:
+- **Recovery is automated** - SessionStart hook, not manual checking
+- **Master coordinates recovery** - Single entry point for context restoration
+- **Lightweight detection, opt-in depth** - Hook flags, Master analyzes
+
 ---
 
 *Created: 2025-12-10 (Session 1, emergency capture at 102% context)*
+*Updated: 2025-12-11 (Session 3, added principles from Sessions 2 & 3)*

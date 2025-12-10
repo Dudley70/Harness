@@ -10,38 +10,33 @@ phase: governance
 summary: Defines how the Harness team works, validated through empirical testing on 2025-12-10.
 ---
 
-## Vision Statement
+## Vision & Principles
 
-**Harness** channels the power of AI through human-designed controls - just as ancient humanity harnessed the horse to build civilization, we now harness AI to build the future.
+> See **[vision.md](./vision.md)** for project vision, purpose, and core principles.
 
-## Core Principles
+This working agreement focuses on HOW we work, not WHY we're building (that's vision.md's job).
+
+## Working Principles
+
+These are operational principles for how we execute work:
 
 ### 1. Research Before Conclusions
 - Document **hypotheses**, not conclusions, until research validates them
 - Remain flexible to whatever structure emerges from findings
-- No preconceived frameworks - let evidence guide design
 
-### 2. Document Everything (But Only What Matters)
-- Every decision, insight, and direction change is captured
-- Documents are the memory that survives context loss
-- **Relevance filter:** Before documenting, ask "Will a future session NEED this?"
-- Avoid documenting: exploratory dead-ends, verbose discussions, duplicate info
-
-### 3. Context-Loss Resilience
+### 2. Context-Loss Resilience
 - Any team member (human or AI) should be able to resume from documents alone
 - Critical state lives in `.harness/` - always load this first
-- Session handoffs are mandatory, not optional
 - **Assume context loss can happen at any time**
 
-### 4. Progressive Disclosure
+### 3. Progressive Disclosure (Document Structure)
 - **Layer 0 - Context Anchors:** ~200-300 tokens each, ALWAYS loaded
 - **Layer 1 - Summaries:** ~500-800 tokens, loaded when entering topic
 - **Layer 2 - Details:** Full content, loaded ONLY when specifically needed
-- Each document: TL;DR → Summary → Details → References
 
-### 5. Single Source of Truth (Layered)
-- Each concept has ONE authoritative summary document
-- Detail documents support but don't duplicate the summary
+### 4. Single Source of Truth
+- Each concept has ONE authoritative document
+- Other documents REFERENCE, don't duplicate
 - Contradictions are resolved immediately when discovered
 
 ---
