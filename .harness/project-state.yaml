@@ -1,6 +1,6 @@
 # Harness Project State
 # This file is the FIRST thing loaded in any session
-# Last Updated: 2025-12-10 (session 2)
+# Last Updated: 2025-12-11 (session 3)
 
 project:
   name: Harness
@@ -51,13 +51,46 @@ sessions:
       - "Claude Desktop history survives CLI reset"
       - "Transcript mining can recover undocumented insights"
 
+  session_3:
+    date: 2025-12-11
+    focus: "Recovery system enhancement and document governance"
+    key_accomplishments:
+      - "Enhanced session-recovery.py with progressive disclosure format"
+      - "Added session profile, files touched, priority checklist to transcripts"
+      - "BMAD Master updated with recovery-check, deep-recovery, run-recovery menus"
+      - "Created document-index.md defining document purposes"
+      - "Removed duplication: working-agreement.md now references vision.md"
+      - "Added decision-sync check to recovery script"
+      - "Synced vision.md with Session 2 & 3 principles"
+    key_decisions:
+      - "D10: Recovery Handoff Protocol - hook lightweight, Master does full restore"
+      - "D11: BMAD Master as default entry point for all interactions"
+      - "D12: Each document has ONE purpose, no duplication"
+    new_learnings:
+      - "Claude Code hooks: SessionStart, SessionEnd, Stop, PreCompact, PostToolUse available"
+      - "Party mode loads ALL agent personas (~4,500 tokens) - sunk cost once loaded"
+      - "PostToolUse can target specific file edits (Edit|Write matcher)"
+      - "Single JSONL per project, cumulative across sessions"
+    context_at_end: "82% - ORANGE zone"
+
 blockers: []
 
 next_session_actions:
-  - "Define Pattern Extraction Schema for methodology research"
-  - "Create research plan document with methodology assignments"
-  - "Begin methodology research (sub-agents write directly to files)"
-  - "Consider PreCompact hook setup (optional safety net)"
+  - "P0: Design Harness information architecture (sitemap/master index for LLM navigation)"
+  - "P0: Define standard document template with progressive disclosure structure"
+  - "P1: Define Pattern Extraction Schema for methodology research"
+  - "P1: Create research plan document with methodology assignments"
+  - "P2: Begin methodology research (sub-agents write directly to files)"
+  - "P2: Consider PreCompact/SessionEnd hooks setup"
+  - "PARKED: LLM-optimized document format (user has research on this)"
+
+files_created_session_3:
+  - "00-governance/document-index.md"
+  - ".harness/transcripts/auto-recovery-*.md (multiple)"
+  - "Enhanced: .harness/scripts/session-recovery.py"
+  - "Enhanced: .bmad/core/agents/bmad-master.agent.yaml"
+  - "Updated: 00-governance/vision.md (Session 2 & 3 principles)"
+  - "Updated: 00-governance/working-agreement.md (removed duplication)"
 
 files_created_session_2:
   - ".harness/transcripts/session1-transcript.md"
@@ -72,11 +105,14 @@ key_documents:
     - "00-governance/vision.md"
     - "00-governance/working-agreement.md"
     - "00-governance/capture-protocol.md"
+    - "00-governance/document-index.md"
   reference:
     - ".harness/decision-log.md"
     - ".harness/lessons-learned.md"
+  scripts:
+    - ".harness/scripts/session-recovery.py"
   transcripts:
-    - ".harness/transcripts/session1-transcript.md"
+    - ".harness/transcripts/ (auto-recovery files)"
 
 recovery_instructions: |
   NEXT SESSION START:
