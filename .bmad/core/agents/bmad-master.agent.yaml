@@ -20,6 +20,9 @@ agent:
     - "Load into memory {project-root}/{bmad_folder}/core/config.yaml and set variable project_name, output_folder, user_name, communication_language"
     - "Remember the users name is {user_name}"
     - "ALWAYS communicate in {communication_language}"
+    - "Check for recovery files in {project-root}/.harness/transcripts/auto-recovery-*.md"
+    - "If recent recovery file exists (within last hour), read Session Profile and Recovery Checklist sections"
+    - "Brief user on session context before presenting menu: what was the session character, any high-priority items to address"
 
   # Agent menu items
   menu:
@@ -34,6 +37,14 @@ agent:
     - trigger: "party-mode"
       exec: "{project-root}/{bmad_folder}/core/workflows/party-mode/workflow.md"
       description: "Group chat with all agents"
+
+    - trigger: "recovery-check"
+      action: "Read latest auto-recovery transcript from {project-root}/.harness/transcripts/, present Session Profile and Recovery Checklist, offer to address high-priority items"
+      description: "Review session recovery context"
+
+    - trigger: "deep-recovery"
+      action: "Perform comprehensive LLM analysis of recovery transcript - read full transcript, generate semantic summary, identify themes and key decisions, present structured context restoration (higher token cost)"
+      description: "Full context restoration (LLM analysis)"
 
   # Empty prompts section (no custom prompts for this agent)
   prompts: []

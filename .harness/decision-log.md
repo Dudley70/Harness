@@ -4,6 +4,49 @@
 
 ---
 
+## Decision #11 - 2025-12-11 (Session 3)
+**Topic:** BMAD Master as Default Entry Point
+**Decision:** BMAD Master is the recommended default agent for all Harness interactions
+**Rationale:**
+- Master has LIGHTEST context cost (~500 tokens vs ~700-1000 for specialists)
+- Acts as recovery coordinator - reads recovery transcripts on startup
+- Can route to specialists when deep work is needed
+- Party mode orchestration lives here
+- Direct specialist access still allowed when task is clear
+**Options Considered:**
+- Master as Router: dispatch to specialists for all work
+- Master as Default + Escalation: handles light work, escalates for depth (CHOSEN)
+- Direct Specialist: skip Master entirely
+**Implementation:**
+- Master checks for recovery files on activation
+- Offers `recovery-check` and `deep-recovery` menu options
+- Briefs user on session context before presenting menu
+**Status:** Approved
+
+---
+
+## Decision #10 - 2025-12-11 (Session 3)
+**Topic:** Recovery Handoff Protocol
+**Decision:** SessionStart hook stays lightweight; BMAD Master handles full context restoration
+**Rationale:**
+- Hook executes Python script - ZERO context window cost
+- Console output shows ~200-500 tokens (just flags, not full transcript)
+- Full transcript sits on disk, read only when needed
+- Master reads recovery file and briefs team on activation
+- Optional `deep-recovery` for full LLM analysis (user-triggered, higher cost)
+**Components:**
+1. **Hook (lightweight):** Runs `session-recovery.py`, outputs flags to console
+2. **Auto-export:** Transcript with progressive disclosure format
+3. **BMAD Master:** Reads recovery file, presents checklist, offers deep analysis
+**Progressive Disclosure Format:**
+- Level 0: Session Profile (tool stats, character type)
+- Level 1: Files Touched (grouped by directory)
+- Level 2: Recovery Checklist (prioritized, with checkboxes)
+- Level 3: Full Transcript
+**Status:** Approved
+
+---
+
 ## Decision #9 - 2025-12-10 (Session 2)
 **Topic:** Capture Protocol as Core Methodology
 **Decision:** Capture and documentation is the FOUNDATION of Harness, not an add-on
