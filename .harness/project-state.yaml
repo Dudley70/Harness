@@ -37,6 +37,12 @@ session_1_summary:
     - "MCP tools overhead varies (9-31k depending on config)"
     - "Usable context after overhead ~53-77% depending on session"
 
+  critical_lessons_learned:
+    - "L1: Sub-agent output MUST write to files, not return to orchestrator (data loss risk)"
+    - "L2: State docs capture WHAT not WHY - need vision/context docs too"
+    - "L3: 'Documented everything' is dangerous assumption - use checklist"
+    - "L4: Emergency captures indicate process failure - design for prevention"
+
 blockers: []
 
 next_session_actions:
@@ -48,6 +54,8 @@ next_session_actions:
 files_created_session_1:
   - ".harness/project-state.yaml"
   - ".harness/decision-log.md"
+  - ".harness/lessons-learned.md"
+  - ".harness/emergency-captures/session1-lean-research.md"
   - "00-governance/working-agreement.md"
   - "docs/INDEX.md (updated)"
 
