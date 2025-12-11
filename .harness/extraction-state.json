@@ -1,0 +1,69 @@
+{
+  "processed_transcripts": {
+    ".harness/transcripts/auto-recovery-20251211-004543.md": {
+      "processed_at": "2025-12-12T07:21:44.657242",
+      "atoms_count": 0
+    },
+    ".harness/transcripts/auto-recovery-20251211-004627.md": {
+      "processed_at": "2025-12-12T07:21:44.657555",
+      "atoms_count": 0
+    },
+    ".harness/transcripts/auto-recovery-20251211-013239.md": {
+      "processed_at": "2025-12-12T07:21:44.662453",
+      "atoms_count": 24
+    },
+    ".harness/transcripts/auto-recovery-20251211-013345.md": {
+      "processed_at": "2025-12-12T07:21:44.662925",
+      "atoms_count": 3
+    },
+    ".harness/transcripts/auto-recovery-20251211-022025.md": {
+      "processed_at": "2025-12-12T07:21:44.667722",
+      "atoms_count": 32
+    },
+    ".harness/transcripts/auto-recovery-20251211-030158.md": {
+      "processed_at": "2025-12-12T07:21:44.677052",
+      "atoms_count": 48
+    },
+    ".harness/transcripts/auto-recovery-20251211-030528.md": {
+      "processed_at": "2025-12-12T07:21:44.679528",
+      "atoms_count": 10
+    },
+    ".harness/transcripts/auto-recovery-20251211-030631.md": {
+      "processed_at": "2025-12-12T07:21:44.680102",
+      "atoms_count": 3
+    },
+    ".harness/transcripts/auto-recovery-20251211-031046.md": {
+      "processed_at": "2025-12-12T07:21:44.682023",
+      "atoms_count": 11
+    },
+    ".harness/transcripts/auto-recovery-20251211-080106.md": {
+      "processed_at": "2025-12-12T07:21:44.683256",
+      "atoms_count": 8
+    },
+    ".harness/transcripts/auto-recovery-20251211-080446.md": {
+      "processed_at": "2025-12-12T07:21:44.683896",
+      "atoms_count": 3
+    },
+    ".harness/transcripts/auto-recovery-20251211-093329.md": {
+      "processed_at": "2025-12-12T07:21:44.687711",
+      "atoms_count": 23
+    },
+    ".harness/transcripts/auto-recovery-20251211-111028.md": {
+      "processed_at": "2025-12-12T07:21:44.691542",
+      "atoms_count": 26
+    },
+    ".harness/transcripts/auto-recovery-20251211-172639.md": {
+      "processed_at": "2025-12-12T07:21:44.699718",
+      "atoms_count": 58
+    },
+    ".harness/transcripts/auto-recovery-20251211-172735.md": {
+      "processed_at": "2025-12-12T07:21:44.700331",
+      "atoms_count": 3
+    },
+    ".harness/transcripts/auto-recovery-20251212-061447.md": {
+      "processed_at": "2025-12-12T07:21:44.702536",
+      "atoms_count": 15
+    }
+  },
+  "last_extraction": "2025-12-12T07:21:44.706211"
+}

@@ -246,7 +246,7 @@ types:
         - 'essential'
         - 'remember'
         - 'note this'
-        - 'don\'t forget'
+        - "don't forget"
         - 'crucial'
       confidence: low
       suggested: []
