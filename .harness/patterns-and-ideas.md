@@ -375,6 +375,69 @@ Available for future projects (cross-project knowledge)
 
 ---
 
+### Q7: Idea & Question Lifecycle Management
+
+**Question:** How do we capture and track ideas/questions that aren't immediately acted on? How do they evolve, connect, and resurface?
+
+**Why it matters:**
+- Ideas disappear if not immediately acted on
+- Questions may get answered later but aren't tracked back
+- Connections between ideas emerge over time
+- Some "parked" ideas become relevant with new context
+- Bulk research/review of accumulated questions is valuable
+
+**Proposed stores:**
+
+| Store | Contents | Lifecycle States |
+|-------|----------|------------------|
+| `questions.yaml` | Open questions | pending → answered \| obsolete |
+| `ideas.yaml` | Unvalidated ideas | captured → exploring → promoted \| parked |
+| `features.yaml` | Potential capabilities | backlog → planned → implemented |
+| `roadmap.yaml` | Strategic items | future → current → done |
+
+**Self-organization signals:**
+
+| Signal | Meaning | Action |
+|--------|---------|--------|
+| Mentioned multiple times | High relevance | Surface as "hot" |
+| Connected to many atoms | Central concept | Highlight as hub |
+| Referenced in decisions | Validated importance | Promote priority |
+| Never revisited (N sessions) | Possibly obsolete | Flag for review |
+| New atoms connect to old idea | Idea gaining relevance | Resurface |
+
+**Proposed schema:**
+```yaml
+ideas:
+  - id: IDEA-001
+    created: 2025-12-12
+    session_origin: auto-recovery-20251212
+    status: captured  # captured | exploring | promoted | parked | obsolete
+    title: "Meta-skill library"
+    description: "A skill that knows how to find other skills"
+    connections:
+      atoms: [atom-123, atom-456]
+      questions: [Q3]
+      ideas: [IDEA-005]
+      decisions: [D12]
+    mentions: 3
+    last_mentioned: 2025-12-12
+    priority: null  # null until ranked, then 1-5
+    notes:
+      - date: 2025-12-12
+        note: "Could combine with skill routing"
+```
+
+**Automation possibilities:**
+- Auto-capture from atoms tagged `PROPOSAL` or `QUESTION`
+- Track mention frequency across sessions
+- Compute "heat" score from connections + recency
+- Weekly digest: "Hot ideas", "Answered questions", "Stale items"
+- Bulk research mode: "Show all unanswered questions about X"
+
+**Key insight:** Ideas are living things. They connect, evolve, hibernate, and sometimes resurrect. The system should support this lifecycle, not just capture-and-forget.
+
+---
+
 ## Sources Referenced
 
 1. **Claude Code Skills:** https://code.claude.com/docs/en/skills
