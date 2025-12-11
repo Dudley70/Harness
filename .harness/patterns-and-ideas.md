@@ -220,5 +220,13 @@ Anthropic emphasizes browser automation (Puppeteer) for verification. Could Harn
    - Subagent coordination, git worktrees, Socratic brainstorming
    - Multi-platform: Claude Code, Codex, OpenCode
    - **TODO: Deep dive next session - highly relevant prior art**
+8. **Spec Kit:** https://github.com/github/spec-kit
+   - Constitution pattern for immutable project rules
+   - Spec/Plan separation (What vs How)
+   - Referenced in HBMAD draft - needs research
+9. **HBMAD Architecture Draft:** `.harness/reference/hbmad-architecture-draft.md`
+   - User's pre-Harness synthesis of BMAD + Anthropic + Spec Kit
+   - Vision document for what Harness aims to become
+   - Status: Pre-validation, needs updates with Session 4 learnings
 
 ---
