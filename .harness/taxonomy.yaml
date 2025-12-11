@@ -1,0 +1,412 @@
+# Harness Knowledge Taxonomy
+#
+# This file defines how atoms (knowledge units) are extracted and classified
+# from session transcripts. It evolves with the project.
+#
+# Structure:
+#   - types: Categories for classifying atoms
+#   - keywords: Project vocabulary for tagging
+#   - settings: Automation behavior
+#
+# Rules:
+#   - Script NEVER deletes human entries
+#   - Script SUGGESTS additions (human approves)
+#   - Script AUTO-ADDS keywords when threshold met
+#   - Human can edit anything directly
+
+_meta:
+  version: 1
+  created: 2025-12-12
+  last_reviewed: 2025-12-12
+  auto_backup: true
+
+# =============================================================================
+# ATOM TYPES
+# =============================================================================
+# Each type has:
+#   - triggers: words/patterns that indicate this type
+#   - confidence: high/medium/low (affects processing)
+#   - description: what this type represents
+#   - suggested: script-suggested additions (human approves)
+
+types:
+  # ---------------------------------------------------------------------------
+  # CORE TYPES - High confidence, rarely change
+  # ---------------------------------------------------------------------------
+  core:
+    DECISION:
+      description: "Explicit choices made - commitments to an approach"
+      triggers:
+        - 'decided'
+        - 'decision'
+        - 'agreed'
+        - 'chosen'
+        - 'selected'
+        - 'approved'
+        - 'will use'
+        - 'going with'
+        - 'settled on'
+      confidence: high
+      suggested: []
+
+    ERROR:
+      description: "Something went wrong - bugs, failures, mistakes"
+      triggers:
+        - 'error'
+        - 'failed'
+        - 'failure'
+        - 'bug'
+        - 'broken'
+        - 'wrong'
+        - 'issue'
+        - 'problem'
+        - 'crash'
+        - '404'
+        - '401'
+        - '500'
+        - 'exception'
+      confidence: high
+      suggested: []
+
+    ACTION:
+      description: "Commitments to do something - tasks, todos"
+      triggers:
+        - 'TODO'
+        - 'need to'
+        - 'must'
+        - 'should'
+        - 'will do'
+        - 'next step'
+        - 'action item'
+        - 'task:'
+        - 'implement'
+        - 'create'
+        - 'add'
+        - 'fix'
+        - 'update'
+      confidence: high
+      suggested: []
+
+    QUESTION:
+      description: "Questions asked - information seeking"
+      triggers:
+        - '?'
+      patterns:
+        - '^(what|why|how|when|where|who|is|are|can|could|should|does|do|will|would)'
+        - '^(tell me|explain|describe|show me)'
+      confidence: medium
+      suggested: []
+
+    INSIGHT:
+      description: "Learnings and realizations - understanding gained"
+      triggers:
+        - 'realized'
+        - 'discovered'
+        - 'learned'
+        - 'found that'
+        - 'turns out'
+        - 'interesting'
+        - 'aha'
+        - 'key insight'
+        - 'important:'
+        - 'note:'
+        - 'the issue is'
+        - 'root cause'
+      confidence: high
+      suggested: []
+
+    REFERENCE:
+      description: "External sources - links, files, citations"
+      triggers:
+        - 'http://'
+        - 'https://'
+        - 'github.com'
+        - 'see also'
+        - 'refer to'
+        - 'documented in'
+        - 'source:'
+        - '.md'
+        - '.yaml'
+        - '.json'
+        - '.py'
+        - '.ts'
+      patterns:
+        - '@[a-zA-Z]+'  # @ mentions
+        - '[a-zA-Z0-9_-]+\.(md|yaml|json|py|ts|js)'  # file references
+      confidence: high
+      suggested: []
+
+    BLOCKER:
+      description: "Impediments - things preventing progress"
+      triggers:
+        - 'blocked'
+        - 'blocking'
+        - 'waiting on'
+        - 'waiting for'
+        - "can't proceed"
+        - 'cannot proceed'
+        - 'depends on'
+        - 'dependency'
+        - 'prerequisite'
+        - 'need first'
+        - 'stuck'
+      confidence: high
+      suggested: []
+
+  # ---------------------------------------------------------------------------
+  # DOMAIN TYPES - Project-specific, evolve with Harness
+  # ---------------------------------------------------------------------------
+  domain:
+    ARCHITECTURE:
+      description: "System design - patterns, structures, technical decisions"
+      triggers:
+        - 'architecture'
+        - 'pattern'
+        - 'design'
+        - 'structure'
+        - 'system'
+        - 'component'
+        - 'layer'
+        - 'module'
+        - 'framework'
+        - 'approach'
+      confidence: medium
+      suggested: []
+
+    RESEARCH:
+      description: "Investigation - exploring options, gathering information"
+      triggers:
+        - 'research'
+        - 'investigate'
+        - 'explore'
+        - 'look into'
+        - 'paper'
+        - 'article'
+        - 'documentation'
+        - 'anthropic'
+        - 'best practice'
+      confidence: medium
+      suggested: []
+
+    PATTERN:
+      description: "Reusable approaches - techniques that work"
+      triggers:
+        - 'pattern'
+        - 'technique'
+        - 'method'
+        - 'approach'
+        - 'way to'
+        - 'how to'
+        - 'recipe'
+        - 'template'
+      confidence: medium
+      suggested: []
+
+    CONTEXT:
+      description: "Session continuity - references to previous work"
+      triggers:
+        - 'continuing from'
+        - 'as discussed'
+        - 'previously'
+        - 'last session'
+        - 'earlier'
+        - 'before'
+        - 'we talked about'
+        - 'remember when'
+      confidence: medium
+      suggested: []
+
+    PROPOSAL:
+      description: "Suggestions not yet decided - options being considered"
+      triggers:
+        - 'propose'
+        - 'proposal'
+        - 'suggest'
+        - 'suggestion'
+        - 'what if'
+        - 'option'
+        - 'alternative'
+        - 'could we'
+        - 'we could'
+        - 'consider'
+        - 'idea:'
+      confidence: medium
+      suggested: []
+
+  # ---------------------------------------------------------------------------
+  # CATCH-ALL - Flags potentially important content for review
+  # ---------------------------------------------------------------------------
+  catch_all:
+    UNCLASSIFIED:
+      description: "Potentially important but no type match - review periodically"
+      triggers:
+        - 'important'
+        - 'critical'
+        - 'key'
+        - 'essential'
+        - 'remember'
+        - 'note this'
+        - 'don\'t forget'
+        - 'crucial'
+      confidence: low
+      suggested: []
+
+# =============================================================================
+# KEYWORDS
+# =============================================================================
+# Project vocabulary for tagging atoms. Enables topic-based queries.
+
+keywords:
+  # ---------------------------------------------------------------------------
+  # PROJECT - Harness-specific terms (human-managed)
+  # ---------------------------------------------------------------------------
+  project:
+    # Core concepts
+    - 'harness'
+    - 'atom'
+    - 'atoms'
+    - 'segment'
+    - 'segments'
+    - 'taxonomy'
+    - 'progressive disclosure'
+    - 'context window'
+    - 'recovery'
+    - 'session'
+
+    # Architecture
+    - 'skills'
+    - 'hooks'
+    - 'CLAUDE.md'
+    - 'MCP'
+    - 'worktree'
+    - 'worktrees'
+
+    # Related projects/concepts
+    - 'BMAD'
+    - 'bmad-master'
+    - 'party mode'
+    - 'superpowers'
+    - 'HBMAD'
+
+    # Methodology
+    - 'retrospective'
+    - 'methodology'
+    - 'workflow'
+    - 'lifecycle'
+
+    # Documents
+    - 'vision.md'
+    - 'decision-log'
+    - 'project-state'
+    - 'patterns-and-ideas'
+
+  # ---------------------------------------------------------------------------
+  # AUTO-EXTRACTED - Script-managed based on frequency
+  # ---------------------------------------------------------------------------
+  # Format: { term, first_seen, occurrences, status }
+  # Status: pending_review | auto_added | rejected
+  auto_extracted: []
+
+  # ---------------------------------------------------------------------------
+  # USER-ADDED - Manually added keywords
+  # ---------------------------------------------------------------------------
+  user_added: []
+
+# =============================================================================
+# SESSION CLASSIFICATION
+# =============================================================================
+# Rules for classifying entire sessions (container-level metadata)
+
+session_types:
+  MICRO_TEST:
+    description: "Brief test sessions - validation, quick checks"
+    criteria:
+      max_messages: 5
+      max_tools: 3
+
+  DEBUG:
+    description: "Debugging and troubleshooting sessions"
+    indicators:
+      - 'error'
+      - 'fix'
+      - 'debug'
+      - 'issue'
+      - 'not working'
+
+  DEVOPS:
+    description: "System/infrastructure work - hooks, scripts, config"
+    indicators:
+      - 'hook'
+      - 'script'
+      - 'config'
+      - 'deploy'
+      - 'commit'
+      - 'push'
+    tool_heavy: true
+
+  RESEARCH:
+    description: "Exploration and investigation sessions"
+    indicators:
+      - 'research'
+      - 'explore'
+      - 'investigate'
+      - 'paper'
+      - 'documentation'
+    read_heavy: true
+
+  WORK:
+    description: "Substantive work sessions - decisions, implementation"
+    criteria:
+      min_messages: 20
+    indicators:
+      - 'decision'
+      - 'implement'
+      - 'create'
+      - 'build'
+
+  DISCUSSION:
+    description: "Conversation-focused - planning, brainstorming"
+    criteria:
+      low_tool_ratio: true
+    indicators:
+      - 'discuss'
+      - 'think'
+      - 'plan'
+      - 'brainstorm'
+
+# =============================================================================
+# SETTINGS
+# =============================================================================
+
+settings:
+  # Automation thresholds
+  auto_add_threshold: 5       # Auto-add keyword if seen N+ times
+  suggest_threshold: 3        # Suggest to human if seen N+ times
+  unclassified_alert: 20      # Alert if UNCLASSIFIED count exceeds N
+
+  # Review reminders
+  review_reminder_days: 7     # Prompt for taxonomy review after N days
+
+  # Extraction settings
+  context_lines_before: 2     # Lines of context to capture before atom
+  context_lines_after: 2      # Lines of context to capture after atom
+  min_atom_length: 10         # Minimum characters for atom content
+
+  # Storage
+  atom_store: '.harness/atoms.jsonl'
+  backup_on_change: true
+
+# =============================================================================
+# REVIEW LOG
+# =============================================================================
+# Track taxonomy reviews and changes
+
+review_log:
+  - date: 2025-12-12
+    reviewer: "Session with user"
+    changes:
+      - "Initial taxonomy created"
+      - "Core types: DECISION, ERROR, ACTION, QUESTION, INSIGHT, REFERENCE, BLOCKER"
+      - "Domain types: ARCHITECTURE, RESEARCH, PATTERN, CONTEXT, PROPOSAL"
+      - "Session classification types defined"
+    notes: "Based on analysis of 16 session transcripts from Harness project"

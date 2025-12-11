@@ -1,16 +1,28 @@
 # Harness Vision
 
-> **TL;DR:** Build an AI-native development methodology from first principles, not adapted from human-centric methods.
+> **TL;DR:** A synthesis of the best methodologies humanity has developed - evaluated rigorously, not adopted blindly - designed for modern AI-assisted product lifecycle management.
 
 ## The Name
 
 **Harness** - Just as ancient humanity harnessed the horse to build civilization, we now harness AI to build the future. The harness doesn't limit the horse's power - it **channels** it productively. Humans provide controls and constraints to channel AI power.
 
+## What Harness Is
+
+**Harness is NOT a child of BMAD** or any single methodology. It is the combined learnings from:
+- Research into every methodology humans have used (Lean, Agile, Waterfall, etc.)
+- Anthropic's patterns for long-running agents and autonomous coding
+- Claude Code native features (Skills, hooks, CLAUDE.md)
+- BMAD's agent-based approach (promising but not foundational)
+- Superpowers and other emerging AI-native tools
+- First-principles questioning of WHY each practice exists
+
+Harness is **methodology-agnostic by design**. All approaches are inputs to be evaluated, validated, and synthesized - not doctrines to follow.
+
 ## Why We're Building This
 
 ### The Problem with Current Approaches
-- BMAD and similar methods adapt **human** development practices for AI assistance
-- No one has asked: "What methodology would we design FROM SCRATCH for AI?"
+- Existing methods adapt **human** development practices for AI assistance
+- No one has asked: "What methodology would we design WITH AI collaboration in mind?"
 - Existing methodologies (Lean, Agile, etc.) were created to solve **human** problems:
   - Lean: Eliminate waste because **human dev is expensive** → But AI dev is cheap
   - Agile: Respond to change because **humans are slow** → But AI is fast
@@ -95,7 +107,15 @@ Harness succeeds if:
 - **Master coordinates recovery** - Single entry point for context restoration
 - **Lightweight detection, opt-in depth** - Hook flags, Master analyzes
 
+### From Session 4 (D12):
+- **Skills-based architecture** - Claude Code native features over custom infrastructure
+- **Filesystem discovery > context stuffing** - Let Claude find state, don't preload everything
+- **Atoms as knowledge units** - Extract granular insights, not whole sessions
+- **Living taxonomy** - Classification evolves with project vocabulary
+- **Fresh sessions preferred** - New context window over compaction (per Anthropic best practices)
+
 ---
 
 *Created: 2025-12-10 (Session 1, emergency capture at 102% context)*
 *Updated: 2025-12-11 (Session 3, added principles from Sessions 2 & 3)*
+*Updated: 2025-12-12 (Session 5, corrected positioning - Harness is synthesis not child of BMAD, added Session 4 principles)*
