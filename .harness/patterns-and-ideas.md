@@ -214,5 +214,11 @@ Anthropic emphasizes browser automation (Puppeteer) for verification. Could Harn
 4. **Autonomous Coding Quickstart:** https://github.com/anthropics/claude-quickstarts/tree/main/autonomous-coding
 5. **Advanced Tool Use:** https://anthropic.com/engineering/advanced-tool-use
 6. **BMAD Skills Implementation:** https://github.com/aj-geddes/claude-code-bmad-skills
+7. **Superpowers (PRIORITY):** https://github.com/obra/superpowers
+   - Complete workflow system for AI coding agents
+   - Skills as mandatory workflows (not optional)
+   - Subagent coordination, git worktrees, Socratic brainstorming
+   - Multi-platform: Claude Code, Codex, OpenCode
+   - **TODO: Deep dive next session - highly relevant prior art**
 
 ---

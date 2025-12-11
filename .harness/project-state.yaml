@@ -107,6 +107,7 @@ sessions:
 blockers: []
 
 next_session_actions:
+  - "P0: Deep dive Superpowers repo (https://github.com/obra/superpowers) - highly relevant prior art"
   - "P0: Prototype Harness skill structure (.claude/skills/harness/)"
   - "P0: Create SKILL.md with init ritual and routing logic"
   - "P0: Create helpers.md with shared operations (per bmad-skills pattern)"
