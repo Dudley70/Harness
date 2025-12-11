@@ -153,6 +153,41 @@ types:
       confidence: high
       suggested: []
 
+    OPEN_QUESTION:
+      description: "Questions needing research or future answer - persists beyond session"
+      triggers:
+        - 'need to research'
+        - 'open question'
+        - 'to be determined'
+        - 'TBD'
+        - 'unclear'
+        - 'investigate'
+        - 'not sure yet'
+        - 'needs exploration'
+        - 'future session'
+        - 'park this'
+        - 'come back to'
+      confidence: high
+      suggested: []
+
+    IDEA:
+      description: "Half-formed thoughts, possibilities, brainstorms - may evolve or be parked"
+      triggers:
+        - 'idea:'
+        - 'what if'
+        - 'imagine if'
+        - 'possibility'
+        - 'brainstorm'
+        - 'thinking about'
+        - 'could potentially'
+        - 'might be worth'
+        - 'food for thought'
+        - 'shower thought'
+        - 'half-baked'
+        - 'rough idea'
+      confidence: high
+      suggested: []
+
   # ---------------------------------------------------------------------------
   # DOMAIN TYPES - Project-specific, evolve with Harness
   # ---------------------------------------------------------------------------

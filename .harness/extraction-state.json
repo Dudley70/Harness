@@ -1,69 +1,69 @@
 {
   "processed_transcripts": {
     ".harness/transcripts/auto-recovery-20251211-004543.md": {
-      "processed_at": "2025-12-12T07:21:44.657242",
+      "processed_at": "2025-12-12T07:44:52.163743",
       "atoms_count": 0
     },
     ".harness/transcripts/auto-recovery-20251211-004627.md": {
-      "processed_at": "2025-12-12T07:21:44.657555",
+      "processed_at": "2025-12-12T07:44:52.163895",
       "atoms_count": 0
     },
     ".harness/transcripts/auto-recovery-20251211-013239.md": {
-      "processed_at": "2025-12-12T07:21:44.662453",
+      "processed_at": "2025-12-12T07:44:52.166317",
       "atoms_count": 24
     },
     ".harness/transcripts/auto-recovery-20251211-013345.md": {
-      "processed_at": "2025-12-12T07:21:44.662925",
+      "processed_at": "2025-12-12T07:44:52.166558",
       "atoms_count": 3
     },
     ".harness/transcripts/auto-recovery-20251211-022025.md": {
-      "processed_at": "2025-12-12T07:21:44.667722",
+      "processed_at": "2025-12-12T07:44:52.168818",
       "atoms_count": 32
     },
     ".harness/transcripts/auto-recovery-20251211-030158.md": {
-      "processed_at": "2025-12-12T07:21:44.677052",
+      "processed_at": "2025-12-12T07:44:52.172187",
       "atoms_count": 48
     },
     ".harness/transcripts/auto-recovery-20251211-030528.md": {
-      "processed_at": "2025-12-12T07:21:44.679528",
+      "processed_at": "2025-12-12T07:44:52.172902",
       "atoms_count": 10
     },
     ".harness/transcripts/auto-recovery-20251211-030631.md": {
-      "processed_at": "2025-12-12T07:21:44.680102",
+      "processed_at": "2025-12-12T07:44:52.173163",
       "atoms_count": 3
     },
     ".harness/transcripts/auto-recovery-20251211-031046.md": {
-      "processed_at": "2025-12-12T07:21:44.682023",
+      "processed_at": "2025-12-12T07:44:52.174057",
       "atoms_count": 11
     },
     ".harness/transcripts/auto-recovery-20251211-080106.md": {
-      "processed_at": "2025-12-12T07:21:44.683256",
+      "processed_at": "2025-12-12T07:44:52.174613",
       "atoms_count": 8
     },
     ".harness/transcripts/auto-recovery-20251211-080446.md": {
-      "processed_at": "2025-12-12T07:21:44.683896",
+      "processed_at": "2025-12-12T07:44:52.174920",
       "atoms_count": 3
     },
     ".harness/transcripts/auto-recovery-20251211-093329.md": {
-      "processed_at": "2025-12-12T07:21:44.687711",
+      "processed_at": "2025-12-12T07:44:52.176662",
       "atoms_count": 23
     },
     ".harness/transcripts/auto-recovery-20251211-111028.md": {
-      "processed_at": "2025-12-12T07:21:44.691542",
+      "processed_at": "2025-12-12T07:44:52.178605",
       "atoms_count": 26
     },
     ".harness/transcripts/auto-recovery-20251211-172639.md": {
-      "processed_at": "2025-12-12T07:21:44.699718",
+      "processed_at": "2025-12-12T07:44:52.182621",
       "atoms_count": 58
     },
     ".harness/transcripts/auto-recovery-20251211-172735.md": {
-      "processed_at": "2025-12-12T07:21:44.700331",
+      "processed_at": "2025-12-12T07:44:52.183089",
       "atoms_count": 3
     },
     ".harness/transcripts/auto-recovery-20251212-061447.md": {
-      "processed_at": "2025-12-12T07:21:44.702536",
+      "processed_at": "2025-12-12T07:44:52.184204",
       "atoms_count": 15
     }
   },
-  "last_extraction": "2025-12-12T07:21:44.706211"
+  "last_extraction": "2025-12-12T07:44:52.185800"
 }
