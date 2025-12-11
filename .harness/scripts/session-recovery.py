@@ -168,6 +168,24 @@ def check_git_health():
 
     print("   ╚═══════════════════════════════════════════════════════════╝")
 
+    # Actionable suggestions
+    suggestions = []
+    if has_uncommitted:
+        suggestions.append("💡 Commit your changes: git add . && git commit -m 'your message'")
+    if unmerged:
+        for b in unmerged[:2]:
+            suggestions.append(f"💡 Merge {b['name']}: cd /Users/dudley/projects/Harness && git merge {b['name']}")
+    if unpushed:
+        suggestions.append(f"💡 Push to GitHub: git push origin {current_branch}")
+    if stale:
+        stale_names = ', '.join(b['name'] for b in stale[:3])
+        suggestions.append(f"💡 Stale branches ({stale_names}) can be deleted after merging")
+
+    if suggestions:
+        print("\n   📋 SUGGESTED ACTIONS:")
+        for s in suggestions:
+            print(f"   {s}")
+
 
 def check_decision_sync():
     """Check if decision-log.md has entries not yet reflected in vision.md."""
