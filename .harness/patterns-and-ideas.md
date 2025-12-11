@@ -438,6 +438,60 @@ ideas:
 
 ---
 
+### Q8: DIKW Maturity Model for Atoms
+
+**Question:** How do we incorporate Data → Information → Knowledge → Wisdom lifecycle into atom management?
+
+**The DIKW Pyramid:**
+```
+        WISDOM (principles, judgment)
+       /                            \
+    KNOWLEDGE (connected, validated)
+   /                                  \
+  INFORMATION (typed, contextualized)
+ /                                      \
+DATA (raw transcripts, JSONL)
+```
+
+**Mapping to Harness:**
+
+| DIKW Level | Harness Equivalent | Maturity State |
+|------------|-------------------|----------------|
+| Data | Session JSONL, raw transcripts | (pre-extraction) |
+| Information | Atoms - typed, keyworded | `extracted` |
+| Knowledge | Validated atoms, patterns | `synthesized` |
+| Wisdom | vision.md principles, decisions | `principled` |
+
+**Proposed atom maturity field:**
+```yaml
+atom:
+  maturity: extracted  # extracted | synthesized | principled
+  promoted_to: null    # e.g., 'vision.md#principle-5'
+  validated_by: null   # human or session that validated
+  validated_at: null   # timestamp
+```
+
+**Lifecycle flow:**
+```
+Raw transcript (DATA)
+    ↓ auto-extraction
+Atom created (INFORMATION) - maturity: 'extracted'
+    ↓ human reviews, connects
+Atom validated (KNOWLEDGE) - maturity: 'synthesized'
+    ↓ promoted to principles
+In vision.md (WISDOM) - maturity: 'principled'
+```
+
+**Value:**
+- Track knowledge maturation over time
+- Distinguish trusted (synthesized) from raw (extracted)
+- Know what's become principled wisdom
+- Query by maturity: "Show all synthesized patterns not yet in library"
+
+**Added to taxonomy.yaml:** `maturity_levels` section with DIKW mapping.
+
+---
+
 ## Sources Referenced
 
 1. **Claude Code Skills:** https://code.claude.com/docs/en/skills

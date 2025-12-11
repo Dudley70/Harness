@@ -188,6 +188,23 @@ types:
       confidence: high
       suggested: []
 
+    RESEARCH:
+      description: "Investigation - exploring options, gathering information"
+      triggers:
+        - 'research'
+        - 'investigate'
+        - 'explore'
+        - 'look into'
+        - 'paper'
+        - 'article'
+        - 'documentation'
+        - 'best practice'
+        - 'spike'
+        - 'discovery'
+        - 'digging into'
+      confidence: high
+      suggested: []
+
   # ---------------------------------------------------------------------------
   # DOMAIN TYPES - Project-specific, evolve with Harness
   # ---------------------------------------------------------------------------
@@ -205,21 +222,6 @@ types:
         - 'module'
         - 'framework'
         - 'approach'
-      confidence: medium
-      suggested: []
-
-    RESEARCH:
-      description: "Investigation - exploring options, gathering information"
-      triggers:
-        - 'research'
-        - 'investigate'
-        - 'explore'
-        - 'look into'
-        - 'paper'
-        - 'article'
-        - 'documentation'
-        - 'anthropic'
-        - 'best practice'
       confidence: medium
       suggested: []
 
@@ -346,6 +348,26 @@ keywords:
   # USER-ADDED - Manually added keywords
   # ---------------------------------------------------------------------------
   user_added: []
+
+# =============================================================================
+# DIKW MATURITY LEVELS
+# =============================================================================
+# Data → Information → Knowledge → Wisdom
+# Atoms mature through this lifecycle via human validation
+
+maturity_levels:
+  extracted:
+    dikw: "Information"
+    description: "Auto-extracted from transcript, typed and keyworded"
+    promotion: "Human reviews, validates, connects"
+  synthesized:
+    dikw: "Knowledge"
+    description: "Human-validated, connected to other atoms"
+    promotion: "Promoted to principles/patterns"
+  principled:
+    dikw: "Wisdom"
+    description: "Promoted to vision.md, decision-log, or pattern library"
+    promotion: "Guides future decisions"
 
 # =============================================================================
 # SESSION CLASSIFICATION
