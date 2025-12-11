@@ -16,6 +16,10 @@ current_focus:
   details: "D12 approved: Harness replaces BMAD with Skills-based architecture. Ready to prototype."
 
 # Session History
+# NOTE: "Sessions" here are substantive WORK sessions (human-numbered 1, 2, 3...)
+# The system also has 16+ TRANSCRIPTS (every time SessionStart hook fired).
+# Transcripts include micro-tests, debug sessions, etc.
+# Use atoms.jsonl to query all transcripts; use this file for work session summaries.
 sessions:
   session_1:
     date: 2025-12-10
