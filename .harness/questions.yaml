@@ -1,0 +1,132 @@
+# Harness Open Questions Registry
+#
+# Questions needing research or future answers.
+# Status: pending → researching → answered | obsolete
+#
+# Auto-populated from atoms with OPEN_QUESTION type + Q1-Q8 from Session 5.
+
+_meta:
+  version: 1
+  created: 2025-12-12
+  last_updated: 2025-12-12
+  source: "Extracted from atoms.jsonl + Session 5 open questions"
+
+questions:
+  # From atoms (historical)
+  - id: Q-ATOM-001
+    created: 2025-12-12
+    session_origin: auto-recovery-20251211-030158
+    status: answered
+    title: "Two issues to investigate"
+    content: "Two issues to investigate..."
+    keywords: ['recovery', 'investigation']
+    atom_id: null
+    answer: "Issues were resolved during hook debugging sessions"
+    answered_in: session-4
+
+  - id: Q-ATOM-002
+    created: 2025-12-12
+    session_origin: auto-recovery-20251211-030158
+    status: answered
+    title: "Close session or just not come back?"
+    content: "do i say close or just not come back to the session?"
+    keywords: ['session']
+    atom_id: null
+    answer: "Just start fresh session - hook fires on new session start"
+    answered_in: session-4
+
+  # Session 5 Open Questions (Q1-Q8 from patterns-and-ideas.md)
+  - id: Q1
+    created: 2025-12-12
+    session_origin: session-5
+    status: pending
+    title: "SDLC Stage Awareness"
+    content: "Should atoms be tagged with project/SDLC stage? Does [DECISION] mean something different in Discovery vs Implementation?"
+    keywords: ['atoms', 'SDLC', 'taxonomy']
+    documented_in: patterns-and-ideas.md
+    priority: medium
+
+  - id: Q2
+    created: 2025-12-12
+    session_origin: session-5
+    status: pending
+    title: "Auto-Populate Documents from Atoms"
+    content: "Can/should atoms auto-populate documents like decision-log.md, patterns-and-ideas.md?"
+    keywords: ['atoms', 'automation', 'documentation']
+    documented_in: patterns-and-ideas.md
+    priority: low
+    notes:
+      - "Recommendation: Start with draft mode - generate but don't commit"
+
+  - id: Q3
+    created: 2025-12-12
+    session_origin: session-5
+    status: pending
+    title: "Conversation Visualization (Mind Map)"
+    content: "Can we visualize the conversation/atoms as a mind map or network graph?"
+    keywords: ['visualization', 'atoms', 'mind map']
+    documented_in: patterns-and-ideas.md
+    priority: medium
+    connections:
+      ideas: [IDEA-006]
+
+  - id: Q4
+    created: 2025-12-12
+    session_origin: session-5
+    status: pending
+    title: "Knowledge Graph Structure"
+    content: "Is the atom system suitable for a proper knowledge graph? What schema?"
+    keywords: ['knowledge graph', 'atoms', 'schema']
+    documented_in: patterns-and-ideas.md
+    priority: high
+    connections:
+      ideas: [IDEA-007]
+
+  - id: Q5
+    created: 2025-12-12
+    session_origin: session-5
+    status: pending
+    title: "Pattern Library / Architecture Repository"
+    content: "How do we promote atoms to reusable patterns? What's the curation workflow?"
+    keywords: ['patterns', 'library', 'curation']
+    documented_in: patterns-and-ideas.md
+    priority: medium
+
+  - id: Q6
+    created: 2025-12-12
+    session_origin: session-5
+    status: pending
+    title: "Meta-Design - Unified Architecture"
+    content: "What's the unified architecture for stage awareness + auto-docs + visualization + graph + patterns?"
+    keywords: ['architecture', 'meta-design']
+    documented_in: patterns-and-ideas.md
+    priority: high
+    notes:
+      - "ASCII sketch created in patterns-and-ideas.md"
+
+  - id: Q7
+    created: 2025-12-12
+    session_origin: session-5
+    status: pending
+    title: "Idea & Question Lifecycle Management"
+    content: "How do we capture and track ideas/questions that aren't immediately acted on? How do they evolve, connect, and resurface?"
+    keywords: ['ideas', 'questions', 'lifecycle']
+    documented_in: patterns-and-ideas.md
+    priority: high
+    notes:
+      - "This file (questions.yaml) is part of the answer"
+    connections:
+      ideas: [IDEA-008]
+
+  - id: Q8
+    created: 2025-12-12
+    session_origin: session-5
+    status: pending
+    title: "DIKW Maturity Model for Atoms"
+    content: "How do we incorporate Data → Information → Knowledge → Wisdom lifecycle into atom management?"
+    keywords: ['DIKW', 'maturity', 'atoms']
+    documented_in: patterns-and-ideas.md
+    priority: medium
+    notes:
+      - "maturity_levels added to taxonomy.yaml"
+      - "Schema designed but not yet implemented in extraction"

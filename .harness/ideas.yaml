@@ -1,0 +1,148 @@
+# Harness Ideas Registry
+#
+# Half-formed thoughts, possibilities, brainstorms extracted from sessions.
+# Status: captured → exploring → promoted | parked | obsolete
+#
+# Auto-populated from atoms with IDEA type, human-curated thereafter.
+
+_meta:
+  version: 1
+  created: 2025-12-12
+  last_updated: 2025-12-12
+  source: "Extracted from atoms.jsonl (Session 5)"
+
+ideas:
+  - id: IDEA-001
+    created: 2025-12-12
+    session_origin: auto-recovery-20251211-013239
+    status: captured
+    title: "Checklist patterns and extended trigger words"
+    content: "humm checklist are intresting, could be useful. also do we want to search for more trigger words in the analysis? what if reading a large file triggers..."
+    keywords: ['session', 'progressive disclosure']
+    atom_id: dad934e9
+    mentions: 1
+    priority: null
+    connections:
+      questions: []
+      decisions: []
+      other_ideas: []
+    notes: []
+
+  - id: IDEA-002
+    created: 2025-12-12
+    session_origin: auto-recovery-20251211-022025
+    status: captured
+    title: "Real-time processing vs end-of-session"
+    content: "i think option b, but it makes me question, why wait for end of session? what if we did the process every conversation or other timeline?"
+    keywords: ['session', 'recovery']
+    atom_id: null
+    mentions: 1
+    priority: null
+    connections:
+      questions: []
+      decisions: []
+      other_ideas: []
+    notes:
+      - date: 2025-12-12
+        note: "Relates to SessionStart hook design - decided on session boundaries but real-time is future option"
+
+  - id: IDEA-003
+    created: 2025-12-12
+    session_origin: auto-recovery-20251211-030528
+    status: captured
+    title: "Hook output visibility"
+    content: "the hook might have actually fired but you didn't see the output. SessionStart hooks run before the conversation begins, so their output appears in a different way."
+    keywords: ['hooks']
+    atom_id: null
+    mentions: 1
+    priority: null
+    connections:
+      questions: []
+      decisions: []
+      other_ideas: []
+    notes: []
+
+  - id: IDEA-004
+    created: 2025-12-12
+    session_origin: auto-recovery-20251211-093329
+    status: captured
+    title: "Formal recovery test with pet names"
+    content: "what if i take the other open session and i say what my dogs name is then i do /compact and i open a new session and ask what my dogs name is?"
+    keywords: ['session', 'recovery']
+    atom_id: null
+    mentions: 1
+    priority: null
+    connections:
+      questions: []
+      decisions: []
+      other_ideas: []
+    notes:
+      - date: 2025-12-12
+        note: "This test was executed - led to discovering worktree hook issues"
+
+  - id: IDEA-005
+    created: 2025-12-12
+    session_origin: auto-recovery-20251211-172639
+    status: exploring
+    title: "Superpowers integration patterns"
+    content: "Superpowers added as P0 priority for next session. They've already implemented Skills as mandatory workflows, subagent coordination, git worktrees..."
+    keywords: ['skills', 'superpowers', 'workflow', 'worktree']
+    atom_id: null
+    mentions: 2
+    priority: 1
+    connections:
+      questions: []
+      decisions: [D12]
+      other_ideas: []
+    notes:
+      - date: 2025-12-12
+        note: "Prior art - should research before building our own"
+
+# Ideas from Session 5 discussions (not yet in atoms)
+  - id: IDEA-006
+    created: 2025-12-12
+    session_origin: session-5-live
+    status: captured
+    title: "Mind map visualization from atoms"
+    content: "Can we visualize the conversation/atoms as a mind map? Keywords as edges, sessions as clusters."
+    keywords: ['atoms', 'visualization']
+    atom_id: null
+    mentions: 1
+    priority: null
+    connections:
+      questions: [Q3]
+      decisions: []
+      other_ideas: []
+    notes: []
+
+  - id: IDEA-007
+    created: 2025-12-12
+    session_origin: session-5-live
+    status: captured
+    title: "Knowledge graph from atoms"
+    content: "Is the atom system suitable for a proper knowledge graph? Atom relationships, trace reasoning chains."
+    keywords: ['atoms', 'knowledge graph']
+    atom_id: null
+    mentions: 1
+    priority: null
+    connections:
+      questions: [Q4]
+      decisions: []
+      other_ideas: []
+    notes: []
+
+  - id: IDEA-008
+    created: 2025-12-12
+    session_origin: session-5-live
+    status: captured
+    title: "Self-organizing idea heat map"
+    content: "Ideas could be ranked by mention frequency, connections, recency. Hot ideas surface automatically."
+    keywords: ['ideas', 'automation']
+    atom_id: null
+    mentions: 1
+    priority: null
+    connections:
+      questions: [Q7]
+      decisions: []
+      other_ideas: []
+    notes: []
