@@ -4,6 +4,89 @@
 
 ---
 
+## Decision #12 - 2025-12-11 (Session 4)
+**Topic:** Harness Architectural Foundation - Skills-Based Context System
+**Decision:** Harness will be a NEW framework replacing BMAD, built on Skills-based architecture informed by Anthropic's proven patterns
+
+**Rationale:**
+- BMAD demonstrates what agent-based methodology CAN be, but architecture must be rebuilt on proven foundations
+- Anthropic's research provides authoritative patterns for long-running autonomous agents
+- Claude Code Skills provide native progressive disclosure with model-invoked discovery
+- "Documentation is the only memory" requires systematic context management across sessions
+
+**Sources Informing This Decision:**
+1. **Claude Code Skills** (https://code.claude.com/docs/en/skills)
+   - Progressive disclosure: SKILL.md loaded first, supporting files on-demand
+   - Model-invoked: Claude decides when to use based on description
+   - Native to Claude Code - zero custom infrastructure
+
+2. **Long-Running Agents Paper** (anthropic.com/engineering/effective-harnesses-for-long-running-agents)
+   - Two-agent pattern: Initializer (plans) + Coding Agent (executes)
+   - Artifacts as memory: JSON > Markdown for state (less corruption risk)
+   - Immutable task lists: Only modify "passes" field, never delete/edit features
+   - Git as recovery: Commit history enables state restoration
+
+3. **Claude 4 Best Practices** (platform.claude.com - multi-context-window-workflows)
+   - Fresh context windows > compaction (Claude 4.5 excels at filesystem discovery)
+   - Three-layer state: Structured (JSON) + Unstructured (MD) + Git
+   - Prescriptive discovery ritual: pwd → read state → check git → verify baseline
+
+4. **Autonomous Coding Quickstart** (github.com/anthropics/claude-quickstarts/autonomous-coding)
+   - 7-step initialization ritual (reference implementation)
+   - feature_list.json as single source of truth
+   - Session closure protocol: commit, document, leave working state
+
+**Architecture:**
+```
+.claude/skills/harness/
+├── SKILL.md                      # Entry point + init ritual
+├── index.md                      # Route to all knowledge
+├── state/                        # STRUCTURED (JSON)
+│   ├── project-state.json
+│   ├── task-list.json
+│   └── recovery-state.json
+├── context/                      # UNSTRUCTURED (MD)
+│   ├── vision.md
+│   ├── decisions.md
+│   ├── progress.md
+│   └── methodology.md
+└── deep/                         # REFERENCE (on-demand)
+    ├── patterns/
+    ├── research/
+    └── transcripts/
+```
+
+**Initialization Ritual (in SKILL.md):**
+1. pwd → Confirm project location
+2. Read state/project-state.json → Current phase and focus
+3. Read state/task-list.json → What's done, what's pending
+4. Read context/progress.md → Recent session activity
+5. git log --oneline -5 → Recent commits
+6. git status → Uncommitted changes
+7. Verify baseline → Ready to proceed
+
+**Relationship to BMAD:**
+- BMAD becomes SOURCE MATERIAL, not foundation
+- Cherry-pick best patterns: agents, workflows, party mode
+- Redesign context management from first principles
+- Rebuild methodology documentation for Harness
+
+**What Harness IS:**
+```
+HARNESS = BMAD Patterns + Anthropic Best Practices + Skills Architecture
+        = Methodology    + Proven Patterns           + Native Context System
+```
+
+**Implications:**
+- Create new Skills-based context system
+- Migrate valuable BMAD patterns to Harness architecture
+- Document Harness methodology (not BMAD methodology)
+- SessionStart hook complements Skills (bridge vs persistent)
+
+**Status:** Approved
+
+---
+
 ## Decision #11 - 2025-12-11 (Session 3)
 **Topic:** BMAD Master as Default Entry Point
 **Decision:** BMAD Master is the recommended default agent for all Harness interactions
