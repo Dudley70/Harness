@@ -206,6 +206,175 @@ Anthropic emphasizes browser automation (Puppeteer) for verification. Could Harn
 
 ---
 
+## Session 5 Open Questions (2025-12-12)
+
+> These emerged from Session 5 after implementing atom extraction (267 atoms from 16 transcripts).
+> Each is a significant design decision - schedule dedicated sessions.
+
+### Q1: SDLC Stage Awareness
+
+**Question:** Should atoms be tagged with project/SDLC stage? Does `[DECISION]` mean something different in Discovery vs Implementation?
+
+**Why it matters:**
+- An exploratory decision may change; an implementation decision is committal
+- Stage context affects how we weight/surface atoms
+- Could enable "show me all architecture decisions from design phase"
+
+**Considerations:**
+- How do we know current stage? Manual tag? Auto-detect from patterns?
+- Does stage apply to session or to individual atoms?
+- Taxonomy extension needed: `stage: discovery | design | implementation | maintenance`
+
+---
+
+### Q2: Auto-Populate Documents from Atoms
+
+**Question:** Can/should atoms auto-populate documents like decision-log.md, patterns-and-ideas.md?
+
+**Why it matters:**
+- Manual documentation is a bottleneck
+- Atoms already contain the information
+- Could reduce "end of session capture" burden
+
+**Risk assessment:**
+
+| Approach | Risk | Value |
+|----------|------|-------|
+| Auto-write to docs | HIGH - overwrites human judgment | Low trust |
+| Draft for review | LOW - human approves | High efficiency |
+| Suggest only | NONE - just flags | Medium help |
+
+**Recommendation:** Start with "draft" mode - generate but don't commit. Human promotes.
+
+---
+
+### Q3: Conversation Visualization (Mind Map)
+
+**Question:** Can we visualize the conversation/atoms as a mind map or network graph?
+
+**Why it matters:**
+- Spatial understanding reveals patterns not obvious in lists
+- Shows how topics cluster and connect
+- Could aid onboarding - "here's what this project discussed"
+
+**Technical options:**
+- **Obsidian** - Markdown + graph view (existing tool)
+- **Mermaid** - In-markdown diagrams (portable)
+- **D3.js** - Custom visualization (flexible)
+- **Markmap** - Markdown → mind map (simple)
+
+**Data already exists:** Atoms have keywords. Keywords = edges. Sessions = clusters.
+
+---
+
+### Q4: Knowledge Graph Structure
+
+**Question:** Is the atom system suitable for a proper knowledge graph? What schema?
+
+**Why it matters:**
+- Graph queries more powerful than keyword grep
+- Relationships between atoms not currently captured
+- Could enable: "What led to decision D12?" (trace the reasoning chain)
+
+**Proposed schema:**
+```
+Atom → has_type → DECISION
+Atom → has_keyword → 'skills'
+Atom → from_session → Session
+Atom → followed_by → Atom (temporal)
+Atom → relates_to → Atom (semantic)
+Session → has_stage → Stage
+Pattern → extracted_from → [Atom...]
+```
+
+**Tools:** Neo4j (full graph DB), SQLite + JSON (lightweight), Pure JSONL + query scripts
+
+---
+
+### Q5: Pattern Library / Architecture Repository
+
+**Question:** How do we promote atoms to reusable patterns? What's the curation workflow?
+
+**Why it matters:**
+- Not every atom is a pattern - human judgment needed
+- Validated patterns should be easily discoverable
+- Could build institutional knowledge across projects
+
+**Proposed flow:**
+```
+Atom extracted (tagged PATTERN or ARCHITECTURE)
+    ↓
+Human reviews, validates, generalizes
+    ↓
+Promoted to .harness/library/ or .harness/patterns/
+    ↓
+Available for future projects (cross-project knowledge)
+```
+
+**Open sub-questions:**
+- What makes an atom "pattern-worthy"?
+- How to generalize from specific context?
+- Cross-project pattern sharing mechanism?
+
+---
+
+### Q6: Meta-Design - How These Fit Together
+
+**Question:** What's the unified architecture for stage awareness + auto-docs + visualization + graph + patterns?
+
+**Sketch (needs validation):**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    SESSION CONVERSATION                      │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│              ATOM EXTRACTION (taxonomy.yaml)                 │
+│  - Types: DECISION, ERROR, ACTION, INSIGHT, etc.            │
+│  - Keywords: project vocabulary                              │
+│  - Stage: discovery | design | implementation | maintenance  │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    ATOM STORE (atoms.jsonl)                  │
+│  - Queryable knowledge base                                  │
+│  - Temporal ordering preserved                               │
+│  - Cross-session searchable                                  │
+└─────────────────────────────────────────────────────────────┘
+                              │
+           ┌──────────────────┼──────────────────┐
+           ▼                  ▼                  ▼
+┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+│   QUERY/VIEW    │  │  AUTO-DRAFT     │  │   KNOWLEDGE     │
+│                 │  │                 │  │   GRAPH         │
+│ - Topic search  │  │ - Draft docs    │  │                 │
+│ - Mind map      │  │ - Human review  │  │ - Relationships │
+│ - Timeline      │  │ - Promote/reject│  │ - Trace chains  │
+│ - Stage filter  │  │                 │  │ - Visualize     │
+└─────────────────┘  └─────────────────┘  └─────────────────┘
+           │                  │                  │
+           └──────────────────┼──────────────────┘
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    PATTERN LIBRARY                           │
+│  - Curated, validated patterns                               │
+│  - Cross-project reusable                                    │
+│  - Human-promoted from atoms                                 │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Priority for exploration:**
+1. Stage awareness (taxonomy extension) - enables filtering
+2. Auto-draft docs (low risk experiment)
+3. Visualization (Mermaid/Markmap for quick win)
+4. Knowledge graph (larger investment, defer?)
+5. Pattern library (needs curation process first)
+
+---
+
 ## Sources Referenced
 
 1. **Claude Code Skills:** https://code.claude.com/docs/en/skills
