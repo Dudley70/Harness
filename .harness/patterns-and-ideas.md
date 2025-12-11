@@ -5,6 +5,27 @@
 
 ---
 
+## Quick Reference
+
+| Pattern | One-liner | Source |
+|---------|-----------|--------|
+| helpers.md | Centralize shared ops, reference via anchors | bmad-skills |
+| Level-based methodology | Right-size process for project complexity | bmad-skills |
+| 7-step init ritual | Consistent session start via filesystem discovery | Anthropic |
+| Immutable task lists | JSON state, only flip pass/fail, never delete | Anthropic |
+| Three-layer state | JSON (structured) + MD (unstructured) + Git (history) | Anthropic |
+| Fresh windows > compaction | Filesystem discovery beats lossy compression | Anthropic |
+| Two-agent pattern | Initializer plans, Coding Agent executes | Anthropic |
+| Skills progressive disclosure | SKILL.md first, supporting files on-demand | Claude Code |
+
+---
+
+## Historical Learnings (Sessions 1-3)
+
+> TODO: Consolidate from project-state.yaml sessions 1-3
+
+---
+
 ## Session 4 Discoveries (2025-12-11)
 
 ### Pattern: helpers.md with Section References
