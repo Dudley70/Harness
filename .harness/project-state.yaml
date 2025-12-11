@@ -1,6 +1,6 @@
 # Harness Project State
 # This file is the FIRST thing loaded in any session
-# Last Updated: 2025-12-11 (session 3)
+# Last Updated: 2025-12-11 (session 4)
 
 project:
   name: Harness
@@ -8,12 +8,12 @@ project:
   repository: https://github.com/Dudley70/Harness
   created: 2025-12-10
 
-current_phase: G0-Initiation
+current_phase: Architecture-Design
 
 current_focus:
-  task: "G0 Initiation - governance COMPLETE, ready for research phase"
-  status: ready_for_research
-  details: "Capture protocol established. Transcript analysis completed. Ready for Pattern Extraction Schema."
+  task: "Skills-based context system design"
+  status: architecture_decided
+  details: "D12 approved: Harness replaces BMAD with Skills-based architecture. Ready to prototype."
 
 # Session History
 sessions:
@@ -73,16 +73,47 @@ sessions:
       - "Single JSONL per project, cumulative across sessions"
     context_at_end: "82% - ORANGE zone"
 
+  session_4:
+    date: 2025-12-11
+    focus: "Persistent context architecture research and design"
+    key_accomplishments:
+      - "Fixed SessionStart hook for worktrees (moved to global ~/.claude/settings.json)"
+      - "Diagnosed recovery system - hook works but only bridges to NEXT session"
+      - "Researched 6 Anthropic sources on context management patterns"
+      - "Discovered Skills as native progressive disclosure mechanism"
+      - "Analyzed claude-code-bmad-skills repo (helpers.md pattern)"
+      - "Made D12: Harness replaces BMAD, built on Skills architecture"
+      - "Created patterns-and-ideas.md for capturing research"
+    key_decisions:
+      - "D12: Harness Architectural Foundation - Skills-based context system"
+    new_learnings:
+      - "CLAUDE.md auto-loaded (native memory hierarchy)"
+      - "Skills = progressive disclosure + model-invoked discovery"
+      - "helpers.md pattern: 70-85% token savings via section references"
+      - "Level-based methodology: right-size for project complexity"
+      - "7-step init ritual from Anthropic autonomous-coding"
+      - "JSON > YAML/MD for state (less corruption per Anthropic)"
+      - "Fresh context > compaction (Claude 4.5 excels at filesystem discovery)"
+      - "Two-agent pattern: Initializer (plans) + Coding Agent (executes)"
+    sources_researched:
+      - "https://code.claude.com/docs/en/skills"
+      - "https://anthropic.com/engineering/effective-harnesses-for-long-running-agents"
+      - "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-4-best-practices"
+      - "https://github.com/anthropics/claude-quickstarts/tree/main/autonomous-coding"
+      - "https://anthropic.com/engineering/advanced-tool-use"
+      - "https://github.com/aj-geddes/claude-code-bmad-skills"
+    context_at_end: "81% - ORANGE zone"
+
 blockers: []
 
 next_session_actions:
-  - "P0: Design Harness information architecture (sitemap/master index for LLM navigation)"
-  - "P0: Define standard document template with progressive disclosure structure"
-  - "P1: Define Pattern Extraction Schema for methodology research"
-  - "P1: Create research plan document with methodology assignments"
-  - "P1: Git/GitHub management UX - visual branch status, guided workflows, auto-push"
-  - "P2: Begin methodology research (sub-agents write directly to files)"
-  - "P2: Consider PreCompact/SessionEnd hooks setup"
+  - "P0: Prototype Harness skill structure (.claude/skills/harness/)"
+  - "P0: Create SKILL.md with init ritual and routing logic"
+  - "P0: Create helpers.md with shared operations (per bmad-skills pattern)"
+  - "P1: Migrate state files to JSON format (project-state, task-list)"
+  - "P1: Test skill invocation and progressive disclosure"
+  - "P2: Migrate valuable BMAD patterns to new architecture"
+  - "P2: Document Harness methodology (replacing BMAD methodology)"
   - "PARKED: LLM-optimized document format - see /Users/dudley/projects/Compression/"
 
 improvement_ideas:
@@ -144,10 +175,16 @@ key_documents:
   reference:
     - ".harness/decision-log.md"
     - ".harness/lessons-learned.md"
+    - ".harness/patterns-and-ideas.md"
   scripts:
     - ".harness/scripts/session-recovery.py"
   transcripts:
     - ".harness/transcripts/ (auto-recovery files)"
+
+files_created_session_4:
+  - ".harness/patterns-and-ideas.md"
+  - "Updated: .harness/decision-log.md (D12)"
+  - "Updated: ~/.claude/settings.json (global hook)"
 
 recovery_instructions: |
   NEXT SESSION START:
