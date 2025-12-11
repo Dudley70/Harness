@@ -1,6 +1,6 @@
 # Harness Project State
 # This file is the FIRST thing loaded in any session
-# Last Updated: 2025-12-11 (session 4)
+# Last Updated: 2025-12-12 (session 5)
 
 project:
   name: Harness
@@ -104,18 +104,47 @@ sessions:
       - "https://github.com/aj-geddes/claude-code-bmad-skills"
     context_at_end: "81% - ORANGE zone"
 
+  session_5:
+    date: 2025-12-12
+    focus: "Knowledge extraction system - taxonomy, atoms, retrospective"
+    key_accomplishments:
+      - "Reviewed all 16 session transcripts systematically"
+      - "Created taxonomy.yaml - 10 core types, 5 domain types, DIKW maturity model"
+      - "Built extract-atoms.py - processes transcripts to atoms.jsonl"
+      - "Extracted 267 atoms from historical sessions"
+      - "Updated vision.md - corrected Harness positioning (NOT child of BMAD)"
+      - "Created ideas.yaml (8 ideas) and questions.yaml (10 questions)"
+      - "Documented retrospective process in .harness/docs/"
+      - "Captured 8 open questions (Q1-Q8) for future sessions"
+    key_decisions:
+      - "Atoms are the knowledge unit (not sessions)"
+      - "Multi-type classification (atoms can have multiple types)"
+      - "DIKW maturity model: extracted → synthesized → principled"
+      - "RESEARCH promoted from domain to core type"
+    new_learnings:
+      - "Session classification types: MICRO_TEST, DEBUG, DEVOPS, RESEARCH, WORK, DISCUSSION"
+      - "Types = structural (what kind), Keywords = content (what about)"
+      - "Ideas/questions need lifecycle tracking (captured → exploring → promoted)"
+      - "Context is not linear - autocompact frees space as you go"
+    files_created:
+      - ".harness/taxonomy.yaml"
+      - ".harness/scripts/extract-atoms.py"
+      - ".harness/atoms.jsonl"
+      - ".harness/ideas.yaml"
+      - ".harness/questions.yaml"
+      - ".harness/docs/retrospective-process.md"
+    context_at_end: "95% - RED zone"
+
 blockers: []
 
 next_session_actions:
-  - "P0: Deep dive Superpowers repo (https://github.com/obra/superpowers) - highly relevant prior art"
-  - "P0: Prototype Harness skill structure (.claude/skills/harness/)"
-  - "P0: Create SKILL.md with init ritual and routing logic"
-  - "P0: Create helpers.md with shared operations (per bmad-skills pattern)"
-  - "P1: Consolidate Sessions 1-3 learnings into patterns-and-ideas.md"
-  - "P1: Migrate state files to JSON format (project-state, task-list)"
-  - "P1: Test skill invocation and progressive disclosure"
-  - "P2: Migrate valuable BMAD patterns to new architecture"
-  - "P2: Document Harness methodology (replacing BMAD methodology)"
+  - "P0: Integrate atom extraction into SessionStart hook (auto-run)"
+  - "P0: Deep dive Superpowers repo (https://github.com/obra/superpowers)"
+  - "P1: Address Q1-Q8 from questions.yaml (pick highest value)"
+  - "P1: Prototype visualization (Q3 - mind map from atoms)"
+  - "P1: Prototype Harness skill structure (.claude/skills/harness/)"
+  - "P2: Consolidate Sessions 1-3 learnings into patterns-and-ideas.md"
+  - "P2: Build query tool for atoms (beyond manual Python)"
   - "PARKED: LLM-optimized document format - see /Users/dudley/projects/Compression/"
 
 improvement_ideas:
