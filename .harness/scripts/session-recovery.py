@@ -20,12 +20,171 @@ import sys
 import json
 import os
 import re
+import subprocess
 from pathlib import Path
 from datetime import datetime
 from collections import Counter
 
 def get_recovery_state_path():
     return Path('.harness/recovery-state.json')
+
+
+def run_git_command(cmd, cwd=None):
+    """Run a git command and return output."""
+    try:
+        result = subprocess.run(
+            cmd, shell=True, capture_output=True, text=True, cwd=cwd
+        )
+        return result.stdout.strip(), result.returncode == 0
+    except:
+        return "", False
+
+
+def check_git_health():
+    """Check git status across worktrees and branches."""
+    print("\n🔀 GIT HEALTH CHECK")
+
+    # Get worktrees
+    worktrees_output, ok = run_git_command("git worktree list")
+    if not ok:
+        print("   ⚠️  Not a git repository or git not available")
+        return
+
+    worktrees = []
+    for line in worktrees_output.split('\n'):
+        if line.strip():
+            parts = line.split()
+            if len(parts) >= 2:
+                path = parts[0]
+                branch = parts[-1].strip('[]') if '[' in line else 'detached'
+                worktrees.append({'path': path, 'branch': branch})
+
+    # Get current branch
+    current_branch, _ = run_git_command("git rev-parse --abbrev-ref HEAD")
+
+    # Get remote branches
+    remote_branches, _ = run_git_command("git branch -r")
+    remote_list = [b.strip().replace('origin/', '') for b in remote_branches.split('\n') if b.strip()]
+
+    # Check each branch status
+    branches_info = []
+    local_branches, _ = run_git_command("git branch --format='%(refname:short)'")
+
+    for branch in local_branches.split('\n'):
+        branch = branch.strip().strip("'")
+        if not branch:
+            continue
+
+        # Check if ahead/behind main
+        ahead, _ = run_git_command(f"git rev-list main..{branch} --count")
+        behind, _ = run_git_command(f"git rev-list {branch}..main --count")
+
+        ahead = int(ahead) if ahead.isdigit() else 0
+        behind = int(behind) if behind.isdigit() else 0
+
+        on_remote = branch in remote_list or branch == 'main'
+        is_current = branch == current_branch
+
+        branches_info.append({
+            'name': branch,
+            'ahead': ahead,
+            'behind': behind,
+            'on_remote': on_remote,
+            'is_current': is_current
+        })
+
+    # Check for uncommitted changes
+    status_output, _ = run_git_command("git status --porcelain")
+    has_uncommitted = bool(status_output.strip())
+
+    # Build status display
+    print("   ╔═══════════════════════════════════════════════════════════╗")
+
+    # Determine overall status
+    unmerged = [b for b in branches_info if b['ahead'] > 0 and b['name'] != 'main']
+    stale = [b for b in branches_info if b['behind'] > 0 and b['name'] != 'main']
+    unpushed = [b for b in branches_info if not b['on_remote'] and b['name'] != 'main']
+
+    if not unmerged and not has_uncommitted and not unpushed:
+        print("   ║              GIT STATUS - ALL CLEAN! ✅                   ║")
+    else:
+        print("   ║              GIT STATUS - ACTION NEEDED ⚠️                ║")
+
+    print("   ╠═══════════════════════════════════════════════════════════╣")
+    print("   ║ Branch               │ vs Main  │ GitHub │ Status        ║")
+    print("   ╠═══════════════════════════════════════════════════════════╣")
+
+    for b in branches_info:
+        name = b['name'][:18].ljust(18)
+        if b['name'] == 'main':
+            vs_main = "BASE".ljust(8)
+        elif b['ahead'] > 0 and b['behind'] > 0:
+            vs_main = f"+{b['ahead']}/-{b['behind']}".ljust(8)
+        elif b['ahead'] > 0:
+            vs_main = f"+{b['ahead']}".ljust(8)
+        elif b['behind'] > 0:
+            vs_main = f"-{b['behind']}".ljust(8)
+        else:
+            vs_main = "=".ljust(8)
+
+        github = "✅" if b['on_remote'] else "❌"
+
+        if b['is_current']:
+            status = "← HERE"
+        elif b['name'] == 'main':
+            status = "base"
+        elif b['ahead'] > 0:
+            status = "MERGE ME"
+        elif b['behind'] > 0:
+            status = "stale"
+        else:
+            status = "ok"
+
+        print(f"   ║ {name} │ {vs_main} │   {github}    │ {status.ljust(13)} ║")
+
+    print("   ╠═══════════════════════════════════════════════════════════╣")
+
+    # Worktrees section
+    print("   ║ WORKTREES                                                 ║")
+    for wt in worktrees[:3]:  # Limit to 3
+        path_short = wt['path'][-45:] if len(wt['path']) > 45 else wt['path']
+        print(f"   ║  {path_short.ljust(45)} → {wt['branch'][:10]} ║")
+    if len(worktrees) > 3:
+        print(f"   ║  ... and {len(worktrees) - 3} more                                        ║")
+
+    print("   ╠═══════════════════════════════════════════════════════════╣")
+
+    # Summary
+    if has_uncommitted:
+        print("   ║ ⚠️  Uncommitted changes in working directory              ║")
+    if unmerged:
+        names = ', '.join(b['name'] for b in unmerged[:3])
+        print(f"   ║ 📤 Unmerged branches: {names[:35].ljust(35)} ║")
+    if unpushed:
+        names = ', '.join(b['name'] for b in unpushed[:3])
+        print(f"   ║ 🔒 Not on GitHub: {names[:39].ljust(39)} ║")
+    if not unmerged and not has_uncommitted and not unpushed:
+        print("   ║ ✅ All work merged and pushed                             ║")
+
+    print("   ╚═══════════════════════════════════════════════════════════╝")
+
+    # Actionable suggestions
+    suggestions = []
+    if has_uncommitted:
+        suggestions.append("💡 Commit your changes: git add . && git commit -m 'your message'")
+    if unmerged:
+        for b in unmerged[:2]:
+            suggestions.append(f"💡 Merge {b['name']}: cd /Users/dudley/projects/Harness && git merge {b['name']}")
+    if unpushed:
+        suggestions.append(f"💡 Push to GitHub: git push origin {current_branch}")
+    if stale:
+        stale_names = ', '.join(b['name'] for b in stale[:3])
+        suggestions.append(f"💡 Stale branches ({stale_names}) can be deleted after merging")
+
+    if suggestions:
+        print("\n   📋 SUGGESTED ACTIONS:")
+        for s in suggestions:
+            print(f"   {s}")
 
 
 def check_decision_sync():
@@ -504,6 +663,9 @@ def main():
     # Save updated state
     save_recovery_state({'processed_files': processed_files})
     print(f"\n   State saved.")
+
+    # Run git health check
+    check_git_health()
 
 if __name__ == '__main__':
     main()
