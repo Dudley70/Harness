@@ -167,5 +167,50 @@ The fact that WE experienced these failures while BUILDING a methodology to prev
 
 ---
 
+## Lesson #5: Task Lists are Append-Only
+
+**Date:** 2025-12-13 (Session 8)
+**Severity:** 🔴 CRITICAL
+**Category:** Data Loss Prevention
+
+### What Happened
+- Updating `next_session_actions` in project-state.yaml
+- Made "judgment calls" about what was "replaced" vs "subsumed"
+- Removed items without explicit instruction
+- User caught it: "why is anything removed? this is very dangerous"
+
+### What Was Lost (Temporarily)
+- "Prototype visualization (Q3 - mind map from atoms)"
+- "Build first workflow skill (capturing-decisions)"
+- Several other items "merged" into new items
+
+### Root Cause
+- Assumed I could "clean up" the list
+- Made unilateral decisions about what was redundant
+- Treated task list as editable document, not immutable log
+
+### The Fix (For Harness Methodology)
+```
+TASK LIST RULES:
+1. ONLY ADD new items
+2. Mark completed as DONE (don't delete)
+3. Mark obsolete as OBSOLETE with reason (don't delete)
+4. NEVER remove without explicit "remove X" instruction
+5. Task lists are append-only logs, like decision-log.md
+
+WHY:
+- Items represent commitments or intentions
+- "Subsumed" is a judgment call that may be wrong
+- History matters - even obsolete tasks show what was considered
+- User should decide what's removed, not AI
+```
+
+### The Pattern
+This is the same as Lesson #1 (Sub-Agent Output) and Lesson #3 ("Documented Everything"):
+> **When in doubt, preserve. Deletion is irreversible.**
+
+---
+
 *First captured: 2025-12-10*
+*Updated: 2025-12-13 (Lesson #5)*
 *These lessons should inform the Harness methodology design.*
