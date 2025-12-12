@@ -230,12 +230,17 @@ sessions:
 blockers: []
 
 next_session_actions:
+  # ============================================
+  # RULES: Append-only. Mark DONE/OBSOLETE, never delete.
+  # ============================================
+
   # Session 8 additions (D15)
   - "P0: Create /harness entry point command (.claude/commands/harness.md)"
   - "P0: Build first agent (analyst.md) in .claude/skills/harness/agents/"
   - "P0: Build party workflow (.claude/skills/harness/workflows/party.md)"
   - "P1: Test menu-based navigation flow"
   - "P1: Build 2-3 more agents (architect, pm, dev)"
+
   # Carried forward from Session 7
   - "P0: Create helpers.md with shared operations"
   - "P0: Build first persona skill (persona-pm)"
@@ -246,8 +251,25 @@ next_session_actions:
   - "P1: Prototype Harness skill structure (.claude/skills/harness/)"
   - "P2: Consolidate Sessions 1-3 learnings into patterns-and-ideas.md"
   - "P2: Build query tool for atoms (beyond manual Python)"
+
+  # RECOVERED FROM GIT HISTORY (Session 8 audit)
+  - "P0: Create SKILL.md with init ritual and routing logic"
+  - "P0: Define standard document template with progressive disclosure structure"
+  - "P0: Design Harness information architecture (sitemap/master index for LLM navigation)"
+  - "P1: Address Q1-Q8 from questions.yaml (pick highest value)"
+  - "P1: Create research plan document with methodology assignments"
+  - "P1: Define Pattern Extraction Schema for methodology research"
+  - "P1: Git/GitHub management UX - guided workflows, auto-push (partial: health check done)"
+  - "P1: Migrate state files to JSON format (project-state, task-list)"
+  - "P2: Begin methodology research (sub-agents write directly to files)"
+  - "P2: Consider PreCompact/SessionEnd hooks setup"
+  - "P2: Document Harness methodology (replacing BMAD methodology)"
+  - "P2: Migrate valuable BMAD patterns to new architecture"
+
   # Status updates
   - "DONE: Merge cranky-hertz to main (Session 8)"
+  - "DONE: Deep dive Superpowers repo (Session 7 - see D14)"
+  - "DONE: Merge silly-proskuriakova to main (Session 8)"
   - "PARKED: LLM-optimized document format - see /Users/dudley/projects/Compression/"
 
 improvement_ideas:
