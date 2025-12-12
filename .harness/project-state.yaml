@@ -171,12 +171,46 @@ sessions:
       - "CLAUDE.md (project root)"
     context_at_end: "~90% - RED zone"
 
+  session_7:
+    date: 2025-12-12
+    focus: "Skills architecture research and D13/D14 decisions"
+    key_accomplishments:
+      - "CLAUDE.md enhanced: Scripts, Knowledge Base, Troubleshooting, BMAD agents"
+      - "D13: Harness-native config (.harness/project.yaml + symlinks)"
+      - "D14: Skills as Universal Progressive Disclosure Architecture"
+      - "Created .claude/skills/harness/ with SKILL.md + index.md"
+      - "Fixed bmad-master.agent.yaml config reference"
+      - "Researched: Superpowers, Anthropic docs, claude-code-bmad-skills"
+      - "Git cleanup: pushed cranky-hertz, deleted bold-jemison"
+      - "Vision.md synced with D13 principles"
+      - "Party mode discussion on skills ideation"
+    key_decisions:
+      - "D13: .harness/project.yaml as single source of truth"
+      - "D14: All capabilities become Skills (personas, workflows, toolbox, knowledge)"
+      - "helpers.md pattern for 70-85% token savings"
+    new_learnings:
+      - "Skills are model-invoked, not user-invoked"
+      - "Description field triggers activation ('Use when...')"
+      - "Personas fade in long sessions - design for ephemeral context"
+      - "helpers.md with section references eliminates duplication"
+      - "Superpowers: 20 focused skills, verb-first naming, flat structure"
+      - "Q6 answered: Skills ARE the unified architecture"
+    files_created:
+      - ".harness/project.yaml"
+      - ".claude/skills/harness/SKILL.md"
+      - ".claude/skills/harness/index.md"
+      - ".bmad/core/config.yaml (symlink)"
+    context_at_end: "~82% - RED zone"
+
 blockers: []
 
 next_session_actions:
-  - "P0: Integrate atom extraction into SessionStart hook (auto-run)"
-  - "P0: Deep dive Superpowers repo (https://github.com/obra/superpowers)"
-  - "P1: Address Q1-Q8 from questions.yaml (pick highest value)"
+  - "P0: Create helpers.md with shared operations"
+  - "P0: Build first persona skill (persona-pm)"
+  - "P0: Build first workflow skill (capturing-decisions)"
+  - "P1: Test model invocation of skills"
+  - "P1: Integrate atom extraction into SessionStart hook"
+  - "P2: Merge cranky-hertz to main"
   - "P1: Prototype visualization (Q3 - mind map from atoms)"
   - "P1: Prototype Harness skill structure (.claude/skills/harness/)"
   - "P2: Consolidate Sessions 1-3 learnings into patterns-and-ideas.md"
