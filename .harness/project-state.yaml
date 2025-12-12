@@ -261,10 +261,11 @@ next_session_actions:
   # ============================================
 
   # Session 9 - OPEN ITEMS (flagged at session end)
-  - "P1: Merge confident-benz to main (again) - now +5 commits ahead"
+  - "P1: Merge confident-benz to main (again) - now +6 commits ahead"
   - "P1: Test /harness command - created but never tested"
   - "P2: Answer: Should session summaries be immutable once written?"
   - "P1: Update PROJECT-MAP.md with new files (D15, D17 additions)"
+  - "P1: Investigate /refresh command not appearing - file exists but not in Available Commands"
 
   # Session 9 additions - Skill Invocation Architecture Research
   - "P0: Research skill invocation architecture (Q9-Q37 in questions.yaml)"
