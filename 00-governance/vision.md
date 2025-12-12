@@ -114,8 +114,14 @@ Harness succeeds if:
 - **Living taxonomy** - Classification evolves with project vocabulary
 - **Fresh sessions preferred** - New context window over compaction (per Anthropic best practices)
 
+### From Session 7 (D13):
+- **Single source of truth** - One config location (`.harness/project.yaml`), symlinks for compatibility
+- **Strangler Fig transitions** - Gradual migration without breaking existing workflows
+- **BMAD as optional module** - Source material, not foundation; Harness works without it
+
 ---
 
 *Created: 2025-12-10 (Session 1, emergency capture at 102% context)*
 *Updated: 2025-12-11 (Session 3, added principles from Sessions 2 & 3)*
 *Updated: 2025-12-12 (Session 5, corrected positioning - Harness is synthesis not child of BMAD, added Session 4 principles)*
+*Updated: 2025-12-12 (Session 7, added D13 principles - config architecture)*
