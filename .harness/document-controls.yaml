@@ -1,0 +1,163 @@
+# Harness Document Controls
+# ===========================
+# This file defines integrity rules for all Harness files.
+# The validation script reads this config - it is the source of truth.
+#
+# Rule Types:
+#   append_only  - Can add content, cannot delete (status prefixes allowed)
+#   immutable    - Cannot change at all once created
+#   protected    - Must exist, free to edit content
+#   free         - No constraints
+#
+# See Decision #16 in decision-log.md for full rationale.
+
+version: 1
+
+# Valid status prefixes that allow "removal" (actually status change)
+status_prefixes:
+  - "DONE:"
+  - "OBSOLETE:"
+  - "PARKED:"
+  - "ANSWERED:"
+  - "PROMOTED:"
+  - "ABANDONED:"
+  - "MERGED:"
+
+# ============================================
+# APPEND-ONLY FILES
+# Content matching pattern cannot be deleted
+# ============================================
+append_only:
+
+  # --- State Files ---
+  .harness/project-state.yaml:
+    description: "Project state and task tracking"
+    sections:
+      next_session_actions:
+        pattern: '"P[0-2]:'
+        description: "Task items - mark DONE/OBSOLETE, never delete"
+      sessions:
+        pattern: 'session_\d+:'
+        description: "Session history is permanent record"
+
+  # --- Governance ---
+  .harness/decision-log.md:
+    description: "Architectural and process decisions"
+    pattern: '^## Decision #\d+'
+    note: "Decisions are permanent. Add new decisions, never remove old ones."
+
+  .harness/lessons-learned.md:
+    description: "Failures and learnings from experience"
+    pattern: '^## Lesson #\d+'
+    note: "Lessons are permanent. We learn from history."
+
+  # --- Knowledge ---
+  .harness/ideas.yaml:
+    description: "Captured ideas with lifecycle"
+    pattern: '^  [a-z][a-z0-9_]*:$'
+    note: "Ideas can be PROMOTED, ABANDONED, MERGED - never deleted"
+
+  .harness/questions.yaml:
+    description: "Open questions awaiting exploration"
+    pattern: '^  Q\d+:'
+    note: "Questions can be ANSWERED, PARKED - never deleted"
+
+  .harness/patterns-and-ideas.md:
+    description: "Patterns discovered during development"
+    pattern: '^## '
+    note: "Patterns are knowledge. Add new ones, don't remove."
+
+  # --- Taxonomy (structure can evolve but not lose types) ---
+  .harness/taxonomy.yaml:
+    description: "Classification types for knowledge atoms"
+    pattern: '^    - '
+    note: "Types can be added, existing types shouldn't be removed"
+
+# ============================================
+# IMMUTABLE FILES
+# Cannot be modified once created
+# ============================================
+immutable:
+
+  .harness/atoms.jsonl:
+    description: "Knowledge atoms extracted from sessions"
+    note: "Atoms are immutable facts. Append new atoms, never modify existing."
+
+  .harness/emergency-captures/*:
+    description: "Emergency data captures"
+    note: "Historical record of emergency saves"
+
+# ============================================
+# PROTECTED FILES
+# Must exist, content is editable
+# ============================================
+protected:
+  # Core state
+  - .harness/project-state.yaml
+  - .harness/decision-log.md
+  - .harness/lessons-learned.md
+  - .harness/PROJECT-MAP.md
+
+  # Governance
+  - 00-governance/vision.md
+  - 00-governance/capture-protocol.md
+  - 00-governance/working-agreement.md
+  - 00-governance/document-index.md
+
+  # Root
+  - CLAUDE.md
+
+  # This file (self-referential integrity)
+  - .harness/document-controls.yaml
+
+# ============================================
+# FREE FILES
+# No constraints - can be freely edited/deleted
+# ============================================
+free:
+  # Transcripts are auto-generated, can be regenerated
+  - .harness/transcripts/*
+
+  # Scripts are code, normal development rules apply
+  - .harness/scripts/*
+
+  # Hooks are code
+  - .harness/hooks/*
+
+  # Templates are starting points
+  - .harness/templates/*
+
+  # Reference material
+  - .harness/reference/*
+
+  # Documentation
+  - .harness/docs/*
+
+  # Journal entries (personal narrative)
+  - .harness/journal/*
+
+  # Context anchors (can evolve)
+  - .harness/context-anchors.yaml
+
+  # Project config (settings, not data)
+  - .harness/project.yaml
+
+# ============================================
+# VALIDATION SETTINGS
+# ============================================
+validation:
+  # Warn if .harness/ files aren't registered anywhere
+  warn_unregistered: true
+
+  # Directories to scan for unregistered files
+  scan_directories:
+    - .harness/
+    - 00-governance/
+
+  # File patterns to ignore in unregistered check
+  ignore_patterns:
+    - "*.pyc"
+    - "__pycache__"
+    - ".DS_Store"
+    - "*.log"
+    - "*.json"  # State files like recovery-state.json (gitignored)

@@ -4,6 +4,98 @@
 
 ---
 
+## Decision #16 - 2025-12-13 (Session 8)
+**Topic:** Document Integrity as Core Infrastructure
+**Decision:** All Harness files must be registered in `document-controls.yaml` with explicit integrity rules. Validation is config-driven, not hardcoded.
+
+**Core Principle:**
+> Files ARE the memory. Memory corruption = system failure.
+
+Harness is built on the principle "documentation IS memory." If files can be silently corrupted, deleted, or have content removed, the entire system fails. Document integrity isn't a feature—it's foundational infrastructure, like ACID guarantees for a database.
+
+**The Problem (Session 8 Discovery):**
+- Audited git history: **26 task items silently deleted** across Sessions 4-8
+- No one noticed until explicit audit
+- AI "cleaned up" lists without asking
+- This violates Harness core principle
+
+**Architecture:**
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                 document-controls.yaml                   │
+│            (Schema for Harness memory)                   │
+├─────────────────────────────────────────────────────────┤
+│  append_only:     Files where content cannot be deleted │
+│  immutable:       Files that cannot change at all       │
+│  protected:       Files that must exist                 │
+│  free:            No constraints                        │
+└─────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────┐
+│              validate-integrity.py                       │
+│         (Reads config, enforces rules)                   │
+├─────────────────────────────────────────────────────────┤
+│  - Pre-commit hook blocks violations                    │
+│  - Audit mode scans full history                        │
+│  - Warns on unregistered .harness/ files                │
+│  - Verifies protected files exist                       │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Rule Types:**
+
+| Rule | Meaning | Enforcement |
+|------|---------|-------------|
+| `append_only` | Can add, cannot delete | Block commits removing matching lines |
+| `immutable` | Cannot change at all | Block any modification |
+| `protected` | Must exist | Warn if missing |
+| `free` | No constraints | No validation |
+
+**Config Example:**
+```yaml
+files:
+  append_only:
+    .harness/project-state.yaml:
+      sections:
+        next_session_actions:
+          pattern: '"P[0-2]:'
+          valid_prefixes: [DONE, OBSOLETE, PARKED]
+    .harness/decision-log.md:
+      pattern: '^## Decision #\d+'
+
+  immutable:
+    .harness/atoms.jsonl: true
+
+  protected:
+    - .harness/project-state.yaml
+    - CLAUDE.md
+```
+
+**Analogy to Database:**
+
+| Database | Harness |
+|----------|---------|
+| Tables | Files |
+| Schema | document-controls.yaml |
+| Constraints | Rules (append-only, immutable) |
+| Transactions | Git commits |
+| Integrity checks | Pre-commit validation |
+
+**Implementation:**
+1. `document-controls.yaml` - Config file defining all rules
+2. `validate-integrity.py` - Config-driven validation script
+3. Pre-commit hook - Automatic enforcement
+4. Audit command - Historical violation detection
+
+**Key Principle:**
+> Unregistered files in `.harness/` are a code smell. All critical files must be explicitly registered with their integrity rules.
+
+**Status:** Approved - Implementation in progress
+
+---
+
 ## Decision #15 - 2025-12-13 (Session 8)
 **Topic:** Entry Points, Menu Navigation, and BMAD Independence
 **Decision:** Single `/harness` entry point with internal menus; agents and workflows as co-located skills; BMAD as reference material only
