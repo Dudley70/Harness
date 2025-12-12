@@ -130,3 +130,303 @@ questions:
     notes:
       - "maturity_levels added to taxonomy.yaml"
       - "Schema designed but not yet implemented in extraction"
+
+  # Session 9 - Skill Invocation Architecture Research (Q9-Q37)
+  # These questions need answers before D18 decision can be made
+
+  # Category 1: How Claude Code Skills Actually Work
+  - id: Q9
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Skill SKILL.md Loading Timing"
+    content: "When exactly does the model read SKILL.md files? Always, on-demand, or based on triggers?"
+    keywords: ['skills', 'claude-code', 'invocation']
+    priority: high
+    category: skill-invocation-architecture
+
+  - id: Q10
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Skill Description Matching Algorithm"
+    content: "What makes a skill description 'match' a task? How does the model decide to invoke?"
+    keywords: ['skills', 'claude-code', 'matching']
+    priority: high
+    category: skill-invocation-architecture
+
+  - id: Q11
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Explicit vs Auto Skill Invocation"
+    content: "Can skills be explicitly invoked vs only auto-matched? Is there a way to force invocation?"
+    keywords: ['skills', 'claude-code', 'invocation']
+    priority: high
+    category: skill-invocation-architecture
+
+  - id: Q12
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Skill Discovery Mechanism"
+    content: "Is there a skill discovery/listing mechanism? Can we query 'what skills exist'?"
+    keywords: ['skills', 'claude-code', 'discovery']
+    priority: medium
+    category: skill-invocation-architecture
+
+  - id: Q13
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Nested Skill References"
+    content: "Do nested skills work (skill references another skill)? How do skill dependencies work?"
+    keywords: ['skills', 'claude-code', 'dependencies']
+    priority: medium
+    category: skill-invocation-architecture
+
+  # Category 2: What's Always In Context
+  - id: Q14
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Auto-loaded Content List"
+    content: "What is the full list of auto-loaded content? CLAUDE.md, hooks output - what else?"
+    keywords: ['context', 'claude-code', 'auto-load']
+    priority: high
+    category: skill-invocation-architecture
+
+  - id: Q15
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Extending Auto-loaded Content"
+    content: "Can we add to what's auto-loaded? Could we auto-load a skill index?"
+    keywords: ['context', 'claude-code', 'auto-load']
+    priority: high
+    category: skill-invocation-architecture
+
+  - id: Q16
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "CLAUDE.md Context Budget Impact"
+    content: "What's the context budget impact of CLAUDE.md size? Trade-off between guidance and work room?"
+    keywords: ['context', 'claude-code', 'CLAUDE.md']
+    priority: medium
+    category: skill-invocation-architecture
+
+  - id: Q17
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Multiple CLAUDE.md Files"
+    content: "Do project vs user CLAUDE.md files both load? How do multiple instruction sources combine?"
+    keywords: ['context', 'claude-code', 'CLAUDE.md']
+    priority: medium
+    category: skill-invocation-architecture
+
+  # Category 3: Hook Capabilities
+  - id: Q18
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Hook Output Skill Suggestions"
+    content: "Can hooks output be structured to suggest skills? Could SessionStart recommend skills?"
+    keywords: ['hooks', 'claude-code', 'skills']
+    priority: high
+    category: skill-invocation-architecture
+
+  - id: Q19
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Hook-triggered Skill Loading"
+    content: "Can hooks trigger skill loading? Is mechanical enforcement of skill invocation possible?"
+    keywords: ['hooks', 'claude-code', 'skills']
+    priority: high
+    category: skill-invocation-architecture
+
+  - id: Q20
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Available Hook Events"
+    content: "What hook events exist beyond SessionStart/PostToolUse? PreToolUse? ContextSwitch? Others?"
+    keywords: ['hooks', 'claude-code', 'events']
+    priority: medium
+    category: skill-invocation-architecture
+
+  - id: Q21
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Hook Block/Redirect Capabilities"
+    content: "Can hooks block or redirect operations? What's the difference between enforcement and warning?"
+    keywords: ['hooks', 'claude-code', 'enforcement']
+    priority: medium
+    category: skill-invocation-architecture
+
+  # Category 4: Alternative Mechanisms
+  - id: Q22
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Slash Commands and Skills"
+    content: "Can slash commands auto-invoke skills? Could /harness load skill context?"
+    keywords: ['slash-commands', 'claude-code', 'skills']
+    priority: medium
+    category: skill-invocation-architecture
+
+  - id: Q23
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Prompt Injection Points"
+    content: "Are there prompt injection points besides CLAUDE.md? Other ways to ensure guidance is present?"
+    keywords: ['context', 'claude-code', 'injection']
+    priority: medium
+    category: skill-invocation-architecture
+
+  - id: Q24
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Always-on Skills"
+    content: "Can we create 'always on' skills? Some skills should always apply regardless of task."
+    keywords: ['skills', 'claude-code', 'always-on']
+    priority: high
+    category: skill-invocation-architecture
+
+  - id: Q25
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "MCP Server Invocation Control"
+    content: "Do MCP servers offer invocation control? Is this an alternative architecture for enforcement?"
+    keywords: ['MCP', 'claude-code', 'architecture']
+    priority: low
+    category: skill-invocation-architecture
+
+  # Category 5: Our Specific Needs
+  - id: Q26
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Must-enforce vs Nice-to-have Behaviors"
+    content: "What behaviors MUST be enforced vs nice-to-have? How do we prioritize?"
+    keywords: ['requirements', 'enforcement', 'harness']
+    priority: high
+    category: skill-invocation-architecture
+
+  - id: Q27
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Skill Non-invocation Failure Modes"
+    content: "What's the failure mode if a skill isn't invoked? Risk assessment for each skill."
+    keywords: ['risk', 'skills', 'harness']
+    priority: high
+    category: skill-invocation-architecture
+
+  - id: Q28
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Testing Skill Invocation Reliability"
+    content: "How do we test skill invocation reliability? What validation approach ensures skills work?"
+    keywords: ['testing', 'skills', 'validation']
+    priority: medium
+    category: skill-invocation-architecture
+
+  - id: Q29
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Skill Maintenance Burden"
+    content: "What's the maintenance burden of each approach? Which is most sustainable long-term?"
+    keywords: ['maintenance', 'skills', 'sustainability']
+    priority: medium
+    category: skill-invocation-architecture
+
+  # Category 6: Architecture Questions
+  - id: Q30
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Critical Behaviors Location"
+    content: "Should critical behaviors live in skills at all, or only in enforced layers (CLAUDE.md, hooks)?"
+    keywords: ['architecture', 'skills', 'enforcement']
+    priority: high
+    category: skill-invocation-architecture
+
+  - id: Q31
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Skill Granularity"
+    content: "What's the right granularity - one mega-skill or many focused skills?"
+    keywords: ['architecture', 'skills', 'design']
+    priority: medium
+    category: skill-invocation-architecture
+
+  - id: Q32
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Skills with Agents and Workflows"
+    content: "How do skills compose with agents and workflows? What's the relationship?"
+    keywords: ['architecture', 'skills', 'agents', 'workflows']
+    priority: medium
+    category: skill-invocation-architecture
+
+  - id: Q33
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Skill Hierarchy"
+    content: "Should there be a skill hierarchy (core vs optional)? How to structure importance levels?"
+    keywords: ['architecture', 'skills', 'hierarchy']
+    priority: medium
+    category: skill-invocation-architecture
+
+  # Category 7: Implementation Questions
+  - id: Q34
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Skill File Structure"
+    content: "File structure - flat vs nested for skills? Single file vs directory?"
+    keywords: ['implementation', 'skills', 'structure']
+    priority: low
+    category: skill-invocation-architecture
+
+  - id: Q35
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Skill Naming for Better Matching"
+    content: "Naming conventions that improve matching? How to write descriptions that trigger reliably?"
+    keywords: ['implementation', 'skills', 'naming']
+    priority: medium
+    category: skill-invocation-architecture
+
+  - id: Q36
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Skill Versioning and Evolution"
+    content: "How to version/evolve skills without breaking invocation? Migration strategy?"
+    keywords: ['implementation', 'skills', 'versioning']
+    priority: low
+    category: skill-invocation-architecture
+
+  - id: Q37
+    created: 2025-12-13
+    session_origin: session-9
+    status: pending
+    title: "Skill Testing Strategy"
+    content: "Testing strategy for skill behavior? How to validate skills work as expected?"
+    keywords: ['implementation', 'skills', 'testing']
+    priority: medium
+    category: skill-invocation-architecture
