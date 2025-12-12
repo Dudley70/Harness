@@ -9,7 +9,8 @@
 #   protected    - Must exist, free to edit content
 #   free         - No constraints
 #
-# See Decision #16 in decision-log.md for full rationale.
+# See Decision #16 in decision-log.md for integrity rules.
+# See Decision #18 in decision-log.md for metadata requirements.
 
 version: 1
 
@@ -99,7 +100,6 @@ protected:
   - .harness/PROJECT-MAP.md
 
   # Governance
-  - 00-governance/vision.md
   - 00-governance/capture-protocol.md
   - 00-governance/working-agreement.md
   - 00-governance/document-index.md
@@ -248,3 +248,74 @@ validation:
     - ".DS_Store"
     - "*.log"
     - "*.json"  # State files like recovery-state.json (gitignored)
+
+# ============================================
+# DOCUMENT METADATA REQUIREMENTS (D18)
+# Every document should declare these properties
+# ============================================
+metadata_schema:
+  required_fields:
+    purpose:
+      description: "One sentence job description for this document"
+      example: "Track all architectural and process decisions with rationale"
+    audience:
+      description: "Who consumes this document"
+      values: ["human", "llm", "both"]
+      example: "llm"
+    source_of_truth:
+      description: "Is this authoritative or derived from other sources?"
+      values: ["authoritative", "derived"]
+      example: "authoritative"
+
+# Document metadata registry
+# Add new documents here with their metadata
+document_metadata:
+  CLAUDE.md:
+    purpose: "Always-loaded project context, core principles, and operational instructions"
+    audience: llm
+    source_of_truth: authoritative
+
+  .harness/decision-log.md:
+    purpose: "Complete history of all decisions with rationale"
+    audience: llm
+    source_of_truth: authoritative
+
+  .harness/project-state.yaml:
+    purpose: "Current project phase, focus, blockers, and session history"
+    audience: llm
+    source_of_truth: authoritative
+
+  .harness/lessons-learned.md:
+    purpose: "Documented failures and learnings to prevent repetition"
+    audience: both
+    source_of_truth: authoritative
+
+  .harness/PROJECT-MAP.md:
+    purpose: "Navigation index for project structure and file locations"
+    audience: llm
+    source_of_truth: authoritative
+
+  .harness/patterns-and-ideas.md:
+    purpose: "Discovered patterns and emerging ideas"
+    audience: both
+    source_of_truth: authoritative
+
+  .harness/atoms.jsonl:
+    purpose: "Extracted knowledge atoms from session transcripts"
+    audience: llm
+    source_of_truth: authoritative
+
+  00-governance/working-agreement.md:
+    purpose: "Process agreements and operational protocols"
+    audience: both
+    source_of_truth: authoritative
+
+  00-governance/capture-protocol.md:
+    purpose: "End-of-session checklist and capture methodology"
+    audience: both
+    source_of_truth: authoritative
+
+  00-governance/document-index.md:
+    purpose: "Index of document purposes and single-source-of-truth rules"
+    audience: both
+    source_of_truth: authoritative

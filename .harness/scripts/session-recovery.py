@@ -11,7 +11,6 @@ Runs on SessionStart to:
    - Files touched
    - Action checklist (decisions, errors, todos)
    - Full transcript
-3. Check for decision-log.md entries not yet synced to vision.md
 
 Usage: Called automatically via SessionStart hook, or manually
 """
@@ -186,32 +185,6 @@ def check_git_health():
         for s in suggestions:
             print(f"   {s}")
 
-
-def check_decision_sync():
-    """Check if decision-log.md has entries not yet reflected in vision.md."""
-    decision_log = Path('.harness/decision-log.md')
-    vision_file = Path('00-governance/vision.md')
-
-    if not decision_log.exists() or not vision_file.exists():
-        return None, None
-
-    # Count decisions in decision-log.md
-    decision_count = 0
-    with open(decision_log, 'r', encoding='utf-8') as f:
-        for line in f:
-            if line.startswith('## Decision #'):
-                decision_count += 1
-
-    # Find last session mentioned in vision.md principles
-    last_session_in_vision = 0
-    with open(vision_file, 'r', encoding='utf-8') as f:
-        content = f.read()
-        # Look for "From Session N:" patterns
-        session_matches = re.findall(r'From Session (\d+):', content)
-        if session_matches:
-            last_session_in_vision = max(int(s) for s in session_matches)
-
-    return decision_count, last_session_in_vision
 
 def find_all_harness_folders():
     """Find ALL project folders related to Harness."""
@@ -640,25 +613,6 @@ def main():
             print()
     else:
         print("   ✅ No obvious undocumented items detected")
-
-    # Check decision-sync status
-    decision_count, last_session_synced = check_decision_sync()
-    if decision_count is not None:
-        # Get current session from decision-log (approximate by counting unique session markers)
-        decision_log = Path('.harness/decision-log.md')
-        current_session = 0
-        if decision_log.exists():
-            with open(decision_log, 'r', encoding='utf-8') as f:
-                content = f.read()
-                session_markers = re.findall(r'\(Session (\d+)\)', content)
-                if session_markers:
-                    current_session = max(int(s) for s in session_markers)
-
-        if current_session > last_session_synced:
-            sessions_behind = current_session - last_session_synced
-            print(f"\n📋 SYNC NEEDED: vision.md principles last updated for Session {last_session_synced}")
-            print(f"   {sessions_behind} session(s) of decisions not yet reflected in core principles")
-            print(f"   Run: Review decision-log.md and extract new principles to vision.md")
 
     # Save updated state
     save_recovery_state({'processed_files': processed_files})

@@ -28,8 +28,7 @@ bold-jemison/
 │   ├── SESSION.md              # Current session state
 │   └── CLAUDE.md               # Claude Code instructions (TBD)
 │
-├── 00-governance/              # Vision, working agreement, protocols
-│   ├── vision.md
+├── 00-governance/              # Working agreement, protocols
 │   ├── working-agreement.md
 │   ├── capture-protocol.md
 │   └── document-index.md
@@ -90,8 +89,7 @@ bold-jemison/
 
 ### Session Startup (read these first)
 1. `.harness/project-state.yaml` - Current phase, blockers, next actions
-2. `.harness/decision-log.md` - Recent decisions (D12 is latest)
-3. `00-governance/vision.md` - Project principles
+2. `.harness/decision-log.md` - Recent decisions (D18 is latest)
 
 ### Recovery & History
 - `.harness/transcripts/` - Raw session exports
@@ -124,6 +122,6 @@ bold-jemison/
 | Level | What | When to Load |
 |-------|------|--------------|
 | 0 | This map + project-state.yaml | Every session start |
-| 1 | decision-log.md, vision.md | When context needed |
+| 1 | decision-log.md | When context needed |
 | 2 | Full transcripts, patterns | Deep analysis only |
 | 3 | BMAD module docs | When using that module |

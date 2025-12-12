@@ -8,7 +8,7 @@
 
 | Document | Purpose | Source of Truth For | Audience |
 |----------|---------|---------------------|----------|
-| `vision.md` | WHY we're building, WHAT we're building | Project purpose, scope, success criteria, core principles | Human + LLM |
+| `CLAUDE.md` | Project context, core principles, HOW to work here | Always-loaded operational context | LLM |
 | `working-agreement.md` | HOW we work together | Processes, protocols, validated learnings | Human + LLM |
 | `document-index.md` | WHERE things go | Document purposes, no duplication rule | Human + LLM |
 | `capture-protocol.md` | HOW we capture information | Capture methodology, session boundaries | Human + LLM |
@@ -27,21 +27,21 @@
 ### 1. Single Source of Truth
 - Each concept lives in ONE document
 - Other documents REFERENCE, never duplicate
-- Example: Vision statement lives in `vision.md`, `working-agreement.md` links to it
+- Core principles live in CLAUDE.md (always loaded by LLM)
 
 ### 2. Document Updates Flow
 ```
 Decision made → decision-log.md (immediate)
                     ↓
-            If new principle emerges → vision.md
+            If core principle → CLAUDE.md (curated)
                     ↓
             If process changes → working-agreement.md
 ```
 
 ### 3. Recovery Script Checks
 On SessionStart, the recovery script verifies:
-- [ ] New decisions in decision-log.md synced to vision.md principles?
 - [ ] Any undocumented items flagged in transcript?
+- [ ] Git health (uncommitted changes, unpushed branches)
 
 ---
 

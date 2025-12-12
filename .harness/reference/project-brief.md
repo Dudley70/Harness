@@ -1,3 +1,9 @@
+# Harness Project Brief (Archived)
+
+> **ARCHIVED per D18 (Session 10):** This file preserves the original vision.md content for historical reference. It is NOT active documentation. See CLAUDE.md for operational context and decision-log.md for principles.
+
+---
+
 # Harness Vision
 
 > **TL;DR:** A synthesis of the best methodologies humanity has developed - evaluated rigorously, not adopted blindly - designed for modern AI-assisted product lifecycle management.
@@ -88,7 +94,7 @@ Harness succeeds if:
 3. 24+ hour autonomous operation is possible (like Anthropic's harness paper)
 4. The methodology is DESIGNED for AI constraints, not adapted from human methods
 
-## Core Principles (Emerging)
+## Core Principles (Historical - see decision-log.md for current)
 
 ### From Session 1:
 - **Prevention > Recovery** - Make data loss impossible, not recoverable
@@ -127,7 +133,6 @@ Harness succeeds if:
 
 ---
 
+*Original file: 00-governance/vision.md*
 *Created: 2025-12-10 (Session 1, emergency capture at 102% context)*
-*Updated: 2025-12-11 (Session 3, added principles from Sessions 2 & 3)*
-*Updated: 2025-12-12 (Session 5, corrected positioning - Harness is synthesis not child of BMAD, added Session 4 principles)*
-*Updated: 2025-12-12 (Session 7, added D13/D14 principles - config + skills architecture)*
+*Archived: 2025-12-13 (Session 10, per D18)*

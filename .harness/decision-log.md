@@ -4,6 +4,62 @@
 
 ---
 
+## Decision #18 - 2025-12-13 (Session 10)
+**Topic:** Document Purpose & Audience Requirements
+**Decision:** Every document must declare purpose and audience. Kill vision.md - it duplicates CLAUDE.md and lacks clear purpose.
+
+**Status:** Approved
+
+**Core Principle:**
+> If you can't define the purpose, the document shouldn't exist.
+
+**Context (Party Mode Discussion):**
+- Asked "why do we manually sync vision.md with decisions?"
+- Discovered BMAD doesn't have vision.md - it's a workflow step outputting to Product Brief
+- Our vision.md was "emergency capture at 102% context" (Session 1) - never designed
+- 50% duplicates decision-log principles, 50% is human narrative
+- CLAUDE.md already has operational LLM context
+
+**Analysis:**
+
+| vision.md Content | LLM Needs It? | Already In |
+|-------------------|---------------|------------|
+| Horse/harness analogy | No | - |
+| Problem/Opportunity | No | - |
+| Success criteria | Maybe | Could be project-state |
+| Core Principles | No | CLAUDE.md lines 124-132 |
+
+**Decision:**
+
+1. **Every document must declare metadata:**
+   ```yaml
+   metadata:
+     purpose: "One sentence job description"
+     audience: "human | llm | both"
+     source_of_truth: "authoritative | derived"
+   ```
+
+2. **Kill vision.md:**
+   - Archive to `.harness/reference/project-brief.md`
+   - Remove all active references
+   - Delete sync check from `session-recovery.py`
+
+3. **Rationale:**
+   - CLAUDE.md already contains operational LLM context
+   - Narrative content is human-interest, not LLM-operational
+   - Sync maintenance was overhead with no value
+   - Eliminates "SYNC NEEDED" warnings permanently
+
+**Files Affected:**
+- `00-governance/vision.md` → DELETE (archive first)
+- `CLAUDE.md` → Remove references
+- `.claude/skills/harness/SKILL.md` → Remove references
+- `.harness/PROJECT-MAP.md` → Remove from map
+- `.harness/scripts/session-recovery.py` → Delete `check_decision_sync()`
+- `.harness/document-controls.yaml` → Add metadata schema, remove from protected
+
+---
+
 ## Decision #17 - 2025-12-13 (Session 8)
 **Topic:** Document Structure, Location & Registration Enforcement
 **Decision:** Extend document-controls.yaml with location rules and registration requirements. Add PostToolUse hook for real-time validation.

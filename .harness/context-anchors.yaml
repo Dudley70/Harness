@@ -42,8 +42,9 @@ anchors:
         trigger_keywords: ["pattern", "approach", "how did we"]
       - path: ".harness/lessons-learned.md"
         trigger_keywords: ["mistake", "learned", "don't repeat"]
-      - path: "00-governance/vision.md"
-        trigger_keywords: ["vision", "principles", "why are we"]
+      - path: ".harness/decision-log.md"
+        trigger_keywords: ["decision", "principles", "why are we"]
+        note: "Principles now live in decision-log, not separate vision file"
 
 # What we CAN do today (without turn events)
 current_implementation:

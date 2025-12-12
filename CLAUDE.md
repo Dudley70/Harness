@@ -62,7 +62,6 @@ Read `.harness/PROJECT-MAP.md` - it maps the entire project structure.
 For full orientation, read in order:
 1. `.harness/project-state.yaml` - where we are
 2. `.harness/decision-log.md` - key decisions (D12 is architectural foundation)
-3. `00-governance/vision.md` - why we're building this
 
 ## Find Things
 
@@ -75,7 +74,6 @@ For full orientation, read in order:
 | Lessons learned | `.harness/lessons-learned.md` |
 | Patterns | `.harness/patterns-and-ideas.md` |
 | Context anchors | `.harness/context-anchors.yaml` |
-| Vision/principles | `00-governance/vision.md` |
 | Capture protocol | `00-governance/capture-protocol.md` |
 
 ## Commands

@@ -31,7 +31,7 @@ Quick routing to all Harness knowledge. Read SKILL.md first.
 
 | File | Purpose |
 |------|---------|
-| `00-governance/vision.md` | Project vision and principles |
+| `CLAUDE.md` | Project context and core principles (always loaded) |
 | `00-governance/capture-protocol.md` | End-of-session checklist |
 | `00-governance/working-agreement.md` | Process agreements |
 

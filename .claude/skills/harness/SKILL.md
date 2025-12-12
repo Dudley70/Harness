@@ -34,7 +34,6 @@ Run these steps at session start (per D12):
 | **State** (load first) | `.harness/project-state.yaml` |
 | **Config** | `.harness/project.yaml` |
 | **Decisions** | `.harness/decision-log.md` |
-| **Vision** | `00-governance/vision.md` |
 | **Map** | `.harness/PROJECT-MAP.md` |
 
 ## Progressive Disclosure
@@ -42,7 +41,7 @@ Run these steps at session start (per D12):
 | Level | What | When |
 |-------|------|------|
 | 0 | This skill + project-state.yaml | Every session |
-| 1 | decision-log.md, vision.md | When context needed |
+| 1 | decision-log.md | When context needed |
 | 2 | Full transcripts, patterns | Deep analysis |
 | 3 | BMAD module docs | When using BMAD workflows |
 
@@ -55,7 +54,7 @@ Run these steps at session start (per D12):
 
 ## For More
 
-- Full methodology: `00-governance/vision.md`
 - Project map: `.harness/PROJECT-MAP.md`
 - Patterns: `.harness/patterns-and-ideas.md`
 - Knowledge atoms: `.harness/atoms.jsonl`
+- Archived brief: `.harness/reference/project-brief.md`

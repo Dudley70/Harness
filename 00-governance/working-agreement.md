@@ -12,9 +12,9 @@ summary: Defines how the Harness team works, validated through empirical testing
 
 ## Vision & Principles
 
-> See **[vision.md](./vision.md)** for project vision, purpose, and core principles.
+> See **CLAUDE.md** for project context and core principles, and **decision-log.md** for detailed decision rationale.
 
-This working agreement focuses on HOW we work, not WHY we're building (that's vision.md's job).
+This working agreement focuses on HOW we work. Core principles live in CLAUDE.md (always loaded).
 
 ## Working Principles
 
