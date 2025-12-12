@@ -159,6 +159,27 @@ Automatically runs on session start:
 - Git health check with suggested actions
 - Flags sync issues
 
+## Git Hygiene (Auto-Fix)
+
+When hook output shows git issues, **offer to fix them immediately**:
+
+| Hook Shows | Action |
+|------------|--------|
+| `MERGE ME` branches | Ask: "Branch X has unmerged work. Merge to main now?" |
+| `STALE WORKTREE WARNING` | Ask: "This branch is behind. Merge main and sync?" |
+| Uncommitted changes | Note it, but don't auto-commit (user decides message) |
+
+**On user agreement**, run the fix:
+```bash
+# For unmerged branches:
+cd /Users/dudley/projects/Harness && git merge <branch> && git push
+
+# For stale worktree:
+git merge main
+```
+
+**Why this matters**: Session end is unreliable (user may close terminal). Session start is the only guaranteed moment to catch and fix git state. Don't just report — offer to resolve.
+
 ## When Things Go Wrong
 
 | Problem | Solution |

@@ -167,6 +167,27 @@ def check_git_health():
 
     print("   ╚═══════════════════════════════════════════════════════════╝")
 
+    # === CRITICAL: Warn about stale worktree issue ===
+    # If there are unmerged branches AND current branch is at same commit as main,
+    # this session likely branched from stale main
+    if unmerged and current_branch != 'main':
+        current_commit, _ = run_git_command("git rev-parse HEAD")
+        main_commit, _ = run_git_command("git rev-parse main")
+
+        if current_commit == main_commit:
+            print("")
+            print("   ┌─────────────────────────────────────────────────────────┐")
+            print("   │  🚨 STALE WORKTREE WARNING                              │")
+            print("   │                                                         │")
+            print("   │  This branch was created from main, but main is behind  │")
+            print("   │  other branches with unmerged work.                     │")
+            print("   │                                                         │")
+            print("   │  You're missing commits from: " + ", ".join(b['name'] for b in unmerged[:2]).ljust(24) + " │")
+            print("   │                                                         │")
+            print("   │  RECOMMENDED: Merge unmerged branches to main first,    │")
+            print("   │  then run: git merge main                               │")
+            print("   └─────────────────────────────────────────────────────────┘")
+
     # Actionable suggestions
     suggestions = []
     if has_uncommitted:

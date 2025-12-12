@@ -211,6 +211,69 @@ This is the same as Lesson #1 (Sub-Agent Output) and Lesson #3 ("Documented Ever
 
 ---
 
+---
+
+## Lesson #6: Session End is Unreliable; Enforce at Session Start
+
+**Date:** 2025-12-13 (Session 11)
+**Severity:** 🟡 MEDIUM
+**Category:** Process Design / Git Hygiene
+
+### What Happened
+- Opened new Claude Code session expecting latest code
+- Branch `gifted-volhard` was created from `main`
+- But `main` was stale — previous session's work on `crazy-jones` was never merged
+- Result: new session missing 2 commits (including D18 rename of vision.md)
+- Spent time debugging "why is vision.md still here?"
+
+### Root Cause
+- Previous session ended without merging to main
+- Sessions end unpredictably: terminal close, timeout, user leaves, new session elsewhere
+- **There is no reliable "session end" event** — Claude Code has no SessionEnd hook
+- New worktrees branch from `main`, inheriting stale state
+
+### The Insight
+```
+Session END = unreliable (no hook, user may vanish)
+Session START = reliable (hook fires, Claude present)
+
+∴ All enforcement happens at START, not END
+```
+
+### The Fix (For Harness Methodology)
+```
+GIT HYGIENE ENFORCEMENT:
+
+1. SESSION START (reliable):
+   - SessionStart hook detects unmerged branches
+   - Shows prominent warning if current branch is behind
+   - Claude prompts: "Shall I merge X to main first?"
+   - User agrees → auto-merge (fast-forward only)
+
+2. SESSION END (best-effort via tool call hooks):
+   - PostToolUse hook can fire on patterns (e.g., after git commit)
+   - Prompt cleanup when activity suggests winding down
+   - BUT: cannot rely on this — user may just close terminal
+
+3. MECHANISM: Tool call hooks (PreToolUse, PostToolUse)
+   - Fire on every tool invocation
+   - Can pattern-match to trigger at appropriate moments
+   - Not a "session end" event, but can approximate it
+```
+
+### Implementation Status
+- [x] Session start warning added to `session-recovery.py`
+- [ ] "Agree then action" prompt flow (Claude interprets hook output)
+- [ ] Tool call hook for session-end cleanup (best-effort)
+- [ ] Document in capture-protocol.md
+
+### The Pattern
+> **If you can't guarantee an event fires, move enforcement to an event that does.**
+
+Session start is guaranteed. Session end is not. Design accordingly.
+
+---
+
 *First captured: 2025-12-10*
-*Updated: 2025-12-13 (Lesson #5)*
+*Updated: 2025-12-13 (Lesson #6)*
 *These lessons should inform the Harness methodology design.*

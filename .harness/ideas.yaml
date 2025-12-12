@@ -224,3 +224,66 @@ ideas:
     notes:
       - date: 2025-12-13
         note: "Transcript review is likely the mechanism - data already exists"
+
+  - id: IDEA-011
+    created: 2025-12-13
+    session_origin: session-11
+    status: exploring
+    title: "Git/GitHub Management as Harness Feature"
+    content: |
+      Harness should help users manage git/github for ALL types of projects, not just itself.
+
+      Problem experienced (Session 11):
+      - Opened new session, expected latest code
+      - Previous session's work wasn't merged to main
+      - New worktree branched from stale main
+      - Wasted time debugging "why is vision.md still here?"
+
+      Harness as methodology should provide:
+
+      | Project Type | Git Strategy |
+      |--------------|--------------|
+      | Solo | Auto-merge to main after commit |
+      | Team (shared repo) | Feature branches, PR workflow |
+      | Open Source | Fork, PR to upstream |
+      | Monorepo | Path-based changes, careful merges |
+      | Client work | Branch per feature |
+
+      Implementation layers:
+      1. project.yaml - declare git workflow type (solo, team, oss, etc.)
+      2. SessionStart hook - detect state, warn/prompt based on workflow type
+      3. PostToolUse hook (git commit) - trigger appropriate action
+      4. git-hygiene skill - configurable cleanup operations
+      5. CLAUDE.md guidance - per-project rules injected
+
+      Key insight from Session 11:
+      - Session END is unreliable (user may vanish)
+      - Session START is reliable (hook fires)
+      - Enforce at start, best-effort at end
+
+      Mechanism: Tool call hooks can filter on Bash commands containing "git"
+
+      Visual representation (from earlier session):
+      - "More visual method for humans with guidance"
+      - "See each branch, what state it is in"
+      - Current: ASCII table in session-recovery.py (functional but basic)
+      - Future: ASCII branch tree? Mermaid diagram? Link to GitKraken?
+
+      Questions:
+      - Should auto-merge be opt-out or opt-in?
+      - How to handle merge conflicts gracefully?
+      - Should PR creation be automated for team projects?
+      - What visual format works best in terminal context?
+    keywords: ['git', 'github', 'workflow', 'hooks', 'session', 'worktree', 'visual']
+    atom_id: null
+    mentions: 1
+    priority: high
+    connections:
+      questions: []
+      decisions: []
+      other_ideas: [IDEA-009, IDEA-010]
+    notes:
+      - date: 2025-12-13
+        note: "Triggered by Session 11 stale worktree incident. Lesson #6 documented."
+      - date: 2025-12-13
+        note: "Party mode discussion explored implementation options"
