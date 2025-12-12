@@ -1,0 +1,41 @@
+# CORE Module Configuration
+# Harness project - using BMAD as source material
+# Date: 2025-12-12
+
+user_name: Dudley
+communication_language: English
+document_output_language: English
+output_folder: '{project-root}/docs'
+
+# Development Environment Context
+# This section helps AI agents understand the working setup
+development_environment:
+  # Claude Code CLI running locally on Dudley's machine
+  ai_environment: "Claude Code CLI (local, full filesystem access)"
+
+  # Same machine - no sync needed
+  user_environment: "Local laptop (macOS)"
+
+  # Git worktrees for parallel branch work
+  workspace_pattern: |
+    Main worktree: /Users/dudley/projects/Harness (main branch)
+    Session worktrees: ~/.claude-worktrees/Harness/<branch-name>
+    Each session gets its own branch/worktree
+
+  # Workflow: Work in worktree, merge to main when done
+  sync_workflow: |
+    1. Session starts in dedicated worktree/branch
+    2. Work, commit frequently
+    3. Push branch to GitHub
+    4. Merge to main when feature complete
+    5. Delete worktree/branch after merge
+
+  capabilities:
+    - "Full local filesystem access"
+    - "Can run all scripts and tools"
+    - "Git operations unrestricted"
+    - "SessionStart hook auto-fires"
+
+  limitations:
+    - "Context window is ephemeral - document everything"
+    - "No memory between sessions - use .harness/ files"

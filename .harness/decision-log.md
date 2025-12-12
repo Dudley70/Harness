@@ -4,6 +4,32 @@
 
 ---
 
+## Decision #13 - 2025-12-12 (Session 7)
+**Topic:** Harness-Native Configuration with BMAD Compatibility
+**Decision:** Project configuration lives in `.harness/project.yaml` as single source of truth, with symlinks for BMAD compatibility
+
+**Rationale:**
+- Harness is a new product, not a BMAD wrapper
+- BMAD is source material - we use its workflows/agents but don't depend on its architecture
+- Single source of truth prevents config drift
+- Symlinks allow gradual transition without breaking existing workflows
+
+**Implementation:**
+```
+.harness/project.yaml        ← SOURCE OF TRUTH
+.bmad/core/config.yaml       ← symlink → ../../.harness/project.yaml
+.bmad/modules/*/config.yaml  ← symlink as needed (future)
+```
+
+**Transition Plan (Strangler Fig Pattern):**
+1. **Now:** Harness config as source, BMAD reads via symlink
+2. **Gradual:** New Harness workflows read `.harness/` directly
+3. **Eventually:** BMAD becomes optional module
+
+**Status:** Approved and Implemented
+
+---
+
 ## Decision #12 - 2025-12-11 (Session 4)
 **Topic:** Harness Architectural Foundation - Skills-Based Context System
 **Decision:** Harness will be a NEW framework replacing BMAD, built on Skills-based architecture informed by Anthropic's proven patterns
