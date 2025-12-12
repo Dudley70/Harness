@@ -4,6 +4,176 @@
 
 ---
 
+## Decision #17 - 2025-12-13 (Session 8)
+**Topic:** Document Structure, Location & Registration Enforcement
+**Decision:** Extend document-controls.yaml with location rules and registration requirements. Add PostToolUse hook for real-time validation.
+
+**Status:** Approved - Design complete, implementation next session
+
+**Core Principle:**
+> Every document has a home. Every home is on the map.
+
+**Problem:**
+D16 provides integrity rules (append-only, immutable) but not:
+- Location rules (where content types belong)
+- Registration enforcement (must be in PROJECT-MAP.md)
+- Real-time validation (currently only at commit time)
+
+**Gap Analysis:**
+
+| Have | Don't Have |
+|------|------------|
+| Integrity rules | Location rules |
+| Commit-time validation | Real-time validation |
+| Static PROJECT-MAP.md | Registration enforcement |
+
+**Design - Extended Schema:**
+
+```yaml
+# document-controls.yaml (additions)
+
+# WHERE content types belong
+locations:
+  decisions:
+    file: .harness/decision-log.md
+    format: "## Decision #N"
+    description: "All decisions go here, not separate files"
+
+  lessons:
+    file: .harness/lessons-learned.md
+    format: "## Lesson #N"
+
+  tasks:
+    file: .harness/project-state.yaml
+    section: next_session_actions
+    format: '"P[0-2]:'
+
+  ideas:
+    file: .harness/ideas.yaml
+
+  questions:
+    file: .harness/questions.yaml
+
+  patterns:
+    file: .harness/patterns-and-ideas.md
+    format: "## "
+
+  session_summaries:
+    file: .harness/project-state.yaml
+    section: sessions
+
+  research:
+    directory: .harness/research/
+    register_in: PROJECT-MAP.md
+    description: "Each research topic gets own file"
+
+  transcripts:
+    directory: .harness/transcripts/
+    auto_generated: true
+    register_in: null  # Not required
+
+# WHAT must be registered for discoverability
+registration:
+  index_file: .harness/PROJECT-MAP.md
+  required_for:
+    - .harness/*.md
+    - .harness/*.yaml
+    - 00-governance/*.md
+  excludes:
+    - .harness/transcripts/*
+    - .harness/scripts/*
+    - .harness/hooks/*
+    - .harness/templates/*
+```
+
+**Design - PostToolUse Hook:**
+
+```yaml
+# ~/.claude/settings.json (addition)
+hooks:
+  PostToolUse:
+    - matcher: "Edit|Write"
+      path_pattern: "**/.harness/**|**/00-governance/**"
+      command: "python3 .harness/scripts/validate-integrity.py --realtime $FILE"
+```
+
+Hook behavior:
+1. Triggers on Edit/Write to .harness/ or 00-governance/
+2. Runs validation immediately (not waiting for commit)
+3. Warns if:
+   - Content in wrong location (decision not in decision-log.md)
+   - File not registered in PROJECT-MAP.md
+   - Append-only content removed
+
+**Design - Validation Enhancements:**
+
+```python
+# validate-integrity.py additions
+
+def check_content_location(file_path, content):
+    """Warn if content type is in wrong file."""
+    # If contains "## Decision #" but not decision-log.md → WARN
+    # If contains "## Lesson #" but not lessons-learned.md → WARN
+
+def check_registration(file_path):
+    """Warn if file not in PROJECT-MAP.md."""
+    # Read PROJECT-MAP.md
+    # Check if file_path is mentioned
+    # If not → WARN with suggestion to add
+
+def validate_realtime(file_path):
+    """Real-time validation for PostToolUse hook."""
+    check_append_only(file_path)  # Existing
+    check_content_location(file_path)  # New
+    check_registration(file_path)  # New
+```
+
+**Progressive Disclosure Path:**
+
+```
+User asks question
+    ↓
+CLAUDE.md "Find Things" table
+    ↓
+PROJECT-MAP.md (lists all documents)
+    ↓
+document-controls.yaml (locations + rules)
+    ↓
+Actual file
+```
+
+**If file not in PROJECT-MAP.md → Invisible to progressive disclosure**
+
+**Implementation Tasks (Next Session):**
+
+1. Add `locations:` section to document-controls.yaml
+2. Add `registration:` section to document-controls.yaml
+3. Add `--realtime` mode to validate-integrity.py
+4. Add PostToolUse hook to settings.json
+5. Add `check_content_location()` function
+6. Add `check_registration()` function
+7. Update PROJECT-MAP.md with any missing files
+8. Test end-to-end
+
+**Validation Layers (Complete):**
+
+```
+Layer 1: CLAUDE.md           → Awareness (always loaded)
+Layer 2: document-mgmt skill → Operations (model-invoked)
+Layer 3: PostToolUse hook    → Real-time warning (NEW)
+Layer 4: Pre-commit hook     → Commit-time block
+Layer 5: Location rules      → Right place enforcement (NEW)
+Layer 6: Registration        → Discoverability enforcement (NEW)
+```
+
+**Success Criteria:**
+- [ ] Cannot create decision outside decision-log.md without warning
+- [ ] Cannot create .harness/ file without PROJECT-MAP.md registration warning
+- [ ] Real-time feedback on document integrity violations
+- [ ] All documents discoverable via progressive disclosure
+
+---
+
 ## Decision #16 - 2025-12-13 (Session 8)
 **Topic:** Document Integrity as Core Infrastructure
 **Decision:** All Harness files must be registered in `document-controls.yaml` with explicit integrity rules. Validation is config-driven, not hardcoded.

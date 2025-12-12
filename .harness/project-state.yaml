@@ -204,28 +204,54 @@ sessions:
 
   session_8:
     date: 2025-12-13
-    focus: "Git cleanup, BMAD independence, D15 entry points architecture"
+    focus: "Document Integrity Infrastructure (D15, D16, D17)"
     key_accomplishments:
+      # Git cleanup
       - "Git cleanup: merged cranky-hertz (+6) and silly-proskuriakova (+1) to main"
       - "Gitignored .harness/hook-test.log and recovery-state.json (prevent merge conflicts)"
-      - "Merged main into confident-benz to get /refresh command"
+      # BMAD Independence (D15)
       - "Diagnosed BMAD party-mode failure (missing _cfg/agent-manifest.csv)"
-      - "Party mode discussion: Should Harness use different agent loading?"
-      - "D15: Entry Points, Menu Navigation, and BMAD Independence"
-      - "Decided: /harness entry point + internal menus (not slash commands for everything)"
-      - "Decided: Agents as skills, workflows co-located for discovery"
-      - "Decided: Markdown format for agents (Claude-native, not YAML)"
+      - "D15: Entry Points, Menu Navigation, BMAD Independence"
+      # Document Integrity (D16) - CRITICAL
+      - "Discovered 26 task items silently deleted across Sessions 4-8"
+      - "Created document-controls.yaml - registry/schema for all files"
+      - "Created validate-integrity.py - config-driven validation"
+      - "Installed pre-commit hook - mechanical enforcement"
+      - "Restored all 12 lost task items from git history"
+      - "L5: Task Lists are Append-Only (lesson captured)"
+      # Document Management Skill
+      - "Created .claude/skills/harness/document-management/ skill"
+      - "SKILL.md, lifecycle.md, registration.md for progressive disclosure"
+      - "Added PyYAML to requirements.txt"
+      - "Updated CLAUDE.md with Document Integrity section"
+      # Document Structure (D17) - Design only
+      - "D17: Designed location rules + registration enforcement"
+      - "D17: Designed PostToolUse hook for real-time validation"
     key_decisions:
       - "D15: Single /harness entry point with internal menus"
-      - "D15: Agents + workflows co-located in .claude/skills/harness/"
       - "D15: BMAD as reference material only, no runtime dependency"
-      - "D15: Agent format = Markdown with YAML frontmatter"
+      - "D16: Document Integrity as Core Infrastructure"
+      - "D16: Files ARE the memory - corruption = system failure"
+      - "D16: All files registered in document-controls.yaml"
+      - "D17: Location rules - every content type has a home"
+      - "D17: Registration enforcement - every home on the map"
+      - "D17: PostToolUse hook for real-time validation (design)"
     new_learnings:
       - "BMAD requires installer to generate manifest - heavy infrastructure"
-      - "State files (.harness/*.log, *.json) cause merge conflicts across worktrees"
-      - "Filesystem discovery > generated manifests (D12 principle in action)"
-      - "Menus are more conversational than slash commands"
-      - "Co-location enables workflow → agent discovery via glob"
+      - "State files cause merge conflicts across worktrees - gitignore them"
+      - "AI silently deletes content without asking - mechanical enforcement required"
+      - "Commit-time validation isn't enough - need real-time (PostToolUse)"
+      - "Document management is a skill - operational knowledge"
+      - "Progressive disclosure: CLAUDE.md → PROJECT-MAP.md → document-controls.yaml → files"
+    files_created:
+      - ".harness/document-controls.yaml"
+      - ".harness/scripts/validate-integrity.py"
+      - ".harness/hooks/pre-commit"
+      - ".claude/skills/harness/document-management/SKILL.md"
+      - ".claude/skills/harness/document-management/lifecycle.md"
+      - ".claude/skills/harness/document-management/registration.md"
+      - "requirements.txt"
+    context_at_end: "89% - RED zone"
 
 blockers: []
 
@@ -233,6 +259,16 @@ next_session_actions:
   # ============================================
   # RULES: Append-only. Mark DONE/OBSOLETE, never delete.
   # ============================================
+
+  # Session 8 additions (D17 - Document Structure Implementation)
+  - "P0: Implement D17 - Add locations: section to document-controls.yaml"
+  - "P0: Implement D17 - Add registration: section to document-controls.yaml"
+  - "P0: Implement D17 - Add --realtime mode to validate-integrity.py"
+  - "P0: Implement D17 - Add PostToolUse hook to settings.json"
+  - "P0: Implement D17 - Add check_content_location() function"
+  - "P0: Implement D17 - Add check_registration() function"
+  - "P1: Update PROJECT-MAP.md with any missing files"
+  - "P1: Test D17 end-to-end validation"
 
   # Session 8 additions (D15)
   - "P0: Create /harness entry point command (.claude/commands/harness.md)"
