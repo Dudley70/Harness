@@ -55,6 +55,7 @@ For full orientation, read in order:
 | Decisions | `.harness/decision-log.md` |
 | Lessons learned | `.harness/lessons-learned.md` |
 | Patterns | `.harness/patterns-and-ideas.md` |
+| Context anchors | `.harness/context-anchors.yaml` |
 | Vision/principles | `00-governance/vision.md` |
 | Capture protocol | `00-governance/capture-protocol.md` |
 
@@ -66,6 +67,9 @@ python3 .harness/scripts/session-recovery.py
 
 # Check context usage
 /context
+
+# Reload critical context (prevent memory fade)
+/refresh
 ```
 
 ### BMAD Agents (source material, not Harness implementation)
@@ -99,6 +103,22 @@ Use `/context` to check. Zones:
 - **50-65%**: YELLOW - wrap up soon
 - **65-77%**: ORANGE - complete task, handoff
 - **77%+**: RED - stop new work
+
+## Context Fade (Memory Management)
+
+In long conversations, early context fades from attention. Signs:
+- Agent persona drifts to generic
+- Forgetting project state/decisions
+- Re-suggesting rejected approaches
+
+**Prevention:**
+- Use `/refresh` to reload critical context (project-state, decisions, agent persona)
+- Proactively `/refresh` every 20-30 turns in extended sessions
+- After tangents, refresh before resuming main task
+
+**What fades fastest:** Project state > Decisions > File contents > Agent persona
+
+**Config:** See `.harness/context-anchors.yaml` for tier definitions.
 
 ## End Session
 

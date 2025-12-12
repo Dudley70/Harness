@@ -9,6 +9,7 @@
 
 | Pattern | One-liner | Source |
 |---------|-----------|--------|
+| Tiered Context Anchoring | Reload RIGHT things at RIGHT time to prevent fade | Party Mode S7 |
 | helpers.md | Centralize shared ops, reference via anchors | bmad-skills |
 | Level-based methodology | Right-size process for project complexity | bmad-skills |
 | 7-step init ritual | Consistent session start via filesystem discovery | Anthropic |
@@ -489,6 +490,102 @@ In vision.md (WISDOM) - maturity: 'principled'
 - Query by maturity: "Show all synthesized patterns not yet in library"
 
 **Added to taxonomy.yaml:** `maturity_levels` section with DIKW mapping.
+
+---
+
+## Session 7 Discoveries (2025-12-12)
+
+### Pattern: Tiered Context Anchoring
+
+**Source:** Party Mode discussion - John, Winston, Mary, Dr. Quinn, Amelia
+
+**Problem:** In extended conversations, critical context "fades" as it gets pushed back in the attention window:
+- Agent personas drift toward generic responses
+- Project state assumptions become outdated
+- Decisions get re-litigated
+- File contents read early are forgotten/hallucinated
+
+**Root Cause:** LLMs have a flat context buffer doing the job of working memory, short-term memory, AND long-term memory. Recent tokens get more attention weight than distant ones.
+
+**Solution: Stratified Reinforcement**
+
+```
+┌─────────────────────────────────────────────┐
+│           CONTEXT TIERS                      │
+├─────────────────────────────────────────────┤
+│ TIER 1: ALWAYS FRESH (reload every N turns) │
+│   • Agent persona (who am I?)               │
+│   • Current task/goal (what am I doing?)    │
+│   • Active constraints (what can't I do?)   │
+├─────────────────────────────────────────────┤
+│ TIER 2: CHECKPOINT REFRESH (at transitions) │
+│   • project-state.yaml                      │
+│   • Recent decisions from decision-log.md   │
+│   • Files actively being edited             │
+├─────────────────────────────────────────────┤
+│ TIER 3: ON-DEMAND (pull when referenced)    │
+│   • Historical decisions                    │
+│   • Other project files                     │
+│   • Documentation                           │
+└─────────────────────────────────────────────┘
+```
+
+**What Fades (by severity):**
+
+| Context Type | Fade Rate | Impact When Lost |
+|--------------|-----------|------------------|
+| Project state | Fast | Wrong assumptions, outdated info |
+| Decision history | Fast | Re-litigating settled decisions |
+| File contents read early | Very Fast | Hallucinated code, wrong patterns |
+| Agent personas | Medium | Personality drift, generic responses |
+| Current task/goal | Medium | Scope creep, tangents |
+| Constraints/boundaries | Fast | Violating established rules |
+| User preferences | Medium | Tone/style drift |
+
+**Implementation Approaches:**
+
+| Approach | Token Cost | Effectiveness | Complexity |
+|----------|------------|---------------|------------|
+| Full agent reload | High | High | Low |
+| Anchor reminders (lightweight summary) | Low | Medium | Medium |
+| Shorter sessions | Zero | High | Zero |
+| Hybrid (anchors + periodic full reload) | Medium | High | Medium |
+| Turn-based hook auto-injection | Medium | High | Medium |
+
+**Proposed Implementation:**
+
+```yaml
+# .harness/context-anchors.yaml
+anchors:
+  always_reload:
+    - path: "CLAUDE.md"
+      frequency: 15  # every 15 turns
+    - path: ".harness/project-state.yaml"
+      frequency: 10
+    - path: "active-agent-file"  # dynamic
+      frequency: 10
+
+  conditional_reload:
+    - trigger: "architecture|design|system"
+      path: ".harness/decision-log.md"
+      filter: "grep -A5 'Architecture'"
+    - trigger: "goal|objective|scope"
+      path: ".harness/project-state.yaml"
+      section: "current_focus"
+```
+
+**Key Insight:** It's not "reload more" vs "reload less" - it's **reload the RIGHT things at the RIGHT time.**
+
+**Wishlist for Anthropic:**
+- Explicit memory tiers / "pin this" markers
+- Selective compaction control
+- Attention weighting hints
+- Cross-session memory primitives
+
+**Harness Application:**
+1. `/refresh` command - manual context reload trigger
+2. Turn-based hook - automatic anchor injection every N turns
+3. Topic-aware triggers - reload relevant decisions when topics arise
 
 ---
 
