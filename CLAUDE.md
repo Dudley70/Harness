@@ -11,6 +11,24 @@ Harness is NOT a child of BMAD. BMAD is source material, alongside Anthropic pat
 **User**: Dudley
 **Note**: This project uses git worktrees - multiple branches checked out simultaneously. Main worktree at `/Users/dudley/projects/Harness`, session worktrees at `~/.claude-worktrees/Harness/`.
 
+## Architecture (D12)
+
+Harness is built on **Skills-based architecture** per Decision #12:
+- Claude Code native features (Skills, hooks, CLAUDE.md) over custom infrastructure
+- Filesystem discovery over context stuffing
+- Fresh sessions preferred over compaction
+
+**Planned structure** (not yet implemented):
+```
+.claude/skills/harness/
+├── SKILL.md          # Entry point + init ritual
+├── state/            # JSON (project-state, tasks, recovery)
+├── context/          # MD (vision, decisions, progress)
+└── deep/             # Reference (patterns, research, transcripts)
+```
+
+See `.harness/decision-log.md` → D12 for full rationale.
+
 ## Session Start
 
 1. **Check hook output** - SessionStart hook provides recovery context, git health, priorities
@@ -52,27 +70,55 @@ For full orientation, read in order:
 |------|----------|
 | Project map | `.harness/PROJECT-MAP.md` |
 | Current state | `.harness/project-state.yaml` |
+| Project config | `.harness/project.yaml` |
 | Decisions | `.harness/decision-log.md` |
 | Lessons learned | `.harness/lessons-learned.md` |
 | Patterns | `.harness/patterns-and-ideas.md` |
+| Context anchors | `.harness/context-anchors.yaml` |
 | Vision/principles | `00-governance/vision.md` |
 | Capture protocol | `00-governance/capture-protocol.md` |
 
 ## Commands
 
 ```bash
-# Recovery scan (normally auto-runs via hook)
-python3 .harness/scripts/session-recovery.py
-
 # Check context usage
 /context
+
+# Reload critical context (prevent memory fade)
+/refresh
 ```
 
-### BMAD Agents (source material, not Harness implementation)
-- `/bmad:core:agents:bmad-master` - Orchestrator, recovery, party-mode
-- `/bmad:bmm:agents:pm` - Product Manager (John)
-- `/bmad:bmm:agents:architect` - Architect (Winston)
-- `/bmad:bmm:agents:analyst` - Analyst (Mary)
+## Scripts
+
+| Script | Purpose | When to Use |
+|--------|---------|-------------|
+| `session-recovery.py` | Scan sessions, export transcripts, show recovery checklist | Auto-runs via hook; manual: `python3 .harness/scripts/session-recovery.py` |
+| `export-session.py` | Export JSONL session to readable Markdown | `python3 .harness/scripts/export-session.py [session-id]` |
+| `extract-atoms.py` | Extract knowledge atoms from transcripts to atoms.jsonl | `python3 .harness/scripts/extract-atoms.py [--reprocess]` |
+| `analyze-session.py` | Analyze JSONL content breakdown (text vs tools) | `python3 .harness/scripts/analyze-session.py <file>` |
+
+## Knowledge Base
+
+Accumulated knowledge from sessions:
+
+| File | Contents | Query |
+|------|----------|-------|
+| `.harness/atoms.jsonl` | 267 knowledge atoms (decisions, learnings, patterns) | `grep "keyword" .harness/atoms.jsonl \| python3 -m json.tool` |
+| `.harness/questions.yaml` | Open questions (Q1-Q8+) awaiting exploration | Read directly |
+| `.harness/ideas.yaml` | Captured ideas with lifecycle status | Read directly |
+| `.harness/taxonomy.yaml` | Classification types and maturity model | Reference for atom extraction |
+
+### BMAD Agents
+
+Use for **party mode** (multi-agent brainstorm) or **role-based thinking**:
+- `/bmad:core:agents:bmad-master` - Orchestrator, party-mode
+- `/bmad:bmm:agents:pm` - John: product strategy, WHY questions
+- `/bmad:bmm:agents:architect` - Winston: system design
+- `/bmad:bmm:agents:analyst` - Mary: research, patterns
+- `/bmad:bmm:agents:dev` - Amelia: implementation
+- `/bmad:bmm:agents:ux-designer` - Sally: user experience
+
+Default: work directly. Invoke agents when role-specific perspective adds value.
 
 ## Core Principles
 
@@ -92,6 +138,21 @@ Automatically runs on session start:
 - Git health check with suggested actions
 - Flags sync issues
 
+## When Things Go Wrong
+
+| Problem | Solution |
+|---------|----------|
+| Hook doesn't fire | Run manually: `python3 .harness/scripts/session-recovery.py` |
+| project-state.yaml stale | Check `git log -5` for recent work, read decision-log.md |
+| No recovery transcript | Check `~/.claude/projects/` for JSONL, run `export-session.py` |
+| Lost context mid-session | Read PROJECT-MAP.md, then project-state.yaml |
+| Git in bad state | Run `git status`, check hook output for suggestions |
+
+**Fallback orientation**: If all else fails, read files in this order:
+1. `.harness/PROJECT-MAP.md` → structure overview
+2. `.harness/project-state.yaml` → current phase
+3. `.harness/decision-log.md` → recent decisions (D12 is key)
+
 ## Context Budget
 
 Use `/context` to check. Zones:
@@ -99,6 +160,22 @@ Use `/context` to check. Zones:
 - **50-65%**: YELLOW - wrap up soon
 - **65-77%**: ORANGE - complete task, handoff
 - **77%+**: RED - stop new work
+
+## Context Fade (Memory Management)
+
+In long conversations, early context fades from attention. Signs:
+- Agent persona drifts to generic
+- Forgetting project state/decisions
+- Re-suggesting rejected approaches
+
+**Prevention:**
+- Use `/refresh` to reload critical context (project-state, decisions, agent persona)
+- Proactively `/refresh` every 20-30 turns in extended sessions
+- After tangents, refresh before resuming main task
+
+**What fades fastest:** Project state > Decisions > File contents > Agent persona
+
+**Config:** See `.harness/context-anchors.yaml` for tier definitions.
 
 ## End Session
 

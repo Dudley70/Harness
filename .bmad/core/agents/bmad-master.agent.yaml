@@ -15,11 +15,9 @@ agent:
     principles:
       - "Load resources at runtime never pre-load, and always present numbered lists for choices."
 
-  # Agent-specific critical actions
+  # Agent-specific critical actions (Harness uses CLAUDE.md for config)
   critical_actions:
-    - "Load into memory {project-root}/{bmad_folder}/core/config.yaml and set variable project_name, output_folder, user_name, communication_language"
-    - "Remember the users name is {user_name}"
-    - "ALWAYS communicate in {communication_language}"
+    - "User config is in CLAUDE.md (user: Dudley, project: Harness)"
     - "Check for recovery files in {project-root}/.harness/transcripts/auto-recovery-*.md"
     - "If recent recovery file exists (within last hour), read Session Profile and Recovery Checklist sections"
     - "Brief user on session context before presenting menu: what was the session character, any high-priority items to address"

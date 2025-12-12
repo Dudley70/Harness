@@ -1,0 +1,81 @@
+# Context Anchors Configuration
+# Defines what context should be reinforced and when
+# See: patterns-and-ideas.md "Tiered Context Anchoring"
+
+# Last updated: 2025-12-12 (Session 7)
+# Status: Design spec - hook implementation pending Anthropic turn-event support
+
+anchors:
+  # TIER 1: Always Fresh - would reload every N turns if we had turn events
+  tier1_always_fresh:
+    description: "Critical context that fades fastest, causes most errors when lost"
+    ideal_frequency: 10-15  # turns (aspirational)
+    current_workaround: "Use /refresh command manually"
+    items:
+      - path: "CLAUDE.md"
+        reason: "Core instructions, principles, session protocol"
+      - path: ".harness/project-state.yaml"
+        reason: "Current phase, focus, blockers - prevents wrong assumptions"
+      - path: "active-agent-persona"
+        reason: "Dynamic - whatever agent is currently active"
+        note: "Agent files are ~50-100 lines, low token cost"
+
+  # TIER 2: Checkpoint Refresh - reload at natural transitions
+  tier2_checkpoint:
+    description: "Important context, reload at task boundaries"
+    trigger: "Task completion, topic change, user request"
+    current_workaround: "SessionStart hook loads these; /refresh reloads"
+    items:
+      - path: ".harness/decision-log.md"
+        filter: "last 5 entries"
+        reason: "Prevents re-litigating settled decisions"
+      - path: "files actively being edited"
+        reason: "Prevents hallucinating old versions"
+        note: "Dynamic - track via conversation"
+
+  # TIER 3: On-Demand - pull when referenced
+  tier3_on_demand:
+    description: "Reference material, load only when needed"
+    trigger: "Topic mention, user request"
+    items:
+      - path: ".harness/patterns-and-ideas.md"
+        trigger_keywords: ["pattern", "approach", "how did we"]
+      - path: ".harness/lessons-learned.md"
+        trigger_keywords: ["mistake", "learned", "don't repeat"]
+      - path: "00-governance/vision.md"
+        trigger_keywords: ["vision", "principles", "why are we"]
+
+# What we CAN do today (without turn events)
+current_implementation:
+  session_start:
+    - "Recovery script runs automatically"
+    - "Loads project-state.yaml"
+    - "Shows git health"
+    - "Flags high-priority items"
+
+  manual_refresh:
+    command: "/refresh"
+    location: ".claude/commands/harness/refresh.md"
+    triggers:
+      - "User notices drift"
+      - "After long tangent"
+      - "Every 20-30 turns (user judgment)"
+      - "Before critical decisions"
+
+# What we WANT from Anthropic
+wishlist:
+  - event: "TurnComplete"
+    description: "Hook that fires after each assistant turn"
+    use_case: "Count turns, trigger refresh at thresholds"
+
+  - feature: "context.pin(content)"
+    description: "Mark content as high-priority for attention"
+    use_case: "Keep agent persona in active attention"
+
+  - feature: "context.compact(preserve=[...])"
+    description: "Selective compaction with preserved sections"
+    use_case: "Keep decisions, drop verbose tool output"
+
+  - feature: "context.inject(content, position='recent')"
+    description: "Re-inject content as if recently said"
+    use_case: "Refresh context without user seeing it"
