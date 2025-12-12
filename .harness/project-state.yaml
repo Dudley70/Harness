@@ -271,11 +271,11 @@ next_session_actions:
   - "DONE: Test D17 end-to-end validation (Session 9)"
 
   # Session 8 additions (D15)
-  - "P0: Create /harness entry point command (.claude/commands/harness.md)"
-  - "P0: Build first agent (analyst.md) in .claude/skills/harness/agents/"
-  - "P0: Build party workflow (.claude/skills/harness/workflows/party.md)"
+  - "DONE: Create /harness entry point command (.claude/commands/harness.md) (Session 9)"
+  - "DONE: Build first agent (analyst.md) in .claude/skills/harness/agents/ (Session 9)"
+  - "DONE: Build party workflow (.claude/skills/harness/workflows/party.md) (Session 9)"
   - "P1: Test menu-based navigation flow"
-  - "P1: Build 2-3 more agents (architect, pm, dev)"
+  - "DONE: Build 2-3 more agents (architect, pm, dev) (Session 9)"
 
   # Carried forward from Session 7
   - "P0: Create helpers.md with shared operations"
