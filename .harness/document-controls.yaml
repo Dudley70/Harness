@@ -147,6 +147,89 @@ free:
   - .claude/commands/*
 
 # ============================================
+# CONTENT LOCATIONS (D17)
+# Where each content type belongs
+# ============================================
+locations:
+  # Core content types - single canonical location
+  decisions:
+    file: .harness/decision-log.md
+    format: "## Decision #N"
+    description: "All decisions go here, not separate files"
+
+  lessons:
+    file: .harness/lessons-learned.md
+    format: "## Lesson #N"
+    description: "Failures and learnings"
+
+  tasks:
+    file: .harness/project-state.yaml
+    section: next_session_actions
+    format: '"P[0-2]:'
+    description: "All task items in one place"
+
+  ideas:
+    file: .harness/ideas.yaml
+    description: "Captured ideas with lifecycle"
+
+  questions:
+    file: .harness/questions.yaml
+    description: "Open questions awaiting exploration"
+
+  patterns:
+    file: .harness/patterns-and-ideas.md
+    format: "## "
+    description: "Discovered patterns"
+
+  session_summaries:
+    file: .harness/project-state.yaml
+    section: sessions
+    description: "Session history"
+
+  # Directory-based content types
+  research:
+    directory: .harness/research/
+    register_in: PROJECT-MAP.md
+    description: "Each research topic gets own file"
+
+  transcripts:
+    directory: .harness/transcripts/
+    auto_generated: true
+    register_in: null
+    description: "Auto-generated, no registration required"
+
+  atoms:
+    file: .harness/atoms.jsonl
+    description: "Extracted knowledge atoms"
+
+  skills:
+    directory: .claude/skills/
+    register_in: null
+    description: "Skills are self-describing via SKILL.md"
+
+# ============================================
+# REGISTRATION REQUIREMENTS (D17)
+# What must be in PROJECT-MAP.md for discoverability
+# ============================================
+registration:
+  index_file: .harness/PROJECT-MAP.md
+
+  # These file patterns MUST be registered
+  required_for:
+    - .harness/*.md
+    - .harness/*.yaml
+    - 00-governance/*.md
+
+  # These are excluded from registration requirement
+  excludes:
+    - .harness/transcripts/*
+    - .harness/scripts/*
+    - .harness/hooks/*
+    - .harness/templates/*
+    - .harness/reference/*
+    - .harness/emergency-captures/*
+
+# ============================================
 # VALIDATION SETTINGS
 # ============================================
 validation:

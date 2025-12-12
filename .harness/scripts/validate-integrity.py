@@ -10,8 +10,9 @@ Usage:
     python3 validate-integrity.py --audit      # Audit full git history
     python3 validate-integrity.py --check      # Check protected files exist
     python3 validate-integrity.py --full       # Run all checks
+    python3 validate-integrity.py --realtime FILE  # Real-time check for PostToolUse hook
 
-See Decision #16 in decision-log.md for rationale.
+See Decision #16, #17 in decision-log.md for rationale.
 """
 
 import subprocess
@@ -247,6 +248,152 @@ def check_unregistered(config: dict, project_root: Path) -> tuple[bool, list[str
     return len(warnings) == 0, warnings
 
 
+def check_content_location(config: dict, project_root: Path, file_path: str, content: str = None) -> tuple[bool, list[str]]:
+    """
+    Check if content is in the correct location (D17).
+    Warns if content type markers appear in wrong files.
+    """
+    warnings = []
+    locations = config.get('locations', {})
+
+    # Read file content if not provided
+    if content is None:
+        full_path = project_root / file_path
+        if full_path.exists():
+            try:
+                with open(full_path, 'r') as f:
+                    content = f.read()
+            except:
+                return True, []
+        else:
+            return True, []
+
+    # Check for misplaced content
+    content_markers = {
+        'decisions': (r'## Decision #\d+', '.harness/decision-log.md'),
+        'lessons': (r'## Lesson #\d+', '.harness/lessons-learned.md'),
+        'tasks': (r'"P[0-2]:', '.harness/project-state.yaml'),
+    }
+
+    for content_type, (pattern, expected_file) in content_markers.items():
+        if re.search(pattern, content):
+            if file_path != expected_file and not file_path.endswith(expected_file):
+                loc_config = locations.get(content_type, {})
+                expected = loc_config.get('file', expected_file)
+                warnings.append(
+                    f"[WRONG LOCATION] {content_type} content found in {file_path}\n"
+                    f"  → Should be in: {expected}\n"
+                    f"  → See: document-controls.yaml locations.{content_type}"
+                )
+
+    return len(warnings) == 0, warnings
+
+
+def check_registration(config: dict, project_root: Path, file_path: str) -> tuple[bool, list[str]]:
+    """
+    Check if file is registered in PROJECT-MAP.md (D17).
+    """
+    warnings = []
+    registration = config.get('registration', {})
+
+    if not registration:
+        return True, []
+
+    index_file = registration.get('index_file', '.harness/PROJECT-MAP.md')
+    required_for = registration.get('required_for', [])
+    excludes = registration.get('excludes', [])
+
+    # Check if file matches required patterns
+    needs_registration = False
+    for pattern in required_for:
+        if fnmatch.fnmatch(file_path, pattern):
+            needs_registration = True
+            break
+
+    # Check if excluded
+    for pattern in excludes:
+        if fnmatch.fnmatch(file_path, pattern):
+            needs_registration = False
+            break
+
+    if not needs_registration:
+        return True, []
+
+    # Check if registered in index file
+    index_path = project_root / index_file
+    if not index_path.exists():
+        warnings.append(f"[NO INDEX] Index file {index_file} does not exist")
+        return False, warnings
+
+    try:
+        with open(index_path, 'r') as f:
+            index_content = f.read()
+
+        # Check if file is mentioned (by name or path)
+        file_name = Path(file_path).name
+        if file_path not in index_content and file_name not in index_content:
+            warnings.append(
+                f"[NOT REGISTERED] {file_path} is not in {index_file}\n"
+                f"  → Add it to PROJECT-MAP.md for discoverability\n"
+                f"  → Or add to registration.excludes if intentional"
+            )
+    except:
+        pass
+
+    return len(warnings) == 0, warnings
+
+
+def validate_realtime(config: dict, project_root: Path, file_path: str) -> int:
+    """
+    Real-time validation for PostToolUse hook (D17).
+    Returns exit code (0 = pass, 1 = warnings, 2 = errors).
+    """
+    all_warnings = []
+    has_errors = False
+
+    # Check content location
+    passed, messages = check_content_location(config, project_root, file_path)
+    if not passed:
+        all_warnings.extend(messages)
+
+    # Check registration
+    passed, messages = check_registration(config, project_root, file_path)
+    if not passed:
+        all_warnings.extend(messages)
+
+    # Check append-only (if file is in config)
+    append_only = config.get('append_only', {})
+    if file_path in append_only or any(file_path.endswith(k) for k in append_only.keys()):
+        # Get unstaged diff for this file
+        try:
+            result = subprocess.run(
+                ['git', 'diff', '--', file_path],
+                capture_output=True,
+                text=True,
+                cwd=project_root
+            )
+            if result.stdout:
+                status_prefixes = config.get('status_prefixes', [])
+                deletions = get_deletions_from_diff(result.stdout, '.*', status_prefixes)
+                if deletions:
+                    has_errors = True
+                    all_warnings.append(f"[APPEND-ONLY] Deletions detected in {file_path}")
+                    for d in deletions[:3]:
+                        all_warnings.append(f"  - {d[:60]}...")
+        except:
+            pass
+
+    if all_warnings:
+        print("\n⚠️  DOCUMENT INTEGRITY WARNING")
+        print("=" * 50)
+        for msg in all_warnings:
+            print(msg)
+        print("=" * 50)
+        return 2 if has_errors else 1
+
+    return 0
+
+
 def main():
     project_root = find_project_root()
     config = load_config(project_root)
@@ -254,6 +401,21 @@ def main():
     audit_mode = '--audit' in sys.argv
     check_mode = '--check' in sys.argv
     full_mode = '--full' in sys.argv
+    realtime_mode = '--realtime' in sys.argv
+
+    # Handle realtime mode (D17 - PostToolUse hook)
+    if realtime_mode:
+        try:
+            file_idx = sys.argv.index('--realtime') + 1
+            file_path = sys.argv[file_idx] if file_idx < len(sys.argv) else None
+            if file_path:
+                return validate_realtime(config, project_root, file_path)
+            else:
+                print("ERROR: --realtime requires a file path")
+                return 1
+        except (IndexError, ValueError):
+            print("ERROR: --realtime requires a file path")
+            return 1
 
     all_passed = True
     all_messages = []

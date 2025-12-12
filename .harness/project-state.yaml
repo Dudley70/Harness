@@ -261,14 +261,14 @@ next_session_actions:
   # ============================================
 
   # Session 8 additions (D17 - Document Structure Implementation)
-  - "P0: Implement D17 - Add locations: section to document-controls.yaml"
-  - "P0: Implement D17 - Add registration: section to document-controls.yaml"
-  - "P0: Implement D17 - Add --realtime mode to validate-integrity.py"
-  - "P0: Implement D17 - Add PostToolUse hook to settings.json"
-  - "P0: Implement D17 - Add check_content_location() function"
-  - "P0: Implement D17 - Add check_registration() function"
+  - "DONE: Implement D17 - Add locations: section to document-controls.yaml (Session 9)"
+  - "DONE: Implement D17 - Add registration: section to document-controls.yaml (Session 9)"
+  - "DONE: Implement D17 - Add --realtime mode to validate-integrity.py (Session 9)"
+  - "DONE: Implement D17 - Add PostToolUse hook to settings.json (Session 9)"
+  - "DONE: Implement D17 - Add check_content_location() function (Session 9)"
+  - "DONE: Implement D17 - Add check_registration() function (Session 9)"
   - "P1: Update PROJECT-MAP.md with any missing files"
-  - "P1: Test D17 end-to-end validation"
+  - "DONE: Test D17 end-to-end validation (Session 9)"
 
   # Session 8 additions (D15)
   - "P0: Create /harness entry point command (.claude/commands/harness.md)"

@@ -8,7 +8,7 @@
 **Topic:** Document Structure, Location & Registration Enforcement
 **Decision:** Extend document-controls.yaml with location rules and registration requirements. Add PostToolUse hook for real-time validation.
 
-**Status:** Approved - Design complete, implementation next session
+**Status:** Implemented (Session 9)
 
 **Core Principle:**
 > Every document has a home. Every home is on the map.
