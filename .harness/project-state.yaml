@@ -1,6 +1,6 @@
 # Harness Project State
 # This file is the FIRST thing loaded in any session
-# Last Updated: 2025-12-12 (session 5)
+# Last Updated: 2025-12-12 (session 6)
 
 project:
   name: Harness
@@ -139,6 +139,38 @@ sessions:
       - ".harness/docs/retrospective-process.md"
     context_at_end: "95% - RED zone"
 
+  session_6:
+    date: 2025-12-12
+    focus: "Git health check, CLAUDE.md design, progressive disclosure"
+    key_accomplishments:
+      - "Created PROJECT-MAP.md - orientation layer for progressive disclosure"
+      - "Created journal/ structure with README for session narratives"
+      - "Git cleanup - merged 2 branches (unruffled-cerf, bold-jemison) to main"
+      - "Deleted 7 stale worktrees/branches"
+      - "Added git health check to session-recovery.py with visual status table"
+      - "Added actionable suggestions to git health output"
+      - "Created CLAUDE.md via /init, then trimmed from 227→116 lines"
+      - "Added Session Greeting format to CLAUDE.md"
+      - "Reviewed Anthropic CLAUDE.md best practices documentation"
+      - "Party mode brainstorm on CLAUDE.md structure and progressive disclosure"
+    key_decisions:
+      - "CLAUDE.md = instructions not information (reference, don't embed)"
+      - "Subfolder CLAUDE.md for domain-specific context (to explore)"
+      - "Skills research (Superpowers) needed before implementing Skills"
+    new_learnings:
+      - "CLAUDE.md cascades: global → project → subfolder (on-demand)"
+      - "CLAUDE.local.md for personal prefs (gitignored)"
+      - "Press # during session to add learnings to CLAUDE.md"
+      - "Git worktrees can't delete branches while checked out"
+      - "Merge conflicts from amending already-merged commits"
+    files_created:
+      - ".harness/PROJECT-MAP.md"
+      - ".harness/journal/README.md"
+      - ".harness/templates/session-journal.md"
+      - ".harness/reference/CLAUDE-init-full.md"
+      - "CLAUDE.md (project root)"
+    context_at_end: "~90% - RED zone"
+
 blockers: []
 
 next_session_actions:
@@ -154,9 +186,13 @@ next_session_actions:
 improvement_ideas:
   git_github_ux:
     problem: "Easy to forget push, hard to see branch state, no guided workflow"
-    needs:
-      - "Visual display of branches and their status (ahead/behind, uncommitted changes)"
-      - "Guided workflow: commit → push → PR (when appropriate)"
+    status: "IMPLEMENTED in Session 6"
+    implemented:
+      - "Visual git health check in session-recovery.py"
+      - "Shows branches, worktrees, uncommitted changes"
+      - "Actionable suggestions (what commands to run)"
+    remaining:
+      - "Guided workflow for PR creation (future)"
       - "Human-readable status summary (not just git output)"
       - "Auto-push option on session end (SessionEnd hook?)"
       - "Branch management guidance (when to branch, when to merge)"
