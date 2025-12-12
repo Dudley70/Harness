@@ -4,6 +4,115 @@
 
 ---
 
+## Decision #15 - 2025-12-13 (Session 8)
+**Topic:** Entry Points, Menu Navigation, and BMAD Independence
+**Decision:** Single `/harness` entry point with internal menus; agents and workflows as co-located skills; BMAD as reference material only
+
+**Context:**
+- BMAD requires installer to generate `_cfg/agent-manifest.csv` - file was missing, party-mode failed
+- BMAD agents have menus pointing to BMAD workflows - deep dependency
+- Harness principle: filesystem discovery over generated infrastructure
+
+**Key Decisions:**
+
+### 1. Entry Points (Minimal Slash Commands)
+```
+.claude/commands/
+├── harness.md       # /harness - main entry, shows menu
+└── party.md         # /party - shortcut for common use (optional)
+```
+- NOT a slash command for every agent/workflow
+- Entry points lead to menus, menus lead to capabilities
+
+### 2. Internal Menu Navigation
+```
+/harness →
+┌─────────────────────────────────────┐
+│  🔧 HARNESS                         │
+├─────────────────────────────────────┤
+│  Agents:                            │
+│  1. 📊 Analyst (Mary)               │
+│  2. 🏗️ Architect (Winston)          │
+│  ...                                │
+│  Workflows:                         │
+│  4. 🎉 Party mode                   │
+│  5. 💡 Brainstorm                   │
+└─────────────────────────────────────┘
+```
+- Discoverable (shows what's available)
+- Conversational (not command-line)
+- Nested (agent → agent menu → action)
+
+### 3. Skills Structure (Agents + Workflows Co-located)
+```
+.claude/skills/harness/
+├── SKILL.md              # Core skill, init ritual
+├── agents/
+│   ├── analyst.md        # Persona + agent menu
+│   ├── architect.md
+│   ├── pm.md
+│   └── dev.md
+└── workflows/
+    ├── brainstorm.md     # Can reference ../agents/*
+    ├── decision.md
+    └── party.md          # Multi-agent orchestration
+```
+- Co-location enables discovery (workflows glob for agents)
+- Filesystem IS the registry
+- No manifest generation required
+
+### 4. BMAD Independence
+| Component | BMAD | Harness |
+|-----------|------|---------|
+| Agent definitions | `.bmad/**/*.agent.yaml` | `.claude/skills/harness/agents/*.md` |
+| Workflows | BMAD workflows | Harness workflows (to be built) |
+| Loading | Installer → CSV manifest | Filesystem discovery |
+| Format | YAML | Markdown (Claude-native) |
+
+- BMAD agents are **reference material** for persona design
+- Harness agents are **new implementations** in Markdown
+- No runtime dependency on BMAD infrastructure
+
+### 5. Agent File Format (Markdown with Frontmatter)
+```markdown
+---
+name: Mary
+role: Analyst
+icon: 📊
+---
+
+## Persona
+Strategic analyst who treats analysis like a treasure hunt...
+
+## Principles
+- Ground findings in evidence
+- Every challenge has root causes
+
+## Menu
+1. Research topic
+2. Analyze patterns
+3. Party mode
+4. [Chat freely]
+
+## Activation
+When invoked, focus on patterns, research, structured analysis...
+```
+
+**Rationale:**
+- Markdown is Claude-native (reads naturally, no parsing needed)
+- Frontmatter provides structured metadata when needed
+- Menus are human-readable, not YAML trigger definitions
+- Simpler than BMAD's YAML structure
+
+**Relationship to Previous Decisions:**
+- Refines D14 (Skills as Universal Architecture) with entry point specifics
+- Implements D12 principle: "filesystem discovery over context stuffing"
+- Advances D13: BMAD compatibility via reference, not runtime dependency
+
+**Status:** Approved - Ready for prototype
+
+---
+
 ## Decision #14 - 2025-12-12 (Session 7)
 **Topic:** Skills as Universal Progressive Disclosure Architecture
 **Decision:** All Harness capabilities (personas, workflows, knowledge, toolbox) become Claude Code Skills with shared helpers.md
