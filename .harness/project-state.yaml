@@ -260,11 +260,18 @@ next_session_actions:
   # RULES: Append-only. Mark DONE/OBSOLETE, never delete.
   # ============================================
 
+  # Session 9 - OPEN ITEMS (flagged at session end)
+  - "P1: Merge confident-benz to main (again) - now +5 commits ahead"
+  - "P1: Test /harness command - created but never tested"
+  - "P2: Answer: Should session summaries be immutable once written?"
+  - "P1: Update PROJECT-MAP.md with new files (D15, D17 additions)"
+
   # Session 9 additions - Skill Invocation Architecture Research
   - "P0: Research skill invocation architecture (Q9-Q37 in questions.yaml)"
   - "P0: Use claude-code-guide agent to answer Claude Code specific questions"
   - "P1: Synthesize research into D18: Skill Invocation Architecture decision"
-  - "P1: Determine if session-management is a skill or CLAUDE.md principle"
+  - "P1: Implement IDEA-009 based on D18 findings (session lifecycle / pre-pivot)"
+  - "P1: Implement IDEA-010 - question/task tracking mechanism"
 
   # Session 8 additions (D17 - Document Structure Implementation)
   - "DONE: Implement D17 - Add locations: section to document-controls.yaml (Session 9)"

@@ -180,3 +180,47 @@ ideas:
     notes:
       - date: 2025-12-13
         note: "Research Q9-Q37 first, then decide on implementation approach"
+
+  - id: IDEA-010
+    created: 2025-12-13
+    session_origin: session-9
+    status: exploring
+    title: "Question/Task Tracking - Nothing Gets Lost"
+    content: |
+      Problem observed at Session 9 end:
+      - Questions asked by Claude that user didn't answer → lost
+      - Tasks implied but not explicitly tracked → lost
+      - Options offered but not selected → lost
+      - Open items from session start never revisited → lost
+
+      Examples from Session 9:
+      - "Merge to main?" - asked, moved on, never re-merged after more commits
+      - "Should session summaries be immutable?" - asked by John, never answered
+      - "Test /harness command" - offered as option, never done
+
+      Proposed Solution - Transcript Review Enhancement:
+      The transcript already captures everything. Enhance session-recovery.py to:
+      1. Detect questions (? at end of Claude message)
+      2. Check if next user message answered or moved on
+      3. Flag unanswered questions in recovery checklist
+      4. Detect "offered options" patterns (1. 2. 3. lists)
+      5. Flag unselected options that might still be relevant
+
+      Implementation could be:
+      A) Enhance session-recovery.py with question/task parsing
+      B) Add end-of-session audit script
+      C) Add to capture-protocol.md as manual checklist
+      D) Combination: auto-detect + manual review
+
+      Related: IDEA-009 (session lifecycle management)
+    keywords: ['session', 'questions', 'tasks', 'tracking', 'recovery']
+    atom_id: null
+    mentions: 1
+    priority: high
+    connections:
+      questions: [Q9, Q18, Q19]
+      decisions: []
+      other_ideas: [IDEA-009]
+    notes:
+      - date: 2025-12-13
+        note: "Transcript review is likely the mechanism - data already exists"
