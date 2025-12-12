@@ -265,7 +265,7 @@ next_session_actions:
   - "P1: Test /harness command - created but never tested"
   - "P2: Answer: Should session summaries be immutable once written?"
   - "P1: Update PROJECT-MAP.md with new files (D15, D17 additions)"
-  - "P1: Investigate /refresh command not appearing - file exists but not in Available Commands"
+  - "DONE: Investigate /refresh command not appearing - validated working (Session 10)"
 
   # Session 9 additions - Skill Invocation Architecture Research
   - "P0: Research skill invocation architecture (Q9-Q37 in questions.yaml)"
