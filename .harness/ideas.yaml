@@ -146,3 +146,37 @@ ideas:
       decisions: []
       other_ideas: []
     notes: []
+
+  - id: IDEA-009
+    created: 2025-12-13
+    session_origin: session-9
+    status: exploring
+    title: "Session Lifecycle Management - Pre-Pivot Protocol"
+    content: |
+      Pattern observed: Sessions repeatedly get derailed by mid-session discoveries.
+      Session 8: git cleanup → BMAD issues → deletions → D16/D17 (D15 interrupted).
+
+      Proposed Pre-Pivot Protocol:
+      1. Before changing focus, PARK current task in project-state.yaml
+      2. Capture reason for pivot
+      3. Add new focus as P0 with context
+
+      Question: Is this a skill (session-management) or just a CLAUDE.md principle?
+
+      Options discussed:
+      A) New skill: session-management (start.md, pivot.md, end.md)
+      B) Extend document-management skill
+      C) Just add principle to CLAUDE.md
+
+      Blocked on: Need to understand skill invocation architecture first (Q9-Q37)
+    keywords: ['session', 'pivot', 'context-management', 'workflow']
+    atom_id: null
+    mentions: 1
+    priority: high
+    connections:
+      questions: [Q9, Q10, Q11, Q24, Q26, Q30]
+      decisions: []
+      other_ideas: []
+    notes:
+      - date: 2025-12-13
+        note: "Research Q9-Q37 first, then decide on implementation approach"
