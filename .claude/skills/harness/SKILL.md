@@ -1,3 +1,8 @@
+---
+name: harness
+description: AI-Native Development Methodology skill. Use when starting a session, checking project state, following Harness methodology, or working with .harness/ files. Provides init ritual, progressive disclosure, and knowledge routing.
+---
+
 # Harness Skill
 
 AI-Native Development Methodology - channeling AI power through human-designed controls.
@@ -8,6 +13,7 @@ Invoke this skill when:
 - Starting a new session on a Harness project
 - Needing to understand project state or context
 - Following Harness methodology for development work
+- Working with `.harness/` directory files
 
 ## Initialization Ritual
 
