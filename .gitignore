@@ -2,6 +2,10 @@
 /scratch/
 /temp/
 
+# Session state (per-worktree, not shared)
+.harness/hook-test.log
+.harness/recovery-state.json
+
 # OS
 .DS_Store
 
