@@ -4,6 +4,73 @@
 
 ---
 
+## Decision #14 - 2025-12-12 (Session 7)
+**Topic:** Skills as Universal Progressive Disclosure Architecture
+**Decision:** All Harness capabilities (personas, workflows, knowledge, toolbox) become Claude Code Skills with shared helpers.md
+
+**Rationale:**
+- Context is ephemeral - personas fade during long sessions (observed this session)
+- Skills are model-invoked - Claude loads what's relevant, when relevant
+- Progressive disclosure is native - L1 (name/desc) → L2 (SKILL.md) → L3 (supporting files)
+- helpers.md pattern provides 70-85% token savings via section references
+- Composable - Claude picks multiple skills as needed (party mode = multiple personas)
+
+**Research Sources:**
+1. **Superpowers** (github.com/obra/superpowers) - 20 focused skills, verb-first naming, flat structure
+2. **Anthropic docs** (code.claude.com/docs/en/skills) - Model-invoked, description triggers activation
+3. **claude-code-bmad-skills** (github.com/aj-geddes) - helpers.md pattern, BMAD as native skills
+
+**Architecture:**
+```
+.claude/skills/
+├── harness/                    # Meta: init ritual, orientation
+│   ├── SKILL.md
+│   └── index.md
+├── helpers.md                  # Shared operations (all skills reference)
+├── personas/
+│   ├── pm/SKILL.md            # John - product thinking
+│   ├── architect/SKILL.md     # Winston - system design
+│   ├── analyst/SKILL.md       # Mary - research, patterns
+│   └── ...
+├── workflows/
+│   ├── capturing-decisions/SKILL.md
+│   ├── session-handoff/SKILL.md
+│   └── brainstorming/SKILL.md
+├── toolbox/
+│   ├── systematic-debugging/SKILL.md
+│   ├── test-driven-dev/SKILL.md
+│   └── git-worktrees/SKILL.md
+└── knowledge/
+    ├── querying-atoms/SKILL.md
+    └── promoting-patterns/SKILL.md
+```
+
+**helpers.md Pattern:**
+```markdown
+# In any skill:
+Per helpers.md#Load-Project-State
+Per helpers.md#Log-Decision
+Per helpers.md#Session-Handoff-Checklist
+```
+
+**Key Principles:**
+- **Focused skills** - One capability per skill (Anthropic guidance)
+- **Verb-first naming** - `capturing-decisions` not `decision-capture` (Superpowers)
+- **Description is trigger** - "Use when..." tells Claude when to invoke
+- **Reference, don't embed** - helpers.md eliminates duplication
+
+**What This Replaces:**
+- BMAD slash commands → model-invoked persona skills
+- Manual protocols → workflow skills
+- Ad-hoc approaches → toolbox skills
+- Reading docs → knowledge skills
+
+**Answers Open Question:** Q6 (Unified Architecture) - Skills ARE the unified architecture
+
+**Status:** Approved
+
+---
+
 ## Decision #13 - 2025-12-12 (Session 7)
 **Topic:** Harness-Native Configuration with BMAD Compatibility
 **Decision:** Project configuration lives in `.harness/project.yaml` as single source of truth, with symlinks for BMAD compatibility
