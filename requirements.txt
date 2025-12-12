@@ -1,0 +1,5 @@
+# Harness Dependencies
+# Install: pip install -r requirements.txt
+
+# YAML parsing for document controls and state files
+PyYAML>=6.0

@@ -142,6 +142,10 @@ free:
   # Project config (settings, not data)
   - .harness/project.yaml
 
+  # Skills (code/prompts, normal development)
+  - .claude/skills/*
+  - .claude/commands/*
+
 # ============================================
 # VALIDATION SETTINGS
 # ============================================

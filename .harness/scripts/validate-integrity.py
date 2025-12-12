@@ -270,6 +270,16 @@ def main():
             all_passed = False
             all_messages.extend(messages)
 
+        # Always check for unregistered files in pre-commit mode
+        if not audit_mode:
+            passed, messages = check_unregistered(config, project_root)
+            if not passed:
+                print("\n⚠️  UNREGISTERED FILES DETECTED:")
+                for msg in messages:
+                    print(f"  {msg}")
+                print("\n  Add to .harness/document-controls.yaml or the file may be unprotected.")
+                print("  See: .claude/skills/harness/document-management/SKILL.md")
+
     # Check protected files exist
     if check_mode or full_mode:
         passed, messages = check_protected_exist(config, project_root)

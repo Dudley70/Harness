@@ -93,6 +93,7 @@ For full orientation, read in order:
 | Script | Purpose | When to Use |
 |--------|---------|-------------|
 | `session-recovery.py` | Scan sessions, export transcripts, show recovery checklist | Auto-runs via hook; manual: `python3 .harness/scripts/session-recovery.py` |
+| `validate-integrity.py` | Document integrity validation | Auto via pre-commit; `--audit` for history, `--check` for files |
 | `export-session.py` | Export JSONL session to readable Markdown | `python3 .harness/scripts/export-session.py [session-id]` |
 | `extract-atoms.py` | Extract knowledge atoms from transcripts to atoms.jsonl | `python3 .harness/scripts/extract-atoms.py [--reprocess]` |
 | `analyze-session.py` | Analyze JSONL content breakdown (text vs tools) | `python3 .harness/scripts/analyze-session.py <file>` |
@@ -128,6 +129,28 @@ Default: work directly. Invoke agents when role-specific perspective adds value.
 4. **Reference, don't duplicate** - Point to source files
 5. **Fresh sessions preferred** - New context > compaction
 6. **Instructions, not information** - CLAUDE.md tells HOW, files contain WHAT
+7. **Files ARE the memory** - Memory corruption = system failure (D16)
+
+## Document Integrity (D16)
+
+Harness files are protected by integrity rules. **Nothing is deleted—everything has a lifecycle.**
+
+| Rule | Meaning | Files |
+|------|---------|-------|
+| `append_only` | Can add, cannot delete | tasks, decisions, lessons, ideas, questions |
+| `immutable` | Cannot change | atoms.jsonl |
+| `protected` | Must exist | core files |
+
+**Quick reference:**
+- Complete a task → `"DONE: task (Session N)"`
+- Remove obsolete task → `"OBSOLETE: task (reason)"`
+- Update a decision → Add NEW decision, don't edit old
+- Abandon an idea → Change status to `ABANDONED`
+
+**Registry:** `.harness/document-controls.yaml`
+**Skill:** `.claude/skills/harness/document-management/SKILL.md`
+
+Pre-commit hook enforces automatically. If blocked, use lifecycle status instead of deleting.
 
 ## SessionStart Hook
 
