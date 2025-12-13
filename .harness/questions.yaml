@@ -430,3 +430,106 @@ questions:
     keywords: ['implementation', 'skills', 'testing']
     priority: medium
     category: skill-invocation-architecture
+
+  # Session 12 - Agent Personality & Cognitive Diversity Research
+  # Context: Team discussion revealed agents need differentiation beyond job roles
+  # Reference: Jung's four functions, personality type frameworks
+
+  - id: Q38
+    created: 2025-12-14
+    session_origin: session-12
+    status: pending
+    title: "Personality Frameworks for Agent Diversity"
+    content: "What personality/cognitive frameworks are proven for diverse team composition? Compare Jung's four functions, MBTI, Belbin Team Roles, DISC. Which fits AI agent design?"
+    keywords: ['agents', 'personality', 'cognitive-diversity', 'frameworks']
+    priority: high
+    category: agent-personality-design
+    raised_by: "Mary (Analyst)"
+
+  - id: Q39
+    created: 2025-12-14
+    session_origin: session-12
+    status: pending
+    title: "AI Multi-Agent Persona Diversity"
+    content: "How do other AI agent systems handle persona diversity? Research: AutoGen, CrewAI, multi-agent papers. What works?"
+    keywords: ['agents', 'multi-agent', 'research', 'personas']
+    priority: high
+    category: agent-personality-design
+    raised_by: "Winston (Architect)"
+
+  - id: Q40
+    created: 2025-12-14
+    session_origin: session-12
+    status: pending
+    title: "Minimum Viable Personality Differentiation"
+    content: "What's the minimum viable personality differentiation? We need distinct voices without over-engineering. How little can we specify while still getting diverse perspectives?"
+    keywords: ['agents', 'personality', 'MVP', 'design']
+    priority: high
+    category: agent-personality-design
+    raised_by: "John (PM)"
+
+  - id: Q41
+    created: 2025-12-14
+    session_origin: session-12
+    status: pending
+    title: "Agent Schema Versioning"
+    content: "How do we make agents evolvable? Schema versioning, backward compatibility. If we add personality functions later, how do we migrate?"
+    keywords: ['agents', 'schema', 'versioning', 'evolution']
+    priority: medium
+    category: agent-personality-design
+    raised_by: "Amelia (Dev)"
+
+  - id: Q42
+    created: 2025-12-14
+    session_origin: session-12
+    status: pending
+    title: "Agent Selection UX"
+    content: "Do users actually pick agents by personality type? Or just by role? What's the UX for team selection - role-based, personality-based, or hybrid?"
+    keywords: ['agents', 'UX', 'selection', 'user-research']
+    priority: medium
+    category: agent-personality-design
+    raised_by: "Sally (UX)"
+
+  # Session 12 - Progressive Capture Research
+  # Context: This session demonstrated the problem - 71% context, insights at risk
+
+  - id: Q43
+    created: 2025-12-14
+    session_origin: session-12
+    status: pending
+    title: "Progressive Capture Mechanisms"
+    content: "How do we capture insights continuously during discussions, not just at the end? What triggers capture? How do we avoid disrupting flow while ensuring nothing is lost?"
+    keywords: ['capture', 'progressive', 'documentation', 'workflow']
+    priority: high
+    category: progressive-capture
+    context: "Session 12 was at 71% context with uncaptured insights - demonstrated the problem live"
+
+  - id: Q44
+    created: 2025-12-14
+    session_origin: session-12
+    status: pending
+    title: "Capture Triggers vs Interruption"
+    content: "What's the balance between capturing insights and interrupting flow? Checkpoint prompts are disruptive, but waiting loses content. What's the right pattern?"
+    keywords: ['capture', 'UX', 'interruption', 'flow']
+    priority: high
+    category: progressive-capture
+
+  - id: Q45
+    created: 2025-12-14
+    session_origin: session-12
+    status: pending
+    title: "Auto-detection of Capturable Moments"
+    content: "Can we auto-detect when something is worth capturing? Decision crystallizes, idea emerges, question surfaces - what are the linguistic markers?"
+    keywords: ['capture', 'detection', 'automation', 'NLP']
+    priority: medium
+    category: progressive-capture
+
+  - id: Q46
+    created: 2025-12-14
+    session_origin: session-12
+    status: pending
+    title: "Scratch Space for Draft Captures"
+    content: "Should there be a scratch/draft space for captures before they're formalized? Continuous notes that get reviewed at end?"
+    keywords: ['capture', 'drafts', 'workflow', 'notes']
+    priority: medium
+    category: progressive-capture

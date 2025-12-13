@@ -4,6 +4,130 @@
 
 ---
 
+## Decision #19 - 2025-12-14 (Session 12)
+**Topic:** Team Discussion Architecture - Smart Defaults + Presets
+**Decision:** Professional team discussion system with smart team selection, adaptive workflow structure, and continuous capture.
+
+**Status:** Approved
+
+**Core Principles:**
+
+> **Make the common case fast, make the complex case possible.**
+
+> **Progressive Structure:** Workflow adapts - light by default, adds phases when complexity demands.
+
+> **Progressive Capture:** Don't wait for "done" - capture decisions, ideas, questions as they emerge.
+
+**Context:**
+- Real teams select members based on topic, not "everyone always"
+- Discussion complexity varies - some need structured phases, some don't
+- Waiting until end to capture loses insights (demonstrated in this session at 71% context)
+- Need flexibility (custom) + speed (presets)
+
+**Design:**
+
+### Invocation Methods
+
+| Method | Example | Behavior |
+|--------|---------|----------|
+| Smart defaults | `/harness:team "topic"` | Analyze topic, suggest team, allow override |
+| Preset | `/harness:team:core` | Direct to preset, no questions |
+| Natural language | "let's discuss X with the team" | Smart defaults |
+
+### Team Presets
+
+| Preset | Command | Members | Use Case |
+|--------|---------|---------|----------|
+| Core | `:core` | Mary + Winston | Analysis + Architecture (default fallback) |
+| Technical | `:technical` | Winston + Amelia | Design + Implementation |
+| Product | `:product` | John + Sally | Strategy + UX |
+| Full | `:full` | Everyone | Major decisions, retrospectives |
+
+### Team Discussion Workflow (Adaptive)
+
+**Default (light mode):**
+```
+CONTEXT → FRAME → DISCUSS → CONVERGE → CAPTURE
+```
+
+**Escalated (structured mode):**
+```
+CONTEXT → FRAME → [DIVERGE → ANALYZE] → CONVERGE → CAPTURE
+                   └── within DISCUSS ──┘
+```
+
+| Phase | Purpose | When |
+|-------|---------|------|
+| CONTEXT | Search past discussions, load state | Always |
+| FRAME | Problem, success criteria, constraints | Always |
+| DIVERGE | Generate all options (suspend judgment) | When multiple options emerge |
+| ANALYZE | Evaluate each (pros, cons, risks) | When ready to compare |
+| CONVERGE | Decide + document what we DIDN'T pick | Always |
+| CAPTURE | Rich output to multiple files | Always (continuous) |
+
+**Escalation Triggers:**
+- 3+ options mentioned → suggest DIVERGE
+- Disagreement detected → suggest structured ANALYZE
+- User says "important" / "critical" → offer full facilitation
+- Architecture/strategy topic → auto-suggest structure
+
+### Progressive Capture (Continuous)
+
+DON'T wait for "done". Capture as you go:
+
+| When | Action |
+|------|--------|
+| Decision crystallizes | → Append to decision-log.md NOW |
+| New idea emerges | → Add to ideas.yaml NOW |
+| Question surfaces | → Add to questions.yaml NOW |
+| Topic concludes | → Summarize before moving on |
+
+### Discussion Controls
+
+Preserved from prior design:
+- **Pause for user questions** - When agent asks user, end round, wait for input
+- **Response format** - Consistent `📊 **Mary:** [text]`
+- **Cross-talk** - Agents can reference each other, disagree respectfully
+
+### Rich Capture Format
+
+```markdown
+## Decision: [Title]
+**Decision:** X
+**Alternatives Considered:**
+- Y: rejected because...
+- Z: rejected because...
+**Concerns Noted:** (even if we proceeded)
+**Assumptions:** (can revisit if wrong)
+**Spawned:**
+- IDEA-XXX: [description]
+- Q-XXX: [question]
+```
+
+### Command Structure
+
+```
+.claude/commands/harness/
+├── team.md                  → /harness:team (smart defaults)
+└── team/
+    ├── core.md              → /harness:team:core
+    ├── technical.md         → /harness:team:technical
+    ├── product.md           → /harness:team:product
+    └── full.md              → /harness:team:full
+```
+
+**Files Affected:**
+- `.claude/commands/harness/team.md` (created)
+- `.claude/commands/harness/team/*.md` (presets created)
+- `.claude/skills/harness/workflows/team.md` (renamed + updated)
+- `.claude/skills/harness/SKILL.md` (update menu)
+
+**Future Research:**
+- Q38-Q42: Agent personality/cognitive diversity
+- Q43-Q46: Progressive capture mechanisms
+
+---
+
 ## Decision #18 - 2025-12-13 (Session 10)
 **Topic:** Document Purpose & Audience Requirements
 **Decision:** Every document must declare purpose and audience. Kill vision.md - it duplicates CLAUDE.md and lacks clear purpose.

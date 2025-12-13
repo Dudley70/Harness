@@ -15,6 +15,47 @@ Invoke this skill when:
 - Following Harness methodology for development work
 - Working with `.harness/` directory files
 
+## Menu
+
+When invoked, present this menu:
+
+```
+🔧 HARNESS - AI-Native Development
+
+What would you like to do?
+
+AGENTS (invoke a persona):
+1. 📊 Mary (Analyst) - Research, patterns, requirements
+2. 🏗️ Winston (Architect) - System design, tech decisions
+3. 📋 John (PM) - Product strategy, prioritization
+4. 💻 Amelia (Dev) - Implementation, code quality
+5. 🎨 Sally (UX) - User experience, interface design
+
+WORKFLOWS:
+6. 👥 Team Discussion - Multi-agent discussion (or use presets below)
+   • /harness:team:core - Mary + Winston
+   • /harness:team:technical - Winston + Amelia
+   • /harness:team:product - John + Sally
+   • /harness:team:full - Everyone
+7. 📝 Capture Decision - Document a decision
+
+UTILITIES:
+8. 🔄 Refresh Context - Reload critical files
+9. 📊 Project Status - Show current state
+
+Pick a number or describe what you need.
+```
+
+### Menu Actions
+
+| # | Action |
+|---|--------|
+| 1-5 | Load agent from `./agents/{name}.md`, activate persona |
+| 6 | Load `./workflows/team.md`, run team discussion |
+| 7 | Read decision-log.md, append new decision |
+| 8 | Run `/harness:refresh` |
+| 9 | Read project-state.yaml, summarize |
+
 ## Initialization Ritual
 
 Run these steps at session start (per D12):

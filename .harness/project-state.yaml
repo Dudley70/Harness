@@ -253,6 +253,51 @@ sessions:
       - "requirements.txt"
     context_at_end: "89% - RED zone"
 
+  session_12:
+    date: 2025-12-14
+    focus: "Team Discussion Architecture (D19) - Progressive Structure + Capture"
+    key_accomplishments:
+      # Git cleanup
+      - "Git cleanup: deleted 4 stale worktrees, 4 branches, pushed objective-poincare"
+      # D19 - Team Discussion Architecture
+      - "D19: Team Discussion Architecture - smart selection, presets, adaptive workflow"
+      - "Discovered Progressive Structure principle (escalate phases when needed)"
+      - "Discovered Progressive Capture principle (don't wait for end)"
+      - "Built /harness:team command with smart defaults"
+      - "Built 4 team presets (core, technical, product, full)"
+      - "Added Sally (UX Designer) agent"
+      - "Renamed party.md → team.md workflow with full design"
+      - "Updated SKILL.md menu with team commands"
+      # Research topics captured
+      - "Added Q38-Q42: Agent personality/cognitive diversity research"
+      - "Added Q43-Q46: Progressive capture mechanisms research"
+      # Bug fixes
+      - "Fixed: SKILL.md menu was missing, added with routing"
+      - "Fixed: project-state.yaml incorrectly claimed /harness command existed"
+    key_decisions:
+      - "D19: Team Discussion Architecture - see decision-log.md"
+    new_learnings:
+      - "Progressive Structure: workflow adapts - light by default, structured when complex"
+      - "Progressive Capture: capture as insights emerge, don't wait for session end"
+      - "Commands vs Skills: commands are user-invoked, skills are model-invoked"
+      - "Folder structure maps to slash commands (/folder:subfolder:file)"
+      - "71% context demonstrates need for progressive capture"
+      - "Team discussions should capture: decision, alternatives, concerns, assumptions, spawned ideas"
+    files_created:
+      - ".claude/commands/harness/team.md"
+      - ".claude/commands/harness/team/core.md"
+      - ".claude/commands/harness/team/technical.md"
+      - ".claude/commands/harness/team/product.md"
+      - ".claude/commands/harness/team/full.md"
+      - ".claude/skills/harness/agents/ux-designer.md"
+    files_updated:
+      - ".claude/skills/harness/workflows/team.md (renamed from party.md)"
+      - ".claude/skills/harness/SKILL.md"
+      - ".harness/decision-log.md (D19)"
+      - ".harness/questions.yaml (Q38-Q46)"
+      - ".harness/project-state.yaml"
+    context_at_end: "~75% - ORANGE zone"
+
 blockers: []
 
 next_session_actions:
@@ -260,8 +305,20 @@ next_session_actions:
   # RULES: Append-only. Mark DONE/OBSOLETE, never delete.
   # ============================================
 
+  # Session 12 additions
+  - "DONE: Build /harness:team command and presets (Session 12)"
+  - "DONE: Add Sally (UX Designer) agent (Session 12)"
+  - "DONE: Rename party.md → team.md with full D19 design (Session 12)"
+  - "DONE: Update SKILL.md menu with team commands (Session 12)"
+  - "DONE: Add research topics Q38-Q46 (agent personality, progressive capture) (Session 12)"
+  - "P1: Test /harness:team command and presets"
+  - "P1: Audit Session 12 transcript for missed items"
+  - "P2: Research Q38-Q42 (agent personality/cognitive diversity)"
+  - "P2: Research Q43-Q46 (progressive capture mechanisms)"
+  - "P1: Merge objective-poincare to main"
+
   # Session 9 - OPEN ITEMS (flagged at session end)
-  - "P1: Merge confident-benz to main (again) - now +6 commits ahead"
+  - "OBSOLETE: Merge confident-benz to main - branch deleted in Session 12 git cleanup"
   - "P1: Test /harness command - created but never tested"
   - "P2: Answer: Should session summaries be immutable once written?"
   - "P1: Update PROJECT-MAP.md with new files (D15, D17 additions)"
@@ -285,15 +342,16 @@ next_session_actions:
   - "DONE: Test D17 end-to-end validation (Session 9)"
 
   # Session 8 additions (D15)
-  - "DONE: Create /harness entry point command (.claude/commands/harness.md) (Session 9)"
+  - "DONE: Create /harness entry point - via skill invocation /harness:harness (Session 9, corrected Session 12)"
   - "DONE: Build first agent (analyst.md) in .claude/skills/harness/agents/ (Session 9)"
   - "DONE: Build party workflow (.claude/skills/harness/workflows/party.md) (Session 9)"
+  - "DONE: Add menu section to SKILL.md with agent/workflow routing (Session 12)"
   - "P1: Test menu-based navigation flow"
   - "DONE: Build 2-3 more agents (architect, pm, dev) (Session 9)"
 
   # Carried forward from Session 7
   - "P0: Create helpers.md with shared operations"
-  - "P0: Build first persona skill (persona-pm)"
+  - "OBSOLETE: Build first persona skill (persona-pm) - covered by pm.md agent in Session 9"
   - "P0: Build first workflow skill (capturing-decisions)"
   - "P1: Test model invocation of skills"
   - "P1: Integrate atom extraction into SessionStart hook"
