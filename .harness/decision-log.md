@@ -4,6 +4,90 @@
 
 ---
 
+## Decision #20 - 2025-12-14 (Session 12)
+**Topic:** Command-Skill Reference Pattern
+**Decision:** Slash commands should be thin entry points that reference skills. Skills are the source of truth for capabilities.
+
+**Status:** Approved
+
+**Core Principle:**
+> Commands are doors, Skills are rooms. Reference, don't duplicate.
+
+**Context:**
+- We had duplication: `/harness:team` command AND `team.md` skill with same content
+- Maintenance burden: update in two places
+- Drift risk: files could diverge
+
+**Pattern:**
+
+```
+COMMAND (thin)              SKILL (full)
+.claude/commands/x.md   →   .claude/skills/.../x.md
+"Load skill at path"        Full capability definition
+```
+
+**Command Structure:**
+
+```markdown
+# [Command Name]
+
+[One-line description]
+
+→ Load and execute `.claude/skills/harness/[path].md`
+
+[Optional: preset parameters or context]
+```
+
+**Example - Base Command:**
+```markdown
+# Team Discussion
+
+Multi-agent team discussion with adaptive structure.
+
+→ Load and execute `.claude/skills/harness/workflows/team.md`
+```
+
+**Example - Preset Command:**
+```markdown
+# Team: Core
+
+Team discussion with Core preset.
+
+→ Load `.claude/skills/harness/workflows/team.md` with:
+- Skip team selection
+- Team: Mary (Analyst) + Winston (Architect)
+- Proceed directly to CONTEXT phase
+```
+
+**Benefits:**
+
+| Benefit | Description |
+|---------|-------------|
+| Single source of truth | Skill file is authoritative |
+| Less maintenance | Update once, reflects everywhere |
+| Smaller commands | Commands stay under 10 lines |
+| Skills remain model-invokable | Model can still auto-invoke |
+| Presets add parameters | Commands can customize skill behavior |
+
+**Relationship:**
+
+```
+User invokes          Command loads         Skill executes
+/harness:team    →    team.md (thin)   →    workflows/team.md (full)
+                      "go here"              "do this"
+```
+
+**When to Use:**
+- Any command that invokes a capability defined in a skill
+- Presets that customize a base skill
+- Entry points to workflows, agents, utilities
+
+**When NOT to Use:**
+- Simple commands with no corresponding skill
+- Commands that only run bash/tools (no skill logic)
+
+---
+
 ## Decision #19 - 2025-12-14 (Session 12)
 **Topic:** Team Discussion Architecture - Smart Defaults + Presets
 **Decision:** Professional team discussion system with smart team selection, adaptive workflow structure, and continuous capture.
